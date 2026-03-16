@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Flavor Passport | Flavor Passport</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #0C0A09;
+      color: #FAFAF9;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+    .sr-only { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+
+    :root {
+      --stone-950: #0C0A09;
+      --stone-900: #1C1917;
+      --stone-800: #292524;
+      --stone-700: #44403C;
+      --stone-500: #78716C;
+      --stone-300: #D6D3D1;
+      --stone-100: #F5F5F4;
+      --gold:      #A16207;
+      --gold-300:  #FCD34D;
+      --gold-light:#FEF3C7;
+      --white:     #FFFFFF;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(12,10,9,.85); backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; max-width: 1200px; margin: 0 auto; padding: 0 32px;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'DM Serif Display', serif; font-size: 20px; color: white;
+    }
+    .nav-logo-icon {
+      width: 32px; height: 32px; background: white;
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    }
+    .nav-logo-icon svg path, .nav-logo-icon svg circle { stroke: #1C1917; }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: rgba(255,255,255,.55); transition: color .15s; }
+    .nav-links a:hover { color: white; }
+    .nav-links a.active { color: white; font-weight: 600; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+      padding: 10px 20px; border-radius: 99px; border: none; cursor: pointer;
+      transition: all .2s ease; line-height: 1;
+    }
+    .btn-outline-light {
+      background: transparent; color: rgba(255,255,255,.7);
+      border: 1.5px solid rgba(255,255,255,.18);
+    }
+    .btn-outline-light:hover { border-color: rgba(255,255,255,.5); color: white; }
+    .btn-gold { background: var(--gold); color: white; }
+    .btn-gold:hover { background: #92400E; transform: translateY(-1px); }
+
+    /* ── Login Page ── */
+    #login-page {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      padding: 80px 24px 40px; position: relative; overflow: hidden;
+    }
+    .bg-orb {
+      position: fixed; border-radius: 50%; pointer-events: none;
+    }
+    .bg-orb-1 {
+      width: 600px; height: 600px; top: -200px; left: -200px;
+      background: radial-gradient(circle, rgba(161,98,7,.15) 0%, transparent 65%);
+    }
+    .bg-orb-2 {
+      width: 500px; height: 500px; bottom: -150px; right: -150px;
+      background: radial-gradient(circle, rgba(234,88,12,.08) 0%, transparent 65%);
+    }
+    .bg-orb-3 {
+      width: 300px; height: 300px; top: 40%; left: 50%; transform: translate(-50%,-50%);
+      background: radial-gradient(circle, rgba(161,98,7,.06) 0%, transparent 65%);
+    }
+
+    .login-wrapper {
+      width: 100%; max-width: 420px; position: relative; z-index: 1;
+    }
+    .login-top { text-align: center; margin-bottom: 36px; }
+    .login-passport-icon {
+      width: 72px; height: 72px; background: rgba(161,98,7,.15);
+      border: 1px solid rgba(161,98,7,.3); border-radius: 20px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px; font-size: 32px;
+    }
+    .login-top h1 {
+      font-family: 'DM Serif Display', serif; font-size: 34px;
+      color: white; line-height: 1.15; margin-bottom: 10px;
+    }
+    .login-top h1 em { font-style: italic; color: var(--gold-300); }
+    .login-top p { font-size: 15px; color: rgba(255,255,255,.45); line-height: 1.6; }
+
+    .login-card {
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+      border-radius: 24px; padding: 36px; backdrop-filter: blur(16px);
+    }
+    .form-group { margin-bottom: 18px; }
+    .form-group label {
+      display: block; font-size: 12px; font-weight: 600;
+      letter-spacing: .06em; text-transform: uppercase;
+      color: rgba(255,255,255,.4); margin-bottom: 8px;
+    }
+    .form-group input {
+      width: 100%; padding: 14px 18px;
+      background: rgba(255,255,255,.06); border: 1.5px solid rgba(255,255,255,.1);
+      border-radius: 12px; font-family: 'DM Sans', sans-serif;
+      font-size: 15px; color: white; outline: none;
+      transition: border-color .15s, background .15s;
+    }
+    .form-group input::placeholder { color: rgba(255,255,255,.25); }
+    .form-group input:focus {
+      border-color: rgba(161,98,7,.6); background: rgba(255,255,255,.08);
+    }
+    .login-submit {
+      width: 100%; padding: 15px; background: var(--gold);
+      color: white; border: none; border-radius: 99px; cursor: pointer;
+      font-family: 'DM Serif Display', serif; font-size: 18px;
+      font-style: italic; font-weight: 400;
+      transition: all .2s ease; margin-top: 8px;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .login-submit:hover { background: #92400E; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(161,98,7,.3); }
+    .login-submit:active { transform: translateY(0); }
+    .login-divider { text-align: center; font-size: 13px; color: rgba(255,255,255,.25); margin: 20px 0; }
+    .login-alt-cta {
+      width: 100%; padding: 14px;
+      background: rgba(255,255,255,.04); border: 1.5px solid rgba(255,255,255,.1);
+      border-radius: 99px; cursor: pointer; font-family: 'DM Sans', sans-serif;
+      font-size: 14px; font-weight: 500; color: rgba(255,255,255,.6);
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: all .15s;
+    }
+    .login-alt-cta:hover { border-color: rgba(255,255,255,.25); color: white; }
+    .login-footer-text { text-align: center; margin-top: 20px; font-size: 13px; color: rgba(255,255,255,.25); }
+    .login-footer-text a { color: rgba(161,98,7,.8); }
+    .login-footer-text a:hover { color: var(--gold-300); }
+
+    /* Hint */
+    .demo-hint {
+      text-align: center; margin-top: 16px;
+      font-size: 12px; color: rgba(255,255,255,.2);
+    }
+    .demo-hint button {
+      background: none; border: none; color: rgba(161,98,7,.5);
+      font-size: 12px; cursor: pointer; font-family: 'DM Sans', sans-serif;
+      text-decoration: underline;
+    }
+    .demo-hint button:hover { color: var(--gold-300); }
+
+    /* ── Passport Page ── */
+    #passport-page {
+      display: none;
+      min-height: 100vh; padding: 80px 0 60px;
+    }
+
+    .passport-header {
+      max-width: 1200px; margin: 0 auto; padding: 48px 32px 0;
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 24px;
+    }
+    .passport-greeting small {
+      font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--gold); display: block; margin-bottom: 8px;
+    }
+    .passport-greeting h1 {
+      font-family: 'DM Serif Display', serif; font-size: clamp(32px, 4vw, 52px);
+      line-height: 1.1; color: white; margin-bottom: 10px;
+    }
+    .passport-greeting h1 em { font-style: italic; color: var(--gold-300); }
+    .passport-greeting p { font-size: 16px; color: rgba(255,255,255,.45); }
+    .passport-header-actions { display: flex; gap: 10px; flex-shrink: 0; padding-top: 8px; }
+
+    /* Stats row */
+    .passport-stats {
+      max-width: 1200px; margin: 32px auto 0; padding: 0 32px;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    }
+    .pstat-card {
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);
+      border-radius: 16px; padding: 20px 24px;
+    }
+    .pstat-num {
+      font-family: 'DM Serif Display', serif; font-size: 32px; color: white; line-height: 1;
+      margin-bottom: 4px;
+    }
+    .pstat-num.gold { color: var(--gold-300); }
+    .pstat-label { font-size: 13px; color: rgba(255,255,255,.4); }
+
+    /* Progress bar */
+    .progress-section {
+      max-width: 1200px; margin: 24px auto 0; padding: 0 32px;
+    }
+    .progress-card {
+      background: rgba(161,98,7,.08); border: 1px solid rgba(161,98,7,.2);
+      border-radius: 16px; padding: 20px 28px;
+      display: flex; align-items: center; gap: 24px;
+    }
+    .progress-icon {
+      width: 44px; height: 44px; background: rgba(161,98,7,.2);
+      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 20px;
+    }
+    .progress-text { flex: 1; }
+    .progress-text strong { color: white; font-size: 15px; }
+    .progress-text span { font-size: 13px; color: rgba(255,255,255,.45); margin-left: 8px; }
+    .progress-bar-outer { background: rgba(255,255,255,.08); border-radius: 99px; height: 6px; margin-top: 8px; }
+    .progress-bar-fill {
+      height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-300));
+      border-radius: 99px; width: 33%;
+      transition: width 1.2s cubic-bezier(.4, 0, .2, 1);
+    }
+    .progress-reward { text-align: right; flex-shrink: 0; }
+    .progress-reward small { font-size: 11px; color: rgba(255,255,255,.35); text-transform: uppercase; letter-spacing: .06em; display: block; margin-bottom: 4px; }
+    .progress-reward strong { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--gold-300); }
+
+    /* Stamp collection */
+    .stamps-section {
+      max-width: 1200px; margin: 40px auto 0; padding: 0 32px;
+    }
+    .stamps-header {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;
+    }
+    .stamps-header h2 {
+      font-family: 'DM Serif Display', serif; font-size: 26px; color: white;
+    }
+    .stamps-header p { font-size: 13px; color: rgba(255,255,255,.35); margin-top: 3px; }
+    .stamps-grid {
+      display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px;
+    }
+
+    /* Stamp card */
+    .stamp-card {
+      background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07);
+      border-radius: 20px; padding: 20px 14px; text-align: center;
+      position: relative; overflow: hidden;
+      transition: transform .25s ease, box-shadow .25s ease;
+      cursor: default;
+    }
+    .stamp-card.earned {
+      background: rgba(161,98,7,.1); border-color: rgba(161,98,7,.35);
+      cursor: pointer;
+    }
+    .stamp-card.earned:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(161,98,7,.2); }
+    .stamp-card.next-up {
+      border-style: dashed; border-color: rgba(255,255,255,.12);
+    }
+
+    /* Ink stamp visual */
+    .stamp-ink {
+      width: 80px; height: 80px; margin: 0 auto 14px;
+      position: relative;
+    }
+    .stamp-ring {
+      width: 80px; height: 80px; border-radius: 50%;
+      border: 2.5px solid rgba(255,255,255,.1);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .stamp-card.earned .stamp-ring {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 1px rgba(161,98,7,.2), inset 0 0 0 1px rgba(161,98,7,.1);
+    }
+    .stamp-ring::before, .stamp-ring::after {
+      content: ''; position: absolute; border-radius: 50%;
+    }
+    .stamp-ring::before {
+      inset: 4px; border: 1px solid rgba(255,255,255,.05);
+    }
+    .stamp-card.earned .stamp-ring::before {
+      border-color: rgba(161,98,7,.2);
+    }
+    .stamp-flag { font-size: 32px; line-height: 1; filter: grayscale(1) opacity(.25); }
+    .stamp-card.earned .stamp-flag { filter: none; }
+    .stamp-card.next-up .stamp-flag { filter: grayscale(.6) opacity(.5); }
+
+    /* Stamp text arc (decorative) */
+    .stamp-arc {
+      position: absolute; top: 0; left: 0; width: 80px; height: 80px;
+    }
+    .stamp-arc text {
+      font-family: 'DM Sans', sans-serif; font-size: 7px; font-weight: 600;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      fill: rgba(255,255,255,.15);
+    }
+    .stamp-card.earned .stamp-arc text { fill: rgba(161,98,7,.7); }
+
+    .stamp-check {
+      position: absolute; top: 10px; right: 10px;
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--gold); display: none;
+      align-items: center; justify-content: center;
+    }
+    .stamp-card.earned .stamp-check { display: flex; }
+    .stamp-check svg { width: 11px; height: 11px; stroke: white; }
+
+    .stamp-country { font-size: 13px; font-weight: 600; color: rgba(255,255,255,.4); margin-bottom: 3px; }
+    .stamp-card.earned .stamp-country { color: white; }
+    .stamp-product { font-size: 10px; color: rgba(255,255,255,.25); line-height: 1.3; }
+    .stamp-card.earned .stamp-product { color: rgba(255,255,255,.5); }
+    .stamp-date {
+      margin-top: 8px; font-size: 10px; color: rgba(255,255,255,.2);
+      border-top: 1px solid rgba(255,255,255,.06); padding-top: 8px;
+    }
+    .stamp-card.earned .stamp-date { color: rgba(161,98,7,.6); border-color: rgba(161,98,7,.15); }
+    .stamp-locked {
+      font-size: 18px; filter: grayscale(1) opacity(.2); margin-bottom: 4px;
+    }
+    .stamp-locked-label { font-size: 11px; color: rgba(255,255,255,.2); }
+    .stamp-next-label {
+      font-size: 10px; color: rgba(255,255,255,.4); font-weight: 600;
+      letter-spacing: .05em; text-transform: uppercase; margin-bottom: 6px;
+    }
+
+    /* Activity feed */
+    .activity-section {
+      max-width: 1200px; margin: 40px auto 0; padding: 0 32px 64px;
+      display: grid; grid-template-columns: 1fr 360px; gap: 24px; align-items: start;
+    }
+    .activity-feed-card, .rewards-card {
+      background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07);
+      border-radius: 20px; padding: 28px;
+    }
+    .section-title {
+      font-family: 'DM Serif Display', serif; font-size: 22px; color: white;
+      margin-bottom: 20px;
+    }
+    .activity-item {
+      display: flex; gap: 14px; padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-dot {
+      width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 16px;
+      margin-top: 2px;
+    }
+    .dot-gold { background: rgba(161,98,7,.2); }
+    .dot-green { background: rgba(5,150,105,.15); }
+    .dot-blue { background: rgba(59,130,246,.1); }
+    .activity-text strong { font-size: 14px; color: white; display: block; }
+    .activity-text span { font-size: 13px; color: rgba(255,255,255,.4); }
+    .activity-time { margin-left: auto; font-size: 11px; color: rgba(255,255,255,.2); white-space: nowrap; padding-top: 4px; }
+
+    .rewards-list { display: flex; flex-direction: column; gap: 12px; }
+    .reward-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 16px; border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.07);
+      background: rgba(255,255,255,.02);
+    }
+    .reward-item.unlocked { border-color: rgba(5,150,105,.3); background: rgba(5,150,105,.07); }
+    .reward-item.next { border-color: rgba(161,98,7,.3); background: rgba(161,98,7,.07); }
+    .reward-icon { font-size: 24px; flex-shrink: 0; }
+    .reward-text strong { font-size: 14px; color: rgba(255,255,255,.8); display: block; }
+    .reward-text span { font-size: 12px; color: rgba(255,255,255,.3); }
+    .reward-status { margin-left: auto; flex-shrink: 0; }
+    .badge-done {
+      font-size: 10px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+      padding: 4px 8px; border-radius: 99px; background: rgba(5,150,105,.25); color: #34D399;
+    }
+    .badge-next {
+      font-size: 10px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+      padding: 4px 8px; border-radius: 99px; background: rgba(161,98,7,.25); color: var(--gold-300);
+    }
+    .badge-locked {
+      font-size: 10px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+      padding: 4px 8px; border-radius: 99px; background: rgba(255,255,255,.06); color: rgba(255,255,255,.3);
+    }
+
+    /* Confetti canvas */
+    #confetti-canvas {
+      position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+    }
+
+    /* Stamp modal */
+    .stamp-modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.7);
+      backdrop-filter: blur(12px); z-index: 500;
+      display: none; align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .stamp-modal-overlay.open { display: flex; }
+    .stamp-modal {
+      background: #1C1917; border: 1px solid rgba(161,98,7,.3);
+      border-radius: 28px; padding: 40px; max-width: 380px; width: 100%;
+      text-align: center; position: relative;
+      animation: modalIn .3s cubic-bezier(.34, 1.56, .64, 1);
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(.85); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .modal-close {
+      position: absolute; top: 16px; right: 16px; width: 32px; height: 32px;
+      border-radius: 50%; background: rgba(255,255,255,.07); border: none;
+      color: rgba(255,255,255,.5); cursor: pointer; font-size: 18px; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .15s;
+    }
+    .modal-close:hover { background: rgba(255,255,255,.12); }
+    .modal-stamp-big {
+      width: 120px; height: 120px; margin: 0 auto 24px;
+      border-radius: 50%; border: 3px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 56px; background: rgba(161,98,7,.15);
+      box-shadow: 0 0 40px rgba(161,98,7,.3);
+      animation: stampPulse 2s ease infinite;
+    }
+    @keyframes stampPulse {
+      0%, 100% { box-shadow: 0 0 40px rgba(161,98,7,.3); }
+      50% { box-shadow: 0 0 60px rgba(161,98,7,.5); }
+    }
+    .modal-country { font-family: 'DM Serif Display', serif; font-size: 28px; color: white; margin-bottom: 6px; }
+    .modal-product { font-size: 14px; color: rgba(255,255,255,.45); margin-bottom: 8px; }
+    .modal-date { font-size: 12px; color: var(--gold); letter-spacing: .06em; }
+    .modal-divider { border: none; border-top: 1px solid rgba(255,255,255,.07); margin: 24px 0; }
+    .modal-cta { width: 100%; padding: 14px; background: var(--gold); color: white; border: none;
+      border-radius: 99px; font-family: 'DM Serif Display', serif; font-size: 17px; font-style: italic;
+      cursor: pointer; transition: all .2s; font-weight: 400;
+    }
+    .modal-cta:hover { background: #92400E; }
+
+    /* Responsive */
+    @media (max-width: 1100px) {
+      .stamps-grid { grid-template-columns: repeat(3, 1fr); }
+      .activity-section { grid-template-columns: 1fr; }
+      .passport-stats { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .passport-header { flex-direction: column; }
+      .stamps-grid { grid-template-columns: repeat(2, 1fr); }
+      .passport-stats { grid-template-columns: repeat(2, 1fr); }
+      .progress-card { flex-direction: column; align-items: flex-start; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .stamp-card, .modal-stamp-big { transition: none; animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+  <!-- Nav -->
+  <nav aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <circle cx="9" cy="9" r="7" stroke="#1C1917" stroke-width="1.5"/>
+            <path d="M2 9h14M9 2a12 12 0 010 14M9 2a12 12 0 000 14" stroke="#1C1917" stroke-width="1.5"/>
+          </svg>
+        </div>
+        Flavor Passport
+      </a>
+      <div class="nav-links">
+        <a href="recipes.html">Recipes</a>
+        <a href="index.html#products">Shop</a>
+        <a href="index.html#origin">Our Story</a>
+        <a href="passport.html" class="active">My Passport</a>
+      </div>
+      <div id="nav-actions">
+        <a href="index.html#products" class="btn btn-gold">Shop Now</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Login Page ── -->
+  <div id="login-page" aria-labelledby="login-heading">
+    <div class="bg-orb bg-orb-1" aria-hidden="true"></div>
+    <div class="bg-orb bg-orb-2" aria-hidden="true"></div>
+    <div class="bg-orb bg-orb-3" aria-hidden="true"></div>
+
+    <div class="login-wrapper">
+      <div class="login-top">
+        <div class="login-passport-icon" aria-hidden="true">🌍</div>
+        <h1 id="login-heading">Welcome<br>back, <em>Explorer.</em></h1>
+        <p>Sign in to view your Flavor Passport, stamp collection, and exclusive rewards.</p>
+      </div>
+
+      <div class="login-card">
+        <form onsubmit="handleLogin(event)" aria-label="Sign in to your passport">
+          <div class="form-group">
+            <label for="login-email">Email address</label>
+            <input type="email" id="login-email" placeholder="clara@example.com" required autocomplete="email" aria-required="true" />
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password" aria-required="true" />
+          </div>
+          <button type="submit" class="login-submit" id="login-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+            Open My Passport
+          </button>
+        </form>
+
+        <div class="login-divider" aria-hidden="true">or</div>
+
+        <button class="login-alt-cta" onclick="handleLogin({preventDefault:()=>{}})" aria-label="Continue with QR code scan">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M18 14h.01M14 18h.01M18 18h.01M14 21h7M21 14v7"/></svg>
+          Scan passport QR code
+        </button>
+
+        <p class="login-footer-text">
+          No passport yet? <a href="index.html#products">Start your collection →</a>
+        </p>
+      </div>
+
+      <p class="demo-hint">
+        Demo mode: <button onclick="fillDemo()">Fill demo credentials</button>
+      </p>
+    </div>
+  </div>
+
+  <!-- ── Passport Page ── -->
+  <div id="passport-page" aria-label="Your Flavor Passport">
+
+    <div class="passport-header">
+      <div class="passport-greeting">
+        <small>Your Flavor Passport</small>
+        <h1>Bon voyage,<br><em>Clara M.</em></h1>
+        <p>Explorer since January 2024 · Passport #FP-2024-EU-0847</p>
+      </div>
+      <div class="passport-header-actions">
+        <button class="btn btn-outline-light" onclick="logout()">Sign out</button>
+        <a href="index.html#products" class="btn btn-gold">Earn next stamp</a>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="passport-stats" role="region" aria-label="Passport statistics">
+      <div class="pstat-card">
+        <div class="pstat-num gold">2</div>
+        <div class="pstat-label">Stamps collected</div>
+      </div>
+      <div class="pstat-card">
+        <div class="pstat-num">4</div>
+        <div class="pstat-label">Recipes cooked</div>
+      </div>
+      <div class="pstat-card">
+        <div class="pstat-num">1</div>
+        <div class="pstat-label">Reward unlocked</div>
+      </div>
+      <div class="pstat-card">
+        <div class="pstat-num">€51</div>
+        <div class="pstat-label">Total explored</div>
+      </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-section" role="region" aria-label="Progress to next reward">
+      <div class="progress-card">
+        <div class="progress-icon" aria-hidden="true">🎯</div>
+        <div class="progress-text">
+          <strong>1 stamp away from your next reward</strong>
+          <span>Earn your Morocco stamp to unlock a free recipe zine</span>
+          <div class="progress-bar-outer" role="progressbar" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100" aria-label="33% progress">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+          </div>
+        </div>
+        <div class="progress-reward">
+          <small>Next reward at</small>
+          <strong>3 stamps</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stamps -->
+    <div class="stamps-section" role="region" aria-labelledby="stamps-heading">
+      <div class="stamps-header">
+        <div>
+          <h2 id="stamps-heading">Your Stamp Collection</h2>
+          <p>Tap any earned stamp to see its story</p>
+        </div>
+      </div>
+      <div class="stamps-grid" id="stamps-grid" role="list" aria-label="Flavor stamps">
+
+        <!-- Earned: Japan -->
+        <div class="stamp-card earned" role="listitem" tabindex="0"
+          onclick="openStamp('Japan','🇯🇵','Miso Yuzu Glaze','Jan 12, 2024')"
+          onkeydown="if(event.key==='Enter')openStamp('Japan','🇯🇵','Miso Yuzu Glaze','Jan 12, 2024')"
+          aria-label="Japan stamp earned — Miso Yuzu Glaze, 12 Jan 2024">
+          <div class="stamp-check" aria-hidden="true">
+            <svg viewBox="0 0 14 14" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 7 6 11 12 3"/></svg>
+          </div>
+          <div class="stamp-ink">
+            <div class="stamp-ring">
+              <svg class="stamp-arc" viewBox="0 0 80 80" aria-hidden="true">
+                <path id="arc1" fill="none" d="M 40,40 m -28,0 a 28,28 0 1,1 56,0"/>
+                <text><textPath href="#arc1">FLAVOR PASSPORT • JAPAN •</textPath></text>
+              </svg>
+              <span class="stamp-flag" aria-hidden="true">🇯🇵</span>
+            </div>
+          </div>
+          <div class="stamp-country">Japan</div>
+          <div class="stamp-product">Miso Yuzu Glaze</div>
+          <div class="stamp-date">Jan 12, 2024</div>
+        </div>
+
+        <!-- Earned: Morocco -->
+        <div class="stamp-card earned" role="listitem" tabindex="0"
+          onclick="openStamp('Morocco','🇲🇦','Harissa Chermoula','Feb 3, 2024')"
+          onkeydown="if(event.key==='Enter')openStamp('Morocco','🇲🇦','Harissa Chermoula','Feb 3, 2024')"
+          aria-label="Morocco stamp earned — Harissa Chermoula, 3 Feb 2024">
+          <div class="stamp-check" aria-hidden="true">
+            <svg viewBox="0 0 14 14" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 7 6 11 12 3"/></svg>
+          </div>
+          <div class="stamp-ink">
+            <div class="stamp-ring">
+              <svg class="stamp-arc" viewBox="0 0 80 80" aria-hidden="true">
+                <path id="arc2" fill="none" d="M 40,40 m -28,0 a 28,28 0 1,1 56,0"/>
+                <text><textPath href="#arc2">FLAVOR PASSPORT • MOROCCO •</textPath></text>
+              </svg>
+              <span class="stamp-flag" aria-hidden="true">🇲🇦</span>
+            </div>
+          </div>
+          <div class="stamp-country">Morocco</div>
+          <div class="stamp-product">Harissa Chermoula</div>
+          <div class="stamp-date">Feb 3, 2024</div>
+        </div>
+
+        <!-- Next up: Peru -->
+        <div class="stamp-card next-up" role="listitem" aria-label="Peru stamp — not yet earned. Next up!">
+          <div class="stamp-ink">
+            <div class="stamp-ring">
+              <svg class="stamp-arc" viewBox="0 0 80 80" aria-hidden="true">
+                <path id="arc3" fill="none" d="M 40,40 m -28,0 a 28,28 0 1,1 56,0"/>
+                <text><textPath href="#arc3">FLAVOR PASSPORT • PERU •</textPath></text>
+              </svg>
+              <span class="stamp-flag" aria-hidden="true">🇵🇪</span>
+            </div>
+          </div>
+          <div class="stamp-next-label">Next up</div>
+          <div class="stamp-country" style="color:rgba(255,255,255,.5)">Peru</div>
+          <div class="stamp-product">Aji Amarillo Paste</div>
+          <div class="stamp-date" style="color:rgba(161,98,7,.5);border-color:rgba(161,98,7,.1)">Shop to earn →</div>
+        </div>
+
+        <!-- Locked: Thailand -->
+        <div class="stamp-card" role="listitem" aria-label="Thailand stamp — locked">
+          <div class="stamp-ink">
+            <div class="stamp-ring">
+              <svg class="stamp-arc" viewBox="0 0 80 80" aria-hidden="true">
+                <path id="arc4" fill="none" d="M 40,40 m -28,0 a 28,28 0 1,1 56,0"/>
+                <text><textPath href="#arc4">FLAVOR PASSPORT • THAILAND •</textPath></text>
+              </svg>
+              <span class="stamp-flag" aria-hidden="true">🇹🇭</span>
+            </div>
+          </div>
+          <div class="stamp-locked" aria-hidden="true">🔒</div>
+          <div class="stamp-country">Thailand</div>
+          <div class="stamp-locked-label">Coming soon</div>
+        </div>
+
+        <!-- Locked: Ethiopia -->
+        <div class="stamp-card" role="listitem" aria-label="Ethiopia stamp — locked">
+          <div class="stamp-ink">
+            <div class="stamp-ring">
+              <svg class="stamp-arc" viewBox="0 0 80 80" aria-hidden="true">
+                <path id="arc5" fill="none" d="M 40,40 m -28,0 a 28,28 0 1,1 56,0"/>
+                <text><textPath href="#arc5">FLAVOR PASSPORT • ETHIOPIA •</textPath></text>
+              </svg>
+              <span class="stamp-flag" aria-hidden="true">🇪🇹</span>
+            </div>
+          </div>
+          <div class="stamp-locked" aria-hidden="true">🔒</div>
+          <div class="stamp-country">Ethiopia</div>
+          <div class="stamp-locked-label">Coming soon</div>
+        </div>
+
+        <!-- Locked: Mexico -->
+        <div class="stamp-card" role="listitem" aria-label="Mexico stamp — locked">
+          <div class="stamp-ink">
+            <div class="stamp-ring">
+              <svg class="stamp-arc" viewBox="0 0 80 80" aria-hidden="true">
+                <path id="arc6" fill="none" d="M 40,40 m -28,0 a 28,28 0 1,1 56,0"/>
+                <text><textPath href="#arc6">FLAVOR PASSPORT • MEXICO •</textPath></text>
+              </svg>
+              <span class="stamp-flag" aria-hidden="true">🇲🇽</span>
+            </div>
+          </div>
+          <div class="stamp-locked" aria-hidden="true">🔒</div>
+          <div class="stamp-country">Mexico</div>
+          <div class="stamp-locked-label">Coming soon</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Activity + Rewards -->
+    <div class="activity-section">
+      <div class="activity-feed-card" role="region" aria-label="Recent activity">
+        <h2 class="section-title">Recent Activity</h2>
+        <div role="list">
+          <div class="activity-item" role="listitem">
+            <div class="activity-dot dot-gold" aria-hidden="true">📮</div>
+            <div class="activity-text">
+              <strong>Morocco stamp earned!</strong>
+              <span>You purchased Harissa Chermoula and earned your 2nd stamp</span>
+            </div>
+            <div class="activity-time">Feb 3</div>
+          </div>
+          <div class="activity-item" role="listitem">
+            <div class="activity-dot dot-green" aria-hidden="true">🍳</div>
+            <div class="activity-text">
+              <strong>Cooked: Harissa Shakshuka</strong>
+              <span>Marked recipe as completed in the Flavor Library</span>
+            </div>
+            <div class="activity-time">Feb 5</div>
+          </div>
+          <div class="activity-item" role="listitem">
+            <div class="activity-dot dot-blue" aria-hidden="true">🎁</div>
+            <div class="activity-text">
+              <strong>Welcome reward unlocked</strong>
+              <span>10% off your next order — use code EXPLORER10</span>
+            </div>
+            <div class="activity-time">Jan 12</div>
+          </div>
+          <div class="activity-item" role="listitem">
+            <div class="activity-dot dot-gold" aria-hidden="true">📮</div>
+            <div class="activity-text">
+              <strong>Japan stamp earned!</strong>
+              <span>You purchased Miso Yuzu Glaze and started your passport journey</span>
+            </div>
+            <div class="activity-time">Jan 12</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rewards-card" role="region" aria-label="Rewards">
+        <h2 class="section-title">Rewards</h2>
+        <div class="rewards-list" role="list">
+          <div class="reward-item unlocked" role="listitem" aria-label="Welcome reward unlocked">
+            <div class="reward-icon" aria-hidden="true">🎉</div>
+            <div class="reward-text">
+              <strong>Welcome reward</strong>
+              <span>10% off next order</span>
+            </div>
+            <div class="reward-status"><span class="badge-done">Earned</span></div>
+          </div>
+          <div class="reward-item next" role="listitem" aria-label="3 stamps reward — almost there">
+            <div class="reward-icon" aria-hidden="true">📖</div>
+            <div class="reward-text">
+              <strong>Recipe Zine Vol.1</strong>
+              <span>Earn 1 more stamp</span>
+            </div>
+            <div class="reward-status"><span class="badge-next">Almost</span></div>
+          </div>
+          <div class="reward-item" role="listitem" aria-label="6 stamps reward — locked">
+            <div class="reward-icon" aria-hidden="true">🧳</div>
+            <div class="reward-text">
+              <strong>Explorer Tote Bag</strong>
+              <span>4 more stamps needed</span>
+            </div>
+            <div class="reward-status"><span class="badge-locked">Locked</span></div>
+          </div>
+          <div class="reward-item" role="listitem" aria-label="12 stamps reward — locked">
+            <div class="reward-icon" aria-hidden="true">✈️</div>
+            <div class="reward-text">
+              <strong>Farm Visit Experience</strong>
+              <span>Complete the full passport</span>
+            </div>
+            <div class="reward-status"><span class="badge-locked">Locked</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stamp Modal -->
+  <div class="stamp-modal-overlay" id="stamp-modal" role="dialog" aria-modal="true" aria-labelledby="modal-country" onclick="if(event.target===this)closeStamp()">
+    <div class="stamp-modal">
+      <button class="modal-close" onclick="closeStamp()" aria-label="Close stamp detail">✕</button>
+      <div class="modal-stamp-big" id="modal-flag" aria-hidden="true">🇯🇵</div>
+      <div class="modal-country" id="modal-country">Japan</div>
+      <div class="modal-product" id="modal-product">Miso Yuzu Glaze</div>
+      <div class="modal-date" id="modal-date">Stamped Jan 12, 2024</div>
+      <hr class="modal-divider" />
+      <button class="modal-cta" onclick="closeStamp(); window.location.href='recipes.html'">
+        Cook a recipe with this sauce →
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // ── Login ──
+    function fillDemo() {
+      document.getElementById('login-email').value = 'clara@example.com';
+      document.getElementById('login-password').value = 'explorer123';
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const btn = document.getElementById('login-btn');
+      btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Opening passport…';
+      btn.style.opacity = '.8';
+
+      setTimeout(() => {
+        document.getElementById('login-page').style.display = 'none';
+        const pp = document.getElementById('passport-page');
+        pp.style.display = 'block';
+        pp.style.opacity = '0';
+        pp.style.transform = 'translateY(20px)';
+        requestAnimationFrame(() => {
+          pp.style.transition = 'opacity .5s ease, transform .5s ease';
+          pp.style.opacity = '1';
+          pp.style.transform = 'translateY(0)';
+        });
+        // Animate progress bar after reveal
+        setTimeout(() => {
+          document.getElementById('progress-fill').style.width = '33%';
+        }, 600);
+        // Launch confetti
+        setTimeout(launchConfetti, 400);
+      }, 900);
+    }
+
+    function logout() {
+      document.getElementById('passport-page').style.display = 'none';
+      document.getElementById('login-page').style.display = 'flex';
+      document.getElementById('login-btn').innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg> Open My Passport';
+      document.getElementById('login-btn').style.opacity = '1';
+    }
+
+    // ── Stamp Modal ──
+    function openStamp(country, flag, product, date) {
+      document.getElementById('modal-flag').textContent = flag;
+      document.getElementById('modal-country').textContent = country;
+      document.getElementById('modal-product').textContent = product;
+      document.getElementById('modal-date').textContent = 'Stamped ' + date;
+      document.getElementById('stamp-modal').classList.add('open');
+      document.getElementById('stamp-modal').focus();
+    }
+    function closeStamp() {
+      document.getElementById('stamp-modal').classList.remove('open');
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeStamp(); });
+
+    // ── Confetti ──
+    function launchConfetti() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const canvas = document.getElementById('confetti-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const colors = ['#A16207','#FCD34D','#FEF3C7','#FFFFFF','#EA580C','#F97316'];
+      const particles = Array.from({length: 80}, () => ({
+        x: Math.random() * canvas.width,
+        y: -10 - Math.random() * 100,
+        w: 6 + Math.random() * 8,
+        h: 3 + Math.random() * 4,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        rot: Math.random() * Math.PI * 2,
+        vx: (Math.random() - .5) * 3,
+        vy: 2 + Math.random() * 4,
+        vrot: (Math.random() - .5) * .15,
+        opacity: 1,
+      }));
+      let frame = 0;
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          p.x += p.vx; p.y += p.vy; p.rot += p.vrot;
+          if (frame > 60) p.opacity = Math.max(0, p.opacity - .015);
+          ctx.save();
+          ctx.globalAlpha = p.opacity;
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+          ctx.restore();
+        });
+        frame++;
+        if (frame < 120) requestAnimationFrame(draw);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      draw();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flavor Passport — Authentic Global Sauces & Condiments</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Reset & Base ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #FAFAF9;
+      color: #1C1917;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Tokens ────────────────────────────────────────────────────── */
+    :root {
+      --bg:        #FAFAF9;
+      --bg-warm:   #FFF7ED;
+      --white:     #FFFFFF;
+      --stone-950: #0C0A09;
+      --stone-900: #1C1917;
+      --stone-700: #44403C;
+      --stone-500: #78716C;
+      --stone-300: #D6D3D1;
+      --stone-100: #F5F5F4;
+      --gold:      #A16207;
+      --gold-light:#FEF3C7;
+      --orange:    #EA580C;
+      --radius:    12px;
+      --radius-lg: 20px;
+    }
+
+    /* ── Utilities ─────────────────────────────────────────────────── */
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+    .section   { padding: 96px 0; }
+    .section-sm { padding: 72px 0; }
+    .tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--gold);
+      background: var(--gold-light); border: 1px solid #FDE68A;
+      padding: 4px 10px; border-radius: 99px;
+    }
+    .tag svg { width: 10px; height: 10px; }
+    .section-label {
+      font-size: 12px; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--stone-500);
+      margin-bottom: 16px;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500;
+      padding: 14px 28px; border-radius: 99px; border: none;
+      cursor: pointer; transition: all .2s ease; line-height: 1;
+    }
+    .btn-primary {
+      background: var(--stone-900); color: #fff;
+    }
+    .btn-primary:hover { background: var(--stone-700); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(28,25,23,.18); }
+    .btn-outline {
+      background: transparent; color: var(--stone-900);
+      border: 1.5px solid var(--stone-300);
+    }
+    .btn-outline:hover { border-color: var(--stone-900); transform: translateY(-1px); }
+    .btn-gold {
+      background: var(--gold); color: #fff;
+    }
+    .btn-gold:hover { background: #92400E; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(161,98,7,.25); }
+
+    /* ── Nav ───────────────────────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(250,250,249,.88); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--stone-300);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; max-width: 1140px; margin: 0 auto; padding: 0 24px;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--stone-900);
+    }
+    .nav-logo-icon {
+      width: 32px; height: 32px; background: var(--stone-900);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--stone-700); transition: color .15s; }
+    .nav-links a:hover { color: var(--stone-900); }
+    .nav-cta { display: flex; align-items: center; gap: 12px; }
+
+    /* ── Hero ──────────────────────────────────────────────────────── */
+    #hero {
+      padding: 112px 0 96px;
+      background: linear-gradient(160deg, #FAFAF9 55%, #FFF7ED 100%);
+      position: relative; overflow: hidden;
+    }
+    .hero-blob {
+      position: absolute; right: -120px; top: -80px;
+      width: 560px; height: 560px; border-radius: 50%;
+      background: radial-gradient(circle, #FEF3C7 0%, #FFF7ED 50%, transparent 70%);
+      opacity: .6; pointer-events: none;
+    }
+    .hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .hero-eyebrow { margin-bottom: 20px; }
+    .hero-headline {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(40px, 5vw, 64px); line-height: 1.1;
+      color: var(--stone-900); margin-bottom: 20px;
+    }
+    .hero-headline em { font-style: italic; color: var(--gold); }
+    .hero-sub {
+      font-size: 18px; line-height: 1.7; color: var(--stone-500);
+      max-width: 460px; margin-bottom: 36px;
+    }
+    .hero-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .hero-trust { margin-top: 40px; display: flex; align-items: center; gap: 16px; }
+    .hero-trust-text { font-size: 13px; color: var(--stone-500); }
+    .hero-trust-text strong { color: var(--stone-700); }
+    .hero-visual {
+      position: relative; border-radius: var(--radius-lg);
+      background: var(--white); border: 1px solid var(--stone-300);
+      overflow: hidden; aspect-ratio: 4/5;
+      box-shadow: 0 24px 64px rgba(28,25,23,.08);
+    }
+    .hero-map {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #FFF7ED, #FAFAF9);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .globe-svg { width: 180px; height: 180px; opacity: .12; }
+    .product-pin {
+      position: absolute; background: var(--white);
+      border: 1px solid var(--stone-300); border-radius: 10px;
+      padding: 10px 14px; display: flex; align-items: center; gap: 10px;
+      box-shadow: 0 4px 16px rgba(28,25,23,.08);
+      font-size: 13px; font-weight: 500; animation: float 4s ease-in-out infinite;
+    }
+    .product-pin .flag { font-size: 20px; line-height: 1; }
+    .pin-1 { top: 18%; left: 8%; animation-delay: 0s; }
+    .pin-2 { top: 40%; right: 6%; animation-delay: 1.3s; }
+    .pin-3 { bottom: 22%; left: 14%; animation-delay: 2.6s; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .pin-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    /* ── Stats Bar ─────────────────────────────────────────────────── */
+    .stats-bar {
+      background: var(--stone-900); color: var(--white);
+      padding: 28px 0;
+    }
+    .stats-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'DM Serif Display', serif; font-size: 32px; line-height: 1;
+      color: var(--white); margin-bottom: 4px;
+    }
+    .stat-label { font-size: 13px; color: rgba(255,255,255,.55); font-weight: 400; }
+    .stat-divider { width: 1px; height: 40px; background: rgba(255,255,255,.1); }
+
+    /* ── Flavor Library ────────────────────────────────────────────── */
+    #library { background: var(--white); }
+    .library-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+    .video-card {
+      position: relative; border-radius: var(--radius-lg);
+      overflow: hidden; aspect-ratio: 16/10;
+      background: linear-gradient(135deg, #1C1917 0%, #44403C 100%);
+      cursor: pointer;
+    }
+    .video-thumb-overlay {
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='800' height='500' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3CradialGradient id='g' cx='50%25' cy='50%25'%3E%3Cstop offset='0%25' stop-color='%23A16207' stop-opacity='.15'/%3E%3Cstop offset='100%25' stop-color='%231C1917' stop-opacity='.0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='800' height='500'/%3E%3C/svg%3E");
+      background-size: cover;
+    }
+    .video-text {
+      position: absolute; bottom: 20px; left: 20px; right: 20px;
+      color: white; z-index: 2;
+    }
+    .video-text h4 { font-family: 'DM Serif Display', serif; font-size: 22px; line-height: 1.2; }
+    .video-text p { font-size: 13px; color: rgba(255,255,255,.65); margin-top: 4px; }
+    .play-btn {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 64px; height: 64px; background: rgba(255,255,255,.15);
+      border: 2px solid rgba(255,255,255,.4); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s ease; backdrop-filter: blur(8px); z-index: 2;
+    }
+    .video-card:hover .play-btn { background: rgba(255,255,255,.25); transform: translate(-50%, -50%) scale(1.08); }
+    .play-btn svg { width: 24px; height: 24px; fill: white; margin-left: 3px; }
+    .library-text h2 {
+      font-family: 'DM Serif Display', serif; font-size: clamp(28px, 3vw, 42px);
+      line-height: 1.15; margin-bottom: 16px;
+    }
+    .library-text p { font-size: 16px; color: var(--stone-500); line-height: 1.75; margin-bottom: 32px; }
+    .signup-form { display: flex; gap: 10px; }
+    .signup-form input {
+      flex: 1; padding: 14px 18px; border: 1.5px solid var(--stone-300);
+      border-radius: 99px; font-family: 'DM Sans', sans-serif; font-size: 15px;
+      background: var(--white); color: var(--stone-900); outline: none;
+      transition: border-color .15s;
+    }
+    .signup-form input::placeholder { color: var(--stone-500); }
+    .signup-form input:focus { border-color: var(--stone-900); }
+    .signup-note { font-size: 12px; color: var(--stone-500); margin-top: 10px; }
+
+    /* ── Products ──────────────────────────────────────────────────── */
+    #products { background: var(--bg); }
+    .products-header { text-align: center; max-width: 560px; margin: 0 auto 56px; }
+    .products-header h2 {
+      font-family: 'DM Serif Display', serif; font-size: clamp(28px, 3vw, 44px);
+      line-height: 1.15; margin-bottom: 14px;
+    }
+    .products-header p { font-size: 16px; color: var(--stone-500); line-height: 1.7; }
+    .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .product-card {
+      background: var(--white); border: 1px solid var(--stone-300);
+      border-radius: var(--radius-lg); overflow: hidden;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .product-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(28,25,23,.1); }
+    .product-image {
+      height: 200px; display: flex; align-items: center; justify-content: center;
+      font-size: 64px; position: relative; overflow: hidden;
+    }
+    .product-image-bg-1 { background: linear-gradient(135deg, #FEF3C7, #FED7AA); }
+    .product-image-bg-2 { background: linear-gradient(135deg, #FEE2E2, #FECACA); }
+    .product-image-bg-3 { background: linear-gradient(135deg, #D1FAE5, #A7F3D0); }
+    .product-image-inner {
+      width: 100px; height: 100px;
+      background: rgba(255,255,255,.6); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,.8);
+      font-size: 48px;
+    }
+    .product-body { padding: 24px; }
+    .product-origin {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 10px;
+    }
+    .country-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+    .product-name { font-family: 'DM Serif Display', serif; font-size: 22px; line-height: 1.2; margin-bottom: 8px; }
+    .product-desc { font-size: 14px; color: var(--stone-500); line-height: 1.65; margin-bottom: 20px; }
+    .product-footer { display: flex; align-items: center; justify-content: space-between; }
+    .product-price { font-size: 20px; font-weight: 600; color: var(--stone-900); }
+    .product-price sub { font-size: 12px; font-weight: 400; color: var(--stone-500); display: block; }
+    .btn-add {
+      font-size: 13px; padding: 10px 18px; background: var(--stone-900);
+      color: white; border-radius: 99px; border: none; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; font-weight: 500;
+      transition: all .2s ease; display: flex; align-items: center; gap: 6px;
+    }
+    .btn-add:hover { background: var(--gold); transform: translateY(-1px); }
+
+    /* ── Origin Story ──────────────────────────────────────────────── */
+    #origin { background: var(--stone-900); color: var(--white); }
+    .origin-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+    .origin-text .section-label { color: rgba(255,255,255,.4); }
+    .origin-text h2 {
+      font-family: 'DM Serif Display', serif; font-size: clamp(28px, 3vw, 44px);
+      line-height: 1.15; margin-bottom: 16px; color: var(--white);
+    }
+    .origin-text p { font-size: 16px; color: rgba(255,255,255,.6); line-height: 1.75; margin-bottom: 32px; }
+    .origin-metric {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius); padding: 16px 20px;
+    }
+    .origin-metric-num {
+      font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--white); line-height: 1;
+    }
+    .origin-metric-label { font-size: 13px; color: rgba(255,255,255,.5); line-height: 1.4; }
+    .origin-video {
+      border-radius: var(--radius-lg); overflow: hidden;
+      aspect-ratio: 4/3; background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 16px; cursor: pointer; position: relative;
+      transition: border-color .2s;
+    }
+    .origin-video:hover { border-color: rgba(255,255,255,.2); }
+    .play-btn-lg {
+      width: 72px; height: 72px; background: rgba(255,255,255,.1);
+      border: 2px solid rgba(255,255,255,.25); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s;
+    }
+    .origin-video:hover .play-btn-lg { background: rgba(255,255,255,.18); transform: scale(1.06); }
+    .play-btn-lg svg { width: 28px; height: 28px; fill: white; margin-left: 4px; }
+    .origin-video-label { font-size: 14px; color: rgba(255,255,255,.45); text-align: center; }
+    .origin-video-title { font-family: 'DM Serif Display', serif; font-size: 18px; color: rgba(255,255,255,.8); text-align: center; padding: 0 24px; }
+
+    /* ── Digital Passport ──────────────────────────────────────────── */
+    #passport { background: var(--bg-warm); }
+    .passport-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+    .passport-text h2 {
+      font-family: 'DM Serif Display', serif; font-size: clamp(28px, 3vw, 44px);
+      line-height: 1.15; margin-bottom: 16px;
+    }
+    .passport-text p { font-size: 16px; color: var(--stone-500); line-height: 1.75; margin-bottom: 28px; }
+    .passport-steps { display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px; }
+    .passport-step { display: flex; align-items: flex-start; gap: 14px; }
+    .step-num {
+      width: 28px; height: 28px; border-radius: 50%; background: var(--stone-900);
+      color: white; font-size: 12px; font-weight: 600; display: flex;
+      align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;
+    }
+    .step-text strong { display: block; font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+    .step-text span { font-size: 13px; color: var(--stone-500); }
+    .wallet-badges { display: flex; gap: 12px; flex-wrap: wrap; }
+    .wallet-badge {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--stone-900); color: white;
+      border-radius: 10px; padding: 10px 18px; cursor: pointer;
+      transition: all .2s ease;
+    }
+    .wallet-badge:hover { background: var(--stone-700); transform: translateY(-2px); }
+    .wallet-badge svg { width: 22px; height: 22px; fill: white; }
+    .wallet-badge-text small { display: block; font-size: 10px; color: rgba(255,255,255,.6); text-transform: uppercase; letter-spacing: .06em; }
+    .wallet-badge-text strong { font-size: 15px; font-weight: 500; }
+
+    /* Passport Card Visual */
+    .passport-card {
+      background: var(--stone-900); border-radius: 20px;
+      padding: 32px; position: relative; overflow: hidden;
+      box-shadow: 0 32px 80px rgba(28,25,23,.2);
+    }
+    .passport-card-glow {
+      position: absolute; top: -60px; right: -60px; width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(161,98,7,.3), transparent 70%);
+      border-radius: 50%;
+    }
+    .passport-card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 28px;
+    }
+    .passport-card-logo { font-family: 'DM Serif Display', serif; font-size: 20px; color: white; }
+    .passport-card-logo span { color: var(--gold); }
+    .passport-card-id { font-size: 11px; color: rgba(255,255,255,.35); letter-spacing: .08em; }
+    .passport-owner { margin-bottom: 28px; }
+    .passport-owner small { font-size: 10px; color: rgba(255,255,255,.35); text-transform: uppercase; letter-spacing: .1em; display: block; margin-bottom: 4px; }
+    .passport-owner strong { color: white; font-size: 16px; font-weight: 500; }
+    .passport-stamps-label { font-size: 11px; color: rgba(255,255,255,.4); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 14px; }
+    .stamps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .stamp {
+      aspect-ratio: 1; border-radius: 12px; border: 1.5px solid rgba(255,255,255,.15);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 6px; font-size: 11px; color: rgba(255,255,255,.35);
+      transition: all .2s; position: relative;
+    }
+    .stamp.filled {
+      background: rgba(161,98,7,.2); border-color: var(--gold);
+      color: var(--gold);
+    }
+    .stamp.filled svg { opacity: 1; }
+    .stamp svg { width: 22px; height: 22px; opacity: .2; }
+    .stamp-name { font-size: 10px; font-weight: 500; text-align: center; line-height: 1.2; }
+    .stamp-earned { font-size: 9px; opacity: .7; }
+    .passport-progress { margin-top: 20px; }
+    .progress-bar-wrap { background: rgba(255,255,255,.08); border-radius: 99px; height: 4px; margin-top: 8px; }
+    .progress-bar { width: 33%; height: 100%; background: var(--gold); border-radius: 99px; }
+    .progress-text { display: flex; justify-content: space-between; font-size: 11px; color: rgba(255,255,255,.35); margin-top: 6px; }
+
+    /* ── Testimonials ──────────────────────────────────────────────── */
+    #testimonials { background: var(--white); }
+    .testimonials-header { text-align: center; max-width: 480px; margin: 0 auto 52px; }
+    .testimonials-header h2 {
+      font-family: 'DM Serif Display', serif; font-size: clamp(28px, 3vw, 42px);
+      line-height: 1.15; margin-bottom: 12px;
+    }
+    .testimonials-header p { font-size: 16px; color: var(--stone-500); }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .testimonial-card {
+      background: var(--bg); border: 1px solid var(--stone-300);
+      border-radius: var(--radius-lg); padding: 28px; position: relative;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .testimonial-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(28,25,23,.07); }
+    .stars { display: flex; gap: 3px; margin-bottom: 16px; }
+    .star-svg { width: 14px; height: 14px; fill: #F59E0B; }
+    .testimonial-quote {
+      font-family: 'DM Serif Display', serif; font-size: 17px; line-height: 1.5;
+      color: var(--stone-900); margin-bottom: 20px; font-style: italic;
+    }
+    .testimonial-author { display: flex; align-items: center; gap: 12px; }
+    .author-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Serif Display', serif; font-size: 16px; color: white;
+      flex-shrink: 0;
+    }
+    .avatar-1 { background: linear-gradient(135deg, #F59E0B, #EF4444); }
+    .avatar-2 { background: linear-gradient(135deg, #8B5CF6, #3B82F6); }
+    .avatar-3 { background: linear-gradient(135deg, #10B981, #059669); }
+    .author-name { font-size: 14px; font-weight: 600; color: var(--stone-900); }
+    .author-meta { font-size: 12px; color: var(--stone-500); }
+
+    /* ── Footer ────────────────────────────────────────────────────── */
+    footer { background: var(--stone-900); color: white; padding: 64px 0 40px; }
+    .footer-inner { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+    .footer-brand h3 { font-family: 'DM Serif Display', serif; font-size: 22px; margin-bottom: 12px; }
+    .footer-brand p { font-size: 14px; color: rgba(255,255,255,.45); line-height: 1.7; max-width: 260px; }
+    .footer-col h4 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: rgba(255,255,255,.35); margin-bottom: 16px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a { font-size: 14px; color: rgba(255,255,255,.55); transition: color .15s; }
+    .footer-col ul li a:hover { color: white; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.08); padding-top: 28px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-bottom p { font-size: 13px; color: rgba(255,255,255,.3); }
+    .footer-socials { display: flex; gap: 12px; }
+    .social-btn {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s; cursor: pointer;
+    }
+    .social-btn:hover { background: rgba(255,255,255,.12); }
+    .social-btn svg { width: 16px; height: 16px; fill: rgba(255,255,255,.55); }
+
+    /* ── Mobile Responsive ─────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .section { padding: 64px 0; }
+      .nav-links { display: none; }
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .hero-visual { aspect-ratio: 3/2; }
+      .hero-headline { font-size: 36px; }
+      .stats-inner { flex-wrap: wrap; justify-content: center; gap: 20px; }
+      .stat-divider { display: none; }
+      .library-inner { grid-template-columns: 1fr; gap: 40px; }
+      .products-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+      .origin-inner { grid-template-columns: 1fr; gap: 40px; }
+      .passport-inner { grid-template-columns: 1fr; gap: 40px; }
+      .passport-card { max-width: 380px; margin: 0 auto; }
+      .testimonials-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+      .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .hero-actions { flex-direction: column; align-items: flex-start; }
+      .signup-form { flex-direction: column; }
+      .footer-inner { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .product-pin { animation: none; }
+      .product-card, .testimonial-card, .btn, .btn-add, .btn-primary, .btn-gold { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav ──────────────────────────────────────────────────────── -->
+  <nav aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo" aria-label="Flavor Passport home">
+        <div class="nav-logo-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="9" cy="9" r="7" stroke="white" stroke-width="1.5"/>
+            <path d="M2 9h14M9 2a12 12 0 010 14M9 2a12 12 0 000 14" stroke="white" stroke-width="1.5"/>
+          </svg>
+        </div>
+        Flavor Passport
+      </a>
+      <div class="nav-links" role="list">
+        <a href="recipes.html" role="listitem">Recipes</a>
+        <a href="#products" role="listitem">Shop</a>
+        <a href="#origin" role="listitem">Our Story</a>
+        <a href="passport.html" role="listitem">My Passport</a>
+      </div>
+      <div class="nav-cta">
+        <a href="passport.html" class="btn btn-outline" style="padding:10px 20px;font-size:14px;">My Passport</a>
+        <a href="#products" class="btn btn-primary" style="padding:10px 20px;font-size:14px;">Shop Now</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Hero ─────────────────────────────────────────────────────── -->
+  <section id="hero" aria-labelledby="hero-heading">
+    <div class="hero-blob" aria-hidden="true"></div>
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-content">
+          <div class="hero-eyebrow">
+            <span class="tag">
+              <svg viewBox="0 0 10 10" fill="currentColor" aria-hidden="true"><circle cx="5" cy="5" r="5"/></svg>
+              Now shipping across Europe
+            </span>
+          </div>
+          <h1 id="hero-heading" class="hero-headline">
+            Your Kitchen.<br><em>The World's</em><br>Flavors.
+          </h1>
+          <p class="hero-sub">Authentic sauces and condiments sourced directly from farmers and artisans across six continents — delivered to your door.</p>
+          <div class="hero-actions">
+            <a href="#products" class="btn btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+              Start Your Journey
+            </a>
+            <a href="#origin" class="btn btn-outline">Meet Our Farmers</a>
+          </div>
+          <div class="hero-trust" aria-label="Social proof">
+            <svg width="80" height="24" viewBox="0 0 80 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="11" fill="#FEF3C7" stroke="white" stroke-width="2"/>
+              <circle cx="28" cy="12" r="11" fill="#FEE2E2" stroke="white" stroke-width="2"/>
+              <circle cx="44" cy="12" r="11" fill="#D1FAE5" stroke="white" stroke-width="2"/>
+              <text x="12" y="16" text-anchor="middle" font-size="10" fill="#92400E">C</text>
+              <text x="28" y="16" text-anchor="middle" font-size="10" fill="#991B1B">M</text>
+              <text x="44" y="16" text-anchor="middle" font-size="10" fill="#065F46">A</text>
+            </svg>
+            <p class="hero-trust-text"><strong>2,400+ Urban Explorers</strong> already on their flavor journey</p>
+          </div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="hero-map">
+            <svg class="globe-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="100" cy="100" r="90" stroke="#1C1917" stroke-width="3"/>
+              <ellipse cx="100" cy="100" rx="50" ry="90" stroke="#1C1917" stroke-width="3"/>
+              <line x1="10" y1="100" x2="190" y2="100" stroke="#1C1917" stroke-width="3"/>
+              <path d="M15 65 Q100 55 185 65" stroke="#1C1917" stroke-width="2" fill="none"/>
+              <path d="M15 135 Q100 145 185 135" stroke="#1C1917" stroke-width="2" fill="none"/>
+            </svg>
+            <div class="product-pin pin-1">
+              <span class="flag" role="img" aria-label="Japan">🇯🇵</span>
+              <span>Miso Yuzu</span>
+            </div>
+            <div class="product-pin pin-2">
+              <span class="flag" role="img" aria-label="Morocco">🇲🇦</span>
+              <span>Harissa</span>
+            </div>
+            <div class="product-pin pin-3">
+              <span class="flag" role="img" aria-label="Peru">🇵🇪</span>
+              <span>Aji Amarillo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Stats ─────────────────────────────────────────────────────── -->
+  <div class="stats-bar" role="region" aria-label="Key metrics">
+    <div class="container">
+      <div class="stats-inner">
+        <div class="stat">
+          <div class="stat-num">24</div>
+          <div class="stat-label">Countries sourced</div>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat">
+          <div class="stat-num">2,400+</div>
+          <div class="stat-label">Active passports</div>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat">
+          <div class="stat-num">4.9★</div>
+          <div class="stat-label">Average rating</div>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat">
+          <div class="stat-num">15 min</div>
+          <div class="stat-label">Avg. recipe time</div>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Small-batch farmers</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Flavor Library Teaser ──────────────────────────────────────── -->
+  <section id="library" class="section" aria-labelledby="library-heading" style="background:var(--white);">
+    <div class="container">
+      <div style="text-align:center;max-width:580px;margin:0 auto 52px;">
+        <div class="section-label">The Flavor Library</div>
+        <h2 id="library-heading" style="font-family:'DM Serif Display',serif;font-size:clamp(28px,3vw,44px);line-height:1.15;margin-bottom:14px;">42 recipes. 15 minutes each.</h2>
+        <p style="font-size:16px;color:var(--stone-500);line-height:1.75;">Cinematic recipe videos designed for the WFH lunch break that deserves to feel like a trip abroad. New episode every week.</p>
+      </div>
+      <!-- Preview cards -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:40px;" role="list" aria-label="Recipe previews">
+        <a href="recipes.html" style="border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--stone-300);display:block;background:var(--white);transition:transform .25s,box-shadow .25s;" class="recipe-preview-card" role="listitem" aria-label="Miso Yuzu Glazed Chicken Bowl recipe">
+          <div style="height:160px;background:linear-gradient(135deg,#FEF3C7,#FDE68A);display:flex;align-items:center;justify-content:center;font-size:48px;position:relative;">
+            🍜
+            <span style="position:absolute;top:10px;right:10px;background:rgba(255,255,255,.85);font-size:11px;font-weight:600;padding:3px 9px;border-radius:99px;color:var(--stone-900);">12 min</span>
+          </div>
+          <div style="padding:16px 18px;">
+            <div style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">🇯🇵 Japan</div>
+            <div style="font-family:'DM Serif Display',serif;font-size:17px;line-height:1.2;margin-bottom:6px;">Miso Yuzu Chicken Bowl</div>
+            <div style="font-size:12px;color:var(--stone-500);">Feat. Miso Yuzu Glaze</div>
+          </div>
+        </a>
+        <a href="recipes.html" style="border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--stone-300);display:block;background:var(--white);transition:transform .25s,box-shadow .25s;" class="recipe-preview-card" role="listitem" aria-label="Harissa Shakshuka recipe">
+          <div style="height:160px;background:linear-gradient(135deg,#FEE2E2,#FECACA);display:flex;align-items:center;justify-content:center;font-size:48px;position:relative;">
+            🍳
+            <span style="position:absolute;top:10px;right:10px;background:rgba(255,255,255,.85);font-size:11px;font-weight:600;padding:3px 9px;border-radius:99px;color:var(--stone-900);">18 min</span>
+          </div>
+          <div style="padding:16px 18px;">
+            <div style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">🇲🇦 Morocco</div>
+            <div style="font-family:'DM Serif Display',serif;font-size:17px;line-height:1.2;margin-bottom:6px;">Harissa Shakshuka</div>
+            <div style="font-size:12px;color:var(--stone-500);">Feat. Harissa Chermoula</div>
+          </div>
+        </a>
+        <a href="recipes.html" style="border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--stone-300);display:block;background:var(--white);transition:transform .25s,box-shadow .25s;" class="recipe-preview-card" role="listitem" aria-label="Aji Amarillo Ceviche recipe">
+          <div style="height:160px;background:linear-gradient(135deg,#D1FAE5,#A7F3D0);display:flex;align-items:center;justify-content:center;font-size:48px;position:relative;">
+            🐟
+            <span style="position:absolute;top:10px;right:10px;background:rgba(255,255,255,.85);font-size:11px;font-weight:600;padding:3px 9px;border-radius:99px;color:var(--stone-900);">10 min</span>
+          </div>
+          <div style="padding:16px 18px;">
+            <div style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">🇵🇪 Peru</div>
+            <div style="font-family:'DM Serif Display',serif;font-size:17px;line-height:1.2;margin-bottom:6px;">Aji Amarillo Ceviche</div>
+            <div style="font-size:12px;color:var(--stone-500);">Feat. Aji Amarillo Paste</div>
+          </div>
+        </a>
+      </div>
+      <div style="text-align:center;">
+        <a href="recipes.html" class="btn btn-primary" style="font-size:15px;padding:16px 32px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+          Browse All 42 Recipes →
+        </a>
+        <p style="font-size:13px;color:var(--stone-500);margin-top:12px;">New recipe every week. <a href="recipes.html" style="color:var(--gold);text-decoration:underline;">Subscribe for updates</a></p>
+      </div>
+    </div>
+    <style>
+      .recipe-preview-card:hover { transform: translateY(-5px) !important; box-shadow: 0 14px 40px rgba(28,25,23,.1) !important; }
+    </style>
+  </section>
+
+  <!-- ── Products ──────────────────────────────────────────────────── -->
+  <section id="products" class="section" aria-labelledby="products-heading">
+    <div class="container">
+      <div class="products-header">
+        <div class="section-label">Featured Flavors</div>
+        <h2 id="products-heading">Start your collection.</h2>
+        <p>Each bottle tells a story. Sourced directly from small-batch producers, certified authentic, and ready to transform your everyday cooking.</p>
+      </div>
+      <div class="products-grid" role="list" aria-label="Featured products">
+        <!-- Product 1 -->
+        <article class="product-card" role="listitem" aria-label="Miso Yuzu Glaze from Japan">
+          <div class="product-image product-image-bg-1" aria-hidden="true">
+            <div class="product-image-inner">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                <path d="M24 8C24 8 14 14 14 24s10 16 10 16 10-6 10-16S24 8 24 8z" fill="#A16207" opacity=".7"/>
+                <circle cx="24" cy="24" r="6" fill="#FEF3C7"/>
+              </svg>
+            </div>
+          </div>
+          <div class="product-body">
+            <div class="product-origin">
+              <div class="country-dot" aria-hidden="true"></div>
+              Japan · Kyoto Prefecture
+            </div>
+            <h3 class="product-name">Miso Yuzu Glaze</h3>
+            <p class="product-desc">Fermented white miso meets hand-pressed yuzu citrus from family orchards in Shikoku. Umami-rich, with a bright citrus finish.</p>
+            <div class="product-footer">
+              <div class="product-price">
+                €18
+                <sub>¥2,800 JPY</sub>
+              </div>
+              <button class="btn-add" aria-label="Add Miso Yuzu Glaze to passport">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                Add to Passport
+              </button>
+            </div>
+          </div>
+        </article>
+        <!-- Product 2 -->
+        <article class="product-card" role="listitem" aria-label="Harissa Chermoula from Morocco">
+          <div class="product-image product-image-bg-2" aria-hidden="true">
+            <div class="product-image-inner">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                <path d="M24 10c-4 0-10 8-10 14s6 14 10 14 10-8 10-14-6-14-10-14z" fill="#DC2626" opacity=".6"/>
+                <path d="M18 20c0 0 6-2 12 0" stroke="#FCA5A5" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+          <div class="product-body">
+            <div class="product-origin">
+              <div class="country-dot" aria-hidden="true"></div>
+              Morocco · Marrakech
+            </div>
+            <h3 class="product-name">Harissa Chermoula</h3>
+            <p class="product-desc">Sun-dried rose petals and smoked Beldi peppers from the High Atlas foothills. Bold heat balanced with herbs and preserved lemon.</p>
+            <div class="product-footer">
+              <div class="product-price">
+                €16
+                <sub>Free EU shipping</sub>
+              </div>
+              <button class="btn-add" aria-label="Add Harissa Chermoula to passport">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                Add to Passport
+              </button>
+            </div>
+          </div>
+        </article>
+        <!-- Product 3 -->
+        <article class="product-card" role="listitem" aria-label="Peruvian Aji Amarillo from Peru">
+          <div class="product-image product-image-bg-3" aria-hidden="true">
+            <div class="product-image-inner">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                <ellipse cx="24" cy="26" rx="10" ry="12" fill="#D97706" opacity=".7"/>
+                <path d="M24 14c0 0 2-6 6-6" stroke="#FCD34D" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+          <div class="product-body">
+            <div class="product-origin">
+              <div class="country-dot" aria-hidden="true"></div>
+              Peru · Sacred Valley
+            </div>
+            <h3 class="product-name">Aji Amarillo Paste</h3>
+            <p class="product-desc">Peru's beloved yellow pepper in its purest form — fruity, vibrant, and uniquely spiced. Cold-pressed within hours of harvest in Cusco.</p>
+            <div class="product-footer">
+              <div class="product-price">
+                €17
+                <sub>Free EU shipping</sub>
+              </div>
+              <button class="btn-add" aria-label="Add Aji Amarillo Paste to passport">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                Add to Passport
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Origin Story ───────────────────────────────────────────────── -->
+  <section id="origin" class="section" aria-labelledby="origin-heading">
+    <div class="container">
+      <div class="origin-inner">
+        <div class="origin-text">
+          <div class="section-label">The Origin Story</div>
+          <h2 id="origin-heading">Meet our farmers.</h2>
+          <p>Every bottle carries a person behind it. We travel to source directly from the families and cooperatives who have cultivated these ingredients for generations — ensuring fair prices, authentic methods, and flavors that can't be replicated at scale.</p>
+          <div class="origin-metric" aria-label="Engagement metric: 4,200 average seconds watched">
+            <div>
+              <div class="origin-metric-num">4,200s</div>
+            </div>
+            <div class="origin-metric-label">Average watch time<br>on farmer story videos</div>
+          </div>
+        </div>
+        <div
+          class="origin-video"
+          role="button"
+          tabindex="0"
+          aria-label="Watch: Story of Our Farmers documentary"
+        >
+          <div class="play-btn-lg" aria-hidden="true">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div class="origin-video-title">Story of Our Farmers</div>
+          <div class="origin-video-label">12 min documentary · Subtitles available</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Digital Passport Teaser ────────────────────────────────────── -->
+  <section id="passport" class="section" aria-labelledby="passport-heading" style="background:var(--stone-900);color:white;overflow:hidden;position:relative;">
+    <div style="position:absolute;top:-120px;right:-120px;width:480px;height:480px;background:radial-gradient(circle,rgba(161,98,7,.18) 0%,transparent 65%);border-radius:50%;pointer-events:none;" aria-hidden="true"></div>
+    <div style="position:absolute;bottom:-80px;left:-80px;width:360px;height:360px;background:radial-gradient(circle,rgba(234,88,12,.1) 0%,transparent 65%);border-radius:50%;pointer-events:none;" aria-hidden="true"></div>
+    <div class="container" style="position:relative;z-index:1;">
+      <div class="passport-inner">
+        <div class="passport-text">
+          <div class="section-label" style="color:rgba(255,255,255,.4);">The Digital Passport</div>
+          <h2 id="passport-heading" style="font-family:'DM Serif Display',serif;font-size:clamp(28px,3vw,44px);line-height:1.15;margin-bottom:16px;color:white;">Scan. Collect.<br><em style="font-style:italic;color:#FCD34D;">Explore.</em></h2>
+          <p style="font-size:16px;color:rgba(255,255,255,.55);line-height:1.75;margin-bottom:28px;">Every product ships with a QR code. Scan it to claim your Digital Flavor Passport — a loyalty card that lives in your Apple or Google Wallet. Earn a new stamp with every flavor you try.</p>
+          <div class="passport-steps" aria-label="How it works">
+            <div class="passport-step">
+              <div class="step-num" aria-hidden="true" style="background:rgba(255,255,255,.12);color:white;">1</div>
+              <div class="step-text">
+                <strong style="color:white;">Scan the QR code</strong>
+                <span style="color:rgba(255,255,255,.45);">Found on every Flavor Passport product box.</span>
+              </div>
+            </div>
+            <div class="passport-step">
+              <div class="step-num" aria-hidden="true" style="background:rgba(255,255,255,.12);color:white;">2</div>
+              <div class="step-text">
+                <strong style="color:white;">Login &amp; view your stamps</strong>
+                <span style="color:rgba(255,255,255,.45);">Your personal passport lives on your account page.</span>
+              </div>
+            </div>
+            <div class="passport-step">
+              <div class="step-num" aria-hidden="true" style="background:rgba(255,255,255,.12);color:white;">3</div>
+              <div class="step-text">
+                <strong style="color:white;">Collect stamps &amp; unlock rewards</strong>
+                <span style="color:rgba(255,255,255,.45);">New flavors = new stamps. Rewards at 3, 6, and 12.</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+            <a href="passport.html" class="btn btn-gold" style="font-size:15px;padding:14px 28px;font-family:'DM Serif Display',serif;font-style:italic;font-weight:400;font-size:17px;">
+              View My Passport →
+            </a>
+            <a href="index.html#products" class="btn" style="background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);border:1.5px solid rgba(255,255,255,.15);font-size:14px;padding:13px 22px;">
+              Shop to earn stamps
+            </a>
+          </div>
+        </div>
+
+        <!-- Passport Card Visual (static preview) -->
+        <div class="passport-card" aria-label="Digital Passport card preview showing 2 of 6 stamps collected" role="img">
+          <div class="passport-card-glow" aria-hidden="true"></div>
+          <div class="passport-card-header">
+            <div class="passport-card-logo">Flavor <span>Passport</span></div>
+            <div class="passport-card-id">FP-2024-EU-0847</div>
+          </div>
+          <div class="passport-owner">
+            <small>Explorer</small>
+            <strong>Clara M.</strong>
+          </div>
+          <div class="passport-stamps-label">Flavor Stamps</div>
+          <div class="stamps-grid" role="list" aria-label="Stamp collection">
+            <div class="stamp filled" role="listitem" aria-label="Japan stamp earned">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+              <span class="stamp-name">Japan</span>
+              <span class="stamp-earned">Earned</span>
+            </div>
+            <div class="stamp filled" role="listitem" aria-label="Morocco stamp earned">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+              <span class="stamp-name">Morocco</span>
+              <span class="stamp-earned">Earned</span>
+            </div>
+            <div class="stamp" role="listitem" aria-label="Peru stamp not yet earned">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+              <span class="stamp-name">Peru</span>
+            </div>
+            <div class="stamp" role="listitem" aria-label="Thailand stamp not yet earned">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+              <span class="stamp-name">Thailand</span>
+            </div>
+            <div class="stamp" role="listitem" aria-label="Ethiopia stamp not yet earned">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+              <span class="stamp-name">Ethiopia</span>
+            </div>
+            <div class="stamp" role="listitem" aria-label="Mexico stamp not yet earned">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+              <span class="stamp-name">Mexico</span>
+            </div>
+          </div>
+          <div class="passport-progress" aria-label="Progress: 2 of 6 stamps collected">
+            <div class="progress-bar-wrap" role="progressbar" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100" aria-label="33% complete">
+              <div class="progress-bar"></div>
+            </div>
+            <div class="progress-text">
+              <span>2 / 6 stamps</span>
+              <span>Next reward at 3</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Testimonials ───────────────────────────────────────────────── -->
+  <section id="testimonials" class="section" aria-labelledby="testimonials-heading">
+    <div class="container">
+      <div class="testimonials-header">
+        <div class="section-label">From Urban Explorers</div>
+        <h2 id="testimonials-heading">Flavor stories from our community.</h2>
+        <p>Real reviews from real kitchens across Europe.</p>
+      </div>
+      <div class="testimonials-grid" role="list" aria-label="Customer testimonials">
+        <article class="testimonial-card" role="listitem">
+          <div class="stars" aria-label="5 out of 5 stars">
+            <svg class="star-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <blockquote class="testimonial-quote">"The Miso Yuzu Glaze turned my 12-minute chicken lunch into something I'd pay €25 for at a restaurant. My colleagues keep asking what I'm having."</blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar avatar-1" aria-hidden="true">C</div>
+            <div>
+              <div class="author-name">Clara M.</div>
+              <div class="author-meta">UX Designer · Barcelona · 3 stamps</div>
+            </div>
+          </div>
+        </article>
+        <article class="testimonial-card" role="listitem">
+          <div class="stars" aria-label="5 out of 5 stars">
+            <svg class="star-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <blockquote class="testimonial-quote">"I love that I can read exactly where each ingredient comes from. The passport idea is brilliant — I'm at 5 stamps and already eyeing the next collection."</blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar avatar-2" aria-hidden="true">M</div>
+            <div>
+              <div class="author-name">Marco T.</div>
+              <div class="author-meta">Product Manager · Amsterdam · 5 stamps</div>
+            </div>
+          </div>
+        </article>
+        <article class="testimonial-card" role="listitem">
+          <div class="stars" aria-label="5 out of 5 stars">
+            <svg class="star-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <blockquote class="testimonial-quote">"I was skeptical about a €17 hot sauce paste. One spoonful of the Aji Amarillo in my eggs and I immediately ordered two more. Worth every cent."</blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar avatar-3" aria-hidden="true">A</div>
+            <div>
+              <div class="author-name">Astrid K.</div>
+              <div class="author-meta">Architect · Copenhagen · 4 stamps</div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ─────────────────────────────────────────────────────── -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <h3>Flavor Passport</h3>
+          <p>Authentic global sauces and condiments, sourced directly from small-batch producers across 24 countries.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="#products">All Flavors</a></li>
+            <li><a href="#products">Best Sellers</a></li>
+            <li><a href="#products">Gift Sets</a></li>
+            <li><a href="#products">Subscriptions</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Learn</h4>
+          <ul>
+            <li><a href="#library">Recipe Library</a></li>
+            <li><a href="#origin">Our Farmers</a></li>
+            <li><a href="#passport">Digital Passport</a></li>
+            <li><a href="#">Blog</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Sustainability</a></li>
+            <li><a href="#">Press</a></li>
+            <li><a href="mailto:hello@flavorpassport.com">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2024 Flavor Passport. Made with curiosity in Barcelona.</p>
+        <div class="footer-socials" aria-label="Social media links">
+          <!-- Instagram icon -->
+          <button class="social-btn" aria-label="Flavor Passport on Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"/></svg>
+          </button>
+          <!-- TikTok icon -->
+          <button class="social-btn" aria-label="Flavor Passport on TikTok">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.16 8.16 0 004.78 1.52V6.76a4.85 4.85 0 01-1.02-.07z"/></svg>
+          </button>
+          <!-- Email icon -->
+          <button class="social-btn" aria-label="Contact Flavor Passport by email">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── Visually hidden utility ────────────────────────────────────── -->
+  <style>
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+  </style>
+
+  <!-- ── JS ─────────────────────────────────────────────────────────── -->
+  <script>
+    // Email signup handler
+    function handleSignup(e) {
+      e.preventDefault();
+      const form = e.target;
+      const btn = form.querySelector('button[type="submit"]');
+      const input = form.querySelector('input[type="email"]');
+      const originalText = btn.innerHTML;
+
+      btn.innerHTML = 'Sending…';
+      btn.disabled = true;
+
+      setTimeout(() => {
+        btn.innerHTML = '✓ You\'re in!';
+        btn.style.background = '#059669';
+        input.value = '';
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.style.background = '';
+          btn.disabled = false;
+        }, 3000);
+      }, 900);
+    }
+
+    // Add to passport button feedback
+    document.querySelectorAll('.btn-add').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const orig = this.innerHTML;
+        this.innerHTML = `
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          Added!
+        `;
+        this.style.background = '#059669';
+        setTimeout(() => {
+          this.innerHTML = orig;
+          this.style.background = '';
+        }, 2000);
+      });
+    });
+
+    // Keyboard-accessible video buttons
+    document.querySelectorAll('[role="button"]').forEach(el => {
+      el.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.click();
+        }
+      });
+    });
+
+    // Smooth reveal on scroll
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!reducedMotion) {
+        document.querySelectorAll('.product-card, .testimonial-card, .passport-card').forEach(el => {
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(24px)';
+          el.style.transition = 'opacity .5s ease, transform .5s ease';
+          observer.observe(el);
+        });
+      }
+    }
+  </script>
+</body>
+</html>
