@@ -9,6 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script src="supabase-config.js" defer></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -528,6 +530,64 @@
     @media (prefers-reduced-motion: reduce) {
       .stamp-card, .modal-stamp-big, .unlock-badge { transition: none; animation: none; }
     }
+
+    /* ── Passport Map ──────────────────────────────────────────────── */
+    .journey-map-section {
+      max-width: 1200px; margin: 32px auto 0; padding: 0 32px;
+    }
+    .journey-map-header {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .journey-map-header h2 {
+      font-family: 'DM Serif Display', serif; font-size: 22px; color: white;
+    }
+    .journey-map-header p { font-size: 13px; color: rgba(255,255,255,.35); margin-top: 3px; }
+    .journey-map-header span {
+      font-size: 12px; color: rgba(255,255,255,.3);
+      font-weight: 500; letter-spacing: .04em;
+    }
+    #passport-map {
+      width: 100%; height: 380px;
+      border-radius: 20px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,.07);
+    }
+    /* Leaflet overrides for passport dark map */
+    #passport-map .leaflet-control-zoom a {
+      background: rgba(28,25,23,.9) !important;
+      color: rgba(255,255,255,.6) !important;
+      border-color: rgba(255,255,255,.1) !important;
+    }
+    .pp-popup .leaflet-popup-content-wrapper {
+      background: transparent !important; box-shadow: none !important;
+      border: none !important; padding: 0 !important;
+    }
+    .pp-popup .leaflet-popup-content { margin: 0 !important; }
+    .pp-popup .leaflet-popup-tip-container { display: none !important; }
+    /* Earned marker */
+    .pp-pin { display:flex; flex-direction:column; align-items:center; cursor:pointer; transform:translateX(-50%); }
+    .pp-pin-badge {
+      border-radius: 99px; padding: 5px 13px; font-size: 12px; font-weight: 700;
+      white-space: nowrap; display:flex; align-items:center; gap:6px; line-height:1;
+    }
+    .pp-pin-badge.earned {
+      background: rgba(28,25,23,.95); border: 1.5px solid #FCD34D; color: #FCD34D;
+      box-shadow: 0 0 20px rgba(252,211,77,.3), 0 4px 16px rgba(0,0,0,.5);
+    }
+    .pp-pin-badge.locked {
+      background: rgba(28,25,23,.7); border: 1px solid rgba(255,255,255,.12); color: rgba(255,255,255,.3);
+    }
+    .pp-pin-stem-e { width:2px; height:12px; background:#FCD34D; }
+    .pp-pin-stem-l { width:2px; height:12px; background:rgba(255,255,255,.18); }
+    .pp-pin-dot-e {
+      width:14px; height:14px; border-radius:50%; background:#FCD34D;
+      border:2px solid rgba(252,211,77,.2);
+      box-shadow: 0 0 0 5px rgba(252,211,77,.08), 0 0 24px rgba(252,211,77,.5);
+    }
+    .pp-pin-dot-l {
+      width:10px; height:10px; border-radius:50%;
+      background:rgba(255,255,255,.12); border:1.5px solid rgba(255,255,255,.2);
+    }
   </style>
 </head>
 <body>
@@ -652,6 +712,18 @@
           <strong>All 6 Stamps</strong>
         </div>
       </div>
+    </div>
+
+    <!-- Journey Map -->
+    <div class="journey-map-section" role="region" aria-label="Your flavor journey map">
+      <div class="journey-map-header">
+        <div>
+          <h2>Your Journey So Far</h2>
+          <p>Gold pins = stamps earned · Grey pins = still to explore</p>
+        </div>
+        <span id="map-stamp-count"></span>
+      </div>
+      <div id="passport-map" aria-label="World map showing your earned and remaining flavor stamps"></div>
     </div>
 
     <!-- Stamps -->
@@ -950,6 +1022,9 @@
       pp.style.transform = 'translateY(0)';
     });
 
+    // Journey map — init or refresh
+    setTimeout(() => initPassportMap(), 300);
+
     // Confetti on login
     setTimeout(launchConfetti, 500);
 
@@ -1208,6 +1283,9 @@
 
     launchConfetti();
 
+    // Refresh journey map
+    initPassportMap();
+
     // Special Edition unlock!
     if (count === 6) {
       setTimeout(showUnlockScreen, 1200);
@@ -1288,6 +1366,111 @@
       closeClaimModal();
     }
   });
+
+  // ── Passport Journey Map ──────────────────────────────────────────
+  const PP_ORIGINS = [
+    { id:'Japan',    flag:'🇯🇵', coords:[36.2048,138.2529],  product:'Miso Yuzu Glaze' },
+    { id:'Morocco',  flag:'🇲🇦', coords:[31.7917,-7.0926],   product:'Harissa Chermoula' },
+    { id:'Peru',     flag:'🇵🇪', coords:[-9.1900,-75.0152],  product:'Aji Amarillo Paste' },
+    { id:'Thailand', flag:'🇹🇭', coords:[15.8700,100.9925],  product:'Nam Prik Pao' },
+    { id:'Ethiopia', flag:'🇪🇹', coords:[9.1450,40.4897],    product:'Berbere Paste' },
+    { id:'Mexico',   flag:'🇲🇽', coords:[23.6345,-102.5528], product:'Salsa Macha' },
+  ];
+  let passportMap = null;
+  const ppMarkers = {};
+
+  function makePPIcon(o, earned) {
+    if (earned) {
+      return L.divIcon({
+        className: '',
+        html: `<div class="pp-pin">
+          <div class="pp-pin-badge earned"><span>${o.flag}</span><span>${o.id}</span></div>
+          <div class="pp-pin-stem-e"></div><div class="pp-pin-dot-e"></div>
+        </div>`,
+        iconSize: [130, 48], iconAnchor: [65, 48], popupAnchor: [0, -52],
+      });
+    } else {
+      return L.divIcon({
+        className: '',
+        html: `<div class="pp-pin">
+          <div class="pp-pin-badge locked"><span style="filter:grayscale(1)opacity(.5)">${o.flag}</span><span>${o.id}</span></div>
+          <div class="pp-pin-stem-l"></div><div class="pp-pin-dot-l"></div>
+        </div>`,
+        iconSize: [130, 46], iconAnchor: [65, 46], popupAnchor: [0, -50],
+      });
+    }
+  }
+
+  function ppPopup(o, earned, stampData) {
+    if (earned) {
+      const date = stampData?.earned_at
+        ? new Date(stampData.earned_at).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })
+        : 'Recently earned';
+      return `<div style="padding:14px 18px;min-width:180px;background:#1C1917;border:1px solid rgba(252,211,77,.35);border-radius:16px;font-family:'DM Sans',sans-serif;box-shadow:0 12px 36px rgba(0,0,0,.6);">
+        <div style="font-size:24px;margin-bottom:8px;">${o.flag}</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:17px;color:#FAFAF9;margin-bottom:3px;">${o.id}</div>
+        <div style="font-size:11px;font-weight:600;color:#FCD34D;background:rgba(161,98,7,.2);padding:3px 9px;border-radius:99px;display:inline-block;margin-bottom:8px;">${o.product}</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.35);">✓ Stamped ${date}</div>
+      </div>`;
+    } else {
+      return `<div style="padding:14px 18px;min-width:180px;background:rgba(28,25,23,.95);border:1px solid rgba(255,255,255,.1);border-radius:16px;font-family:'DM Sans',sans-serif;box-shadow:0 12px 36px rgba(0,0,0,.6);">
+        <div style="font-size:22px;filter:grayscale(1);opacity:.4;margin-bottom:8px;">${o.flag}</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:17px;color:rgba(255,255,255,.4);margin-bottom:3px;">${o.id}</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.25);">${o.product}</div>
+        <div style="margin-top:10px;font-size:12px;color:rgba(255,255,255,.3);">Not yet explored</div>
+      </div>`;
+    }
+  }
+
+  function initPassportMap() {
+    if (typeof L === 'undefined') return;
+    const el = document.getElementById('passport-map');
+    if (!el) return;
+
+    // Update stamp count label
+    const count = earnedStamps.length;
+    const countEl = document.getElementById('map-stamp-count');
+    if (countEl) countEl.textContent = `${count} / 6 countries explored`;
+
+    // If map already exists, just update markers
+    if (passportMap) {
+      Object.entries(ppMarkers).forEach(([id, m]) => passportMap.removeLayer(m));
+      for (const key in ppMarkers) delete ppMarkers[key];
+      addPPMarkers();
+      return;
+    }
+
+    // First init
+    passportMap = L.map('passport-map', {
+      zoomControl: true, attributionControl: false,
+      scrollWheelZoom: false,
+    });
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      subdomains: 'abcd', maxZoom: 19,
+    }).addTo(passportMap);
+    addPPMarkers();
+    const bounds = PP_ORIGINS.map(o => o.coords);
+    passportMap.fitBounds(bounds, { padding: [48, 48] });
+
+    // Style zoom controls
+    setTimeout(() => {
+      document.querySelectorAll('#passport-map .leaflet-control-zoom a')
+        .forEach(el => Object.assign(el.style, {
+          background:'rgba(28,25,23,.9)', color:'rgba(255,255,255,.6)', borderColor:'rgba(255,255,255,.1)'
+        }));
+    }, 600);
+  }
+
+  function addPPMarkers() {
+    PP_ORIGINS.forEach(o => {
+      const stampData = earnedStamps.find(s => s.country === o.id);
+      const earned = !!stampData;
+      const m = L.marker(o.coords, { icon: makePPIcon(o, earned), zIndexOffset: earned ? 100 : 0 })
+        .bindPopup(ppPopup(o, earned, stampData), { className: 'pp-popup', maxWidth: 240 })
+        .addTo(passportMap);
+      ppMarkers[o.id] = m;
+    });
+  }
   </script>
 </body>
 </html>

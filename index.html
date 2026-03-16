@@ -7,6 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <style>
     /* ── Reset & Base ──────────────────────────────────────────────── */
@@ -467,6 +469,79 @@
       .product-pin { animation: none; }
       .product-card, .testimonial-card, .btn, .btn-add, .btn-primary, .btn-gold { transition: none; }
     }
+
+    /* ── Leaflet overrides ─────────────────────────────────────────── */
+    .leaflet-container { font-family: 'DM Sans', sans-serif !important; }
+    .fp-popup .leaflet-popup-content-wrapper {
+      border-radius: 16px !important; padding: 0 !important;
+      box-shadow: 0 12px 40px rgba(28,25,23,.14) !important;
+      border: 1px solid #E7E5E4 !important;
+    }
+    .fp-popup .leaflet-popup-content { margin: 0 !important; }
+    .fp-popup .leaflet-popup-tip-container { display: none !important; }
+    .fp-dark-popup .leaflet-popup-content-wrapper {
+      background: transparent !important; box-shadow: none !important;
+      border: none !important; padding: 0 !important;
+    }
+    .fp-dark-popup .leaflet-popup-content { margin: 0 !important; }
+    .fp-dark-popup .leaflet-popup-tip-container { display: none !important; }
+
+    /* Light markers (hero map) */
+    .fp-pin { display:flex; flex-direction:column; align-items:center; cursor:pointer; transform:translateX(-50%); }
+    .fp-pin-badge {
+      background: white; border: 1.5px solid #E7E5E4; border-radius: 99px;
+      padding: 5px 12px; font-size: 12px; font-weight: 600; white-space: nowrap;
+      box-shadow: 0 4px 14px rgba(28,25,23,.12); color: #1C1917;
+      display:flex; align-items:center; gap:6px; line-height:1;
+    }
+    .fp-pin-stem { width:2px; height:10px; background:#A16207; }
+    .fp-pin-dot { width:12px; height:12px; border-radius:50%; background:#A16207; border:2.5px solid white; box-shadow: 0 0 0 3px rgba(161,98,7,.18), 0 2px 8px rgba(161,98,7,.35); }
+
+    /* Dark markers (origins section) */
+    .fp-dpin { display:flex; flex-direction:column; align-items:center; cursor:pointer; transform:translateX(-50%); }
+    .fp-dpin-badge {
+      background: rgba(28,25,23,.95); border: 1px solid rgba(161,98,7,.55); border-radius: 99px;
+      padding: 5px 13px; font-size: 12px; font-weight: 600; white-space: nowrap;
+      box-shadow: 0 0 18px rgba(161,98,7,.25), 0 4px 14px rgba(0,0,0,.5);
+      color: white; display:flex; align-items:center; gap:6px; line-height:1;
+    }
+    .fp-dpin-stem { width:2px; height:12px; background:#FCD34D; }
+    .fp-dpin-dot {
+      width:14px; height:14px; border-radius:50%; background:#FCD34D;
+      border:2px solid rgba(252,211,77,.25);
+      box-shadow: 0 0 0 5px rgba(252,211,77,.08), 0 0 22px rgba(252,211,77,.45);
+    }
+
+    /* ── Origins Map Section ────────────────────────────────────────── */
+    #origins-section { background: var(--stone-900); position: relative; overflow: hidden; }
+    .origins-header {
+      padding: 72px 24px 36px; text-align: center;
+    }
+    .origins-header .section-label { color: rgba(255,255,255,.35); margin-bottom: 14px; }
+    .origins-header h2 {
+      font-family: 'DM Serif Display', serif; font-size: clamp(32px, 4.5vw, 54px);
+      line-height: 1.1; color: white; margin-bottom: 14px;
+    }
+    .origins-header h2 em { font-style: italic; color: #FCD34D; }
+    .origins-header p { font-size: 17px; color: rgba(255,255,255,.45); max-width: 500px; margin: 0 auto; }
+    #origins-map { width: 100%; height: 520px; }
+    .origins-chips {
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;
+      padding: 28px 24px 60px;
+    }
+    .origin-chip {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 99px; padding: 8px 18px;
+      font-size: 13px; font-weight: 500; color: rgba(255,255,255,.65);
+      cursor: pointer; transition: all .2s ease; user-select: none;
+    }
+    .origin-chip:hover { background: rgba(161,98,7,.2); border-color: rgba(161,98,7,.45); color: white; }
+    .origin-chip .chip-flag { font-size: 18px; line-height: 1; }
+
+    /* ── Hero map container ──────────────────────────────────────────── */
+    #hero-map { width: 100%; height: 100%; min-height: 440px; }
+    .hero-visual { overflow: visible !important; }
   </style>
 </head>
 <body>
@@ -531,28 +606,8 @@
             <p class="hero-trust-text"><strong>2,400+ Urban Explorers</strong> already on their flavor journey</p>
           </div>
         </div>
-        <div class="hero-visual" aria-hidden="true">
-          <div class="hero-map">
-            <svg class="globe-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="100" cy="100" r="90" stroke="#1C1917" stroke-width="3"/>
-              <ellipse cx="100" cy="100" rx="50" ry="90" stroke="#1C1917" stroke-width="3"/>
-              <line x1="10" y1="100" x2="190" y2="100" stroke="#1C1917" stroke-width="3"/>
-              <path d="M15 65 Q100 55 185 65" stroke="#1C1917" stroke-width="2" fill="none"/>
-              <path d="M15 135 Q100 145 185 135" stroke="#1C1917" stroke-width="2" fill="none"/>
-            </svg>
-            <div class="product-pin pin-1">
-              <span class="flag" role="img" aria-label="Japan">🇯🇵</span>
-              <span>Miso Yuzu</span>
-            </div>
-            <div class="product-pin pin-2">
-              <span class="flag" role="img" aria-label="Morocco">🇲🇦</span>
-              <span>Harissa</span>
-            </div>
-            <div class="product-pin pin-3">
-              <span class="flag" role="img" aria-label="Peru">🇵🇪</span>
-              <span>Aji Amarillo</span>
-            </div>
-          </div>
+        <div class="hero-visual" style="aspect-ratio:3/2;" aria-label="Interactive map showing our 6 sauce origin countries">
+          <div id="hero-map"></div>
         </div>
       </div>
     </div>
@@ -589,6 +644,24 @@
       </div>
     </div>
   </div>
+
+  <!-- ── World of Flavors Map ──────────────────────────────────────── -->
+  <section id="origins-section" aria-label="Our flavor origins around the world">
+    <div class="origins-header">
+      <div class="section-label">Where taste begins</div>
+      <h2>Six countries.<br><em>One passport.</em></h2>
+      <p>Every sauce is traced back to its source. Click any pin to discover the origin story.</p>
+    </div>
+    <div id="origins-map" aria-label="World map showing our 6 sauce origin countries"></div>
+    <div class="origins-chips" role="list" aria-label="Filter by origin country">
+      <button class="origin-chip" onclick="flyToOrigin('Japan')" role="listitem" aria-label="Explore Japan - Miso Yuzu Glaze"><span class="chip-flag">🇯🇵</span> Japan · Miso Yuzu</button>
+      <button class="origin-chip" onclick="flyToOrigin('Morocco')" role="listitem" aria-label="Explore Morocco - Harissa Chermoula"><span class="chip-flag">🇲🇦</span> Morocco · Harissa</button>
+      <button class="origin-chip" onclick="flyToOrigin('Peru')" role="listitem" aria-label="Explore Peru - Aji Amarillo Paste"><span class="chip-flag">🇵🇪</span> Peru · Aji Amarillo</button>
+      <button class="origin-chip" onclick="flyToOrigin('Thailand')" role="listitem" aria-label="Explore Thailand - Nam Prik Pao"><span class="chip-flag">🇹🇭</span> Thailand · Nam Prik Pao</button>
+      <button class="origin-chip" onclick="flyToOrigin('Ethiopia')" role="listitem" aria-label="Explore Ethiopia - Berbere Paste"><span class="chip-flag">🇪🇹</span> Ethiopia · Berbere</button>
+      <button class="origin-chip" onclick="flyToOrigin('Mexico')" role="listitem" aria-label="Explore Mexico - Salsa Macha"><span class="chip-flag">🇲🇽</span> Mexico · Salsa Macha</button>
+    </div>
+  </section>
 
   <!-- ── Flavor Library Teaser ──────────────────────────────────────── -->
   <section id="library" class="section" aria-labelledby="library-heading" style="background:var(--white);">
@@ -1076,6 +1149,114 @@
           observer.observe(el);
         });
       }
+    }
+  </script>
+
+  <!-- ── Flavor Passport Maps ──────────────────────────────────────── -->
+  <script>
+    const FLAVOR_ORIGINS = [
+      { id:'Japan',    flag:'🇯🇵', coords:[36.2048,138.2529],  product:'Miso Yuzu Glaze',    detail:'Kyoto Prefecture',        price:'€18' },
+      { id:'Morocco',  flag:'🇲🇦', coords:[31.7917,-7.0926],   product:'Harissa Chermoula',  detail:'Marrakech, High Atlas',   price:'€16' },
+      { id:'Peru',     flag:'🇵🇪', coords:[-9.1900,-75.0152],  product:'Aji Amarillo Paste', detail:'Sacred Valley, Cusco',    price:'€17' },
+      { id:'Thailand', flag:'🇹🇭', coords:[15.8700,100.9925],  product:'Nam Prik Pao',       detail:'Chiang Mai Province',     price:'€15' },
+      { id:'Ethiopia', flag:'🇪🇹', coords:[9.1450,40.4897],    product:'Berbere Paste',      detail:'Addis Ababa',             price:'€16' },
+      { id:'Mexico',   flag:'🇲🇽', coords:[23.6345,-102.5528], product:'Salsa Macha',        detail:'Oaxaca',                  price:'€17' },
+    ];
+
+    let heroMap = null, originsMap = null;
+    const originsMarkers = {};
+
+    function makeLightIcon(o) {
+      return L.divIcon({
+        className: '',
+        html: `<div class="fp-pin"><div class="fp-pin-badge"><span>${o.flag}</span><span>${o.id}</span></div><div class="fp-pin-stem"></div><div class="fp-pin-dot"></div></div>`,
+        iconSize: [130, 46], iconAnchor: [65, 46], popupAnchor: [0, -50],
+      });
+    }
+
+    function makeDarkIcon(o) {
+      return L.divIcon({
+        className: '',
+        html: `<div class="fp-dpin"><div class="fp-dpin-badge"><span>${o.flag}</span><span>${o.id}</span></div><div class="fp-dpin-stem"></div><div class="fp-dpin-dot"></div></div>`,
+        iconSize: [130, 48], iconAnchor: [65, 48], popupAnchor: [0, -52],
+      });
+    }
+
+    function lightPopup(o) {
+      return `<div style="padding:16px 20px;min-width:190px;font-family:'DM Sans',sans-serif;">
+        <div style="font-size:26px;margin-bottom:8px;">${o.flag}</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:18px;color:#1C1917;margin-bottom:3px;">${o.id}</div>
+        <div style="font-size:12px;color:#78716C;margin-bottom:10px;">${o.detail}</div>
+        <div style="font-size:12px;font-weight:600;color:#A16207;background:#FEF3C7;padding:4px 10px;border-radius:99px;display:inline-block;margin-bottom:12px;">${o.product}</div>
+        <div><a href="#products" style="font-size:13px;font-weight:500;color:#1C1917;border-bottom:1.5px solid #E7E5E4;text-decoration:none;">Shop for ${o.price} →</a></div>
+      </div>`;
+    }
+
+    function darkPopup(o) {
+      return `<div style="padding:16px 20px;min-width:190px;background:#1C1917;border:1px solid rgba(161,98,7,.35);border-radius:16px;font-family:'DM Sans',sans-serif;box-shadow:0 12px 40px rgba(0,0,0,.5);">
+        <div style="font-size:26px;margin-bottom:8px;">${o.flag}</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:18px;color:#FAFAF9;margin-bottom:3px;">${o.id}</div>
+        <div style="font-size:12px;color:#78716C;margin-bottom:10px;">${o.detail}</div>
+        <div style="font-size:12px;font-weight:600;color:#FCD34D;background:rgba(161,98,7,.2);padding:4px 10px;border-radius:99px;display:inline-block;margin-bottom:12px;">${o.product}</div>
+        <div><a href="#products" style="font-size:13px;font-weight:500;color:rgba(255,255,255,.8);border-bottom:1.5px solid rgba(255,255,255,.15);text-decoration:none;">Shop for ${o.price} →</a></div>
+      </div>`;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // ── Hero Map (warm Voyager tiles) ──
+      const heroEl = document.getElementById('hero-map');
+      if (heroEl && typeof L !== 'undefined') {
+        heroMap = L.map('hero-map', {
+          zoomControl: false, attributionControl: false,
+          scrollWheelZoom: false, dragging: true, doubleClickZoom: false,
+        });
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+          subdomains: 'abcd', maxZoom: 19,
+        }).addTo(heroMap);
+        const heroBounds = [];
+        FLAVOR_ORIGINS.forEach(o => {
+          heroBounds.push(o.coords);
+          L.marker(o.coords, { icon: makeLightIcon(o) })
+            .bindPopup(lightPopup(o), { className: 'fp-popup', maxWidth: 260 })
+            .addTo(heroMap);
+        });
+        heroMap.fitBounds(heroBounds, { padding: [32, 32] });
+      }
+
+      // ── Origins Map (dark tiles, full-width star section) ──
+      const originsEl = document.getElementById('origins-map');
+      if (originsEl && typeof L !== 'undefined') {
+        originsMap = L.map('origins-map', {
+          zoomControl: true, attributionControl: true,
+          scrollWheelZoom: false,
+        });
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+          attribution: '© <a href="https://www.openstreetmap.org/copyright" style="color:#666">OpenStreetMap</a> © <a href="https://carto.com/" style="color:#666">CARTO</a>',
+          subdomains: 'abcd', maxZoom: 19,
+        }).addTo(originsMap);
+        const originsBounds = [];
+        FLAVOR_ORIGINS.forEach(o => {
+          originsBounds.push(o.coords);
+          const m = L.marker(o.coords, { icon: makeDarkIcon(o) })
+            .bindPopup(darkPopup(o), { className: 'fp-dark-popup', maxWidth: 260 })
+            .addTo(originsMap);
+          originsMarkers[o.id] = m;
+        });
+        originsMap.fitBounds(originsBounds, { padding: [64, 64] });
+        // Style the zoom control
+        setTimeout(() => {
+          document.querySelectorAll('#origins-map .leaflet-control-zoom a')
+            .forEach(el => Object.assign(el.style, { background:'rgba(28,25,23,.85)', color:'rgba(255,255,255,.7)', borderColor:'rgba(255,255,255,.1)' }));
+        }, 500);
+      }
+    });
+
+    function flyToOrigin(countryId) {
+      const o = FLAVOR_ORIGINS.find(x => x.id === countryId);
+      if (!o || !originsMap) return;
+      originsMap.flyTo(o.coords, 5, { duration: 1.4 });
+      setTimeout(() => originsMarkers[countryId]?.openPopup(), 1500);
+      document.getElementById('origins-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   </script>
 </body>
