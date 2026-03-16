@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Explorer Community | Flavor Passport</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="supabase-config.js" defer></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #0C0A09;
+      color: #FAFAF9;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+    .sr-only { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+
+    :root {
+      --stone-950: #0C0A09; --stone-900: #1C1917; --stone-800: #292524;
+      --stone-700: #44403C; --stone-500: #78716C; --stone-300: #D6D3D1;
+      --gold: #A16207; --gold-300: #FCD34D; --gold-light: #FEF3C7;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(12,10,9,.85); backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; max-width: 1200px; margin: 0 auto; padding: 0 32px;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'DM Serif Display', serif; font-size: 20px; color: white;
+    }
+    .nav-logo-icon {
+      width: 32px; height: 32px; background: white;
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: rgba(255,255,255,.55); transition: color .15s; }
+    .nav-links a:hover { color: white; }
+    .nav-links a.active { color: white; font-weight: 600; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+      padding: 10px 20px; border-radius: 99px; border: none; cursor: pointer;
+      transition: all .2s ease; line-height: 1;
+    }
+    .btn-gold { background: var(--gold); color: white; }
+    .btn-gold:hover { background: #92400E; transform: translateY(-1px); }
+
+    /* ── Hero ── */
+    .community-hero {
+      padding: 120px 32px 64px; max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 32px;
+    }
+    .hero-left small {
+      font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--gold); display: block; margin-bottom: 14px;
+    }
+    .hero-left h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(38px, 5vw, 64px); line-height: 1.1; color: white;
+    }
+    .hero-left h1 em { font-style: italic; color: var(--gold-300); }
+    .hero-left p {
+      margin-top: 16px; font-size: 17px; color: rgba(255,255,255,.45);
+      max-width: 480px; line-height: 1.7;
+    }
+    .hero-right {
+      display: flex; gap: 12px; flex-shrink: 0; padding-bottom: 4px;
+    }
+    .hero-stat {
+      text-align: center; padding: 20px 28px;
+      background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07);
+      border-radius: 18px;
+    }
+    .hero-stat-num {
+      font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--gold-300);
+    }
+    .hero-stat-label { font-size: 12px; color: rgba(255,255,255,.35); margin-top: 2px; }
+
+    /* ── Auth Gate Banner ── */
+    #auth-banner {
+      max-width: 1200px; margin: 0 auto 32px; padding: 0 32px;
+      display: none;
+    }
+    #auth-banner.show { display: block; }
+    .auth-banner-inner {
+      background: rgba(161,98,7,.08); border: 1px solid rgba(161,98,7,.25);
+      border-radius: 16px; padding: 18px 28px;
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    }
+    .auth-banner-inner p { font-size: 14px; color: rgba(255,255,255,.6); }
+    .auth-banner-inner p strong { color: white; }
+    .auth-banner-actions { display: flex; gap: 10px; flex-shrink: 0; }
+
+    /* ── Compose Post ── */
+    #compose-section {
+      max-width: 1200px; margin: 0 auto 40px; padding: 0 32px;
+      display: none;
+    }
+    #compose-section.show { display: block; }
+    .compose-card {
+      background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07);
+      border-radius: 20px; padding: 28px;
+    }
+    .compose-top {
+      display: flex; align-items: flex-start; gap: 16px; margin-bottom: 16px;
+    }
+    .compose-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, rgba(161,98,7,.4), rgba(234,88,12,.3));
+      border: 1.5px solid rgba(161,98,7,.4);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Serif Display', serif; font-size: 18px;
+      color: var(--gold-300); flex-shrink: 0;
+    }
+    .compose-textarea {
+      flex: 1; background: transparent; border: none; outline: none;
+      font-family: 'DM Sans', sans-serif; font-size: 16px; color: white;
+      line-height: 1.6; resize: none; min-height: 72px;
+      padding: 10px 0;
+    }
+    .compose-textarea::placeholder { color: rgba(255,255,255,.2); }
+    .compose-bottom {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      border-top: 1px solid rgba(255,255,255,.06); padding-top: 16px;
+    }
+    .compose-bottom-left { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .sauce-select {
+      background: rgba(255,255,255,.06); border: 1.5px solid rgba(255,255,255,.1);
+      border-radius: 99px; padding: 8px 16px;
+      font-family: 'DM Sans', sans-serif; font-size: 13px; color: rgba(255,255,255,.65);
+      outline: none; cursor: pointer; transition: border-color .15s;
+      appearance: none; -webkit-appearance: none;
+    }
+    .sauce-select:focus { border-color: rgba(161,98,7,.5); }
+    .sauce-select option { background: #1C1917; }
+    .img-url-input {
+      background: rgba(255,255,255,.06); border: 1.5px solid rgba(255,255,255,.1);
+      border-radius: 99px; padding: 8px 16px;
+      font-family: 'DM Sans', sans-serif; font-size: 13px; color: rgba(255,255,255,.65);
+      outline: none; width: 200px; transition: border-color .15s;
+    }
+    .img-url-input:focus { border-color: rgba(161,98,7,.5); }
+    .img-url-input::placeholder { color: rgba(255,255,255,.2); }
+    .post-submit {
+      padding: 10px 24px; background: var(--gold); color: white; border: none;
+      border-radius: 99px; font-family: 'DM Serif Display', serif;
+      font-size: 16px; font-style: italic; cursor: pointer; transition: all .2s;
+      white-space: nowrap;
+    }
+    .post-submit:hover:not(:disabled) { background: #92400E; }
+    .post-submit:disabled { opacity: .5; cursor: not-allowed; }
+    .char-count { font-size: 12px; color: rgba(255,255,255,.2); white-space: nowrap; }
+    .char-count.warn { color: #FCA5A5; }
+    .compose-error { font-size: 13px; color: #FCA5A5; margin-top: 8px; min-height: 18px; }
+
+    /* ── Feed ── */
+    .feed-layout {
+      max-width: 1200px; margin: 0 auto; padding: 0 32px 80px;
+      display: grid; grid-template-columns: 1fr 300px; gap: 32px; align-items: start;
+    }
+
+    /* Filter bar */
+    .filter-bar {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 24px; flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 8px 18px; border-radius: 99px; font-size: 13px; font-weight: 500;
+      cursor: pointer; transition: all .15s; border: 1.5px solid rgba(255,255,255,.1);
+      background: transparent; color: rgba(255,255,255,.45);
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: rgba(161,98,7,.15); border-color: rgba(161,98,7,.4); color: var(--gold-300);
+    }
+
+    /* Post card */
+    .post-card {
+      background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07);
+      border-radius: 20px; padding: 24px; margin-bottom: 16px;
+      transition: border-color .2s;
+    }
+    .post-card:hover { border-color: rgba(255,255,255,.12); }
+    .post-header {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+    }
+    .post-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, rgba(161,98,7,.35), rgba(234,88,12,.25));
+      border: 1.5px solid rgba(161,98,7,.3);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Serif Display', serif; font-size: 16px; color: var(--gold-300);
+      flex-shrink: 0;
+    }
+    .post-meta strong { font-size: 14px; font-weight: 600; color: white; display: block; }
+    .post-meta span { font-size: 12px; color: rgba(255,255,255,.3); }
+    .post-sauce-tag {
+      margin-left: auto; flex-shrink: 0;
+      font-size: 11px; font-weight: 600; letter-spacing: .04em;
+      padding: 4px 10px; border-radius: 99px;
+      background: rgba(161,98,7,.15); border: 1px solid rgba(161,98,7,.3);
+      color: var(--gold-300);
+    }
+
+    .post-content { font-size: 15px; color: rgba(255,255,255,.8); line-height: 1.7; margin-bottom: 14px; }
+    .post-image {
+      width: 100%; border-radius: 14px; margin-bottom: 14px;
+      max-height: 320px; object-fit: cover; border: 1px solid rgba(255,255,255,.07);
+    }
+    .post-footer {
+      display: flex; align-items: center; gap: 16px;
+      border-top: 1px solid rgba(255,255,255,.05); padding-top: 14px;
+    }
+    .like-btn {
+      display: flex; align-items: center; gap: 6px;
+      background: none; border: 1.5px solid rgba(255,255,255,.1);
+      border-radius: 99px; padding: 6px 14px; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; font-size: 13px; color: rgba(255,255,255,.4);
+      transition: all .15s;
+    }
+    .like-btn:hover { border-color: rgba(239,68,68,.4); color: #FCA5A5; }
+    .like-btn.liked { border-color: rgba(239,68,68,.5); background: rgba(239,68,68,.1); color: #FCA5A5; }
+    .like-btn svg { width: 14px; height: 14px; }
+    .like-btn.liked svg { fill: #FCA5A5; }
+    .post-delete-btn {
+      margin-left: auto; background: none; border: none; cursor: pointer;
+      font-size: 12px; color: rgba(255,255,255,.2); transition: color .15s;
+      display: none;
+    }
+    .post-delete-btn.show { display: block; }
+    .post-delete-btn:hover { color: #FCA5A5; }
+
+    /* Feed loading */
+    .feed-loading {
+      text-align: center; padding: 60px 24px;
+      color: rgba(255,255,255,.3); font-size: 15px;
+    }
+    .feed-empty {
+      text-align: center; padding: 60px 24px;
+    }
+    .feed-empty h3 {
+      font-family: 'DM Serif Display', serif; font-size: 24px; color: white; margin-bottom: 8px;
+    }
+    .feed-empty p { font-size: 14px; color: rgba(255,255,255,.35); }
+
+    /* Sidebar */
+    .sidebar-card {
+      background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07);
+      border-radius: 20px; padding: 24px; margin-bottom: 16px;
+    }
+    .sidebar-title {
+      font-family: 'DM Serif Display', serif; font-size: 18px; color: white; margin-bottom: 16px;
+    }
+    .sauce-filter-list { display: flex; flex-direction: column; gap: 8px; }
+    .sauce-filter-item {
+      display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+      border-radius: 12px; cursor: pointer; transition: background .15s;
+    }
+    .sauce-filter-item:hover { background: rgba(255,255,255,.04); }
+    .sauce-filter-item.active { background: rgba(161,98,7,.12); }
+    .sauce-filter-item span { font-size: 14px; color: rgba(255,255,255,.6); flex: 1; }
+    .sauce-filter-item.active span { color: var(--gold-300); }
+    .sauce-filter-count {
+      font-size: 12px; color: rgba(255,255,255,.25); background: rgba(255,255,255,.05);
+      padding: 2px 8px; border-radius: 99px;
+    }
+
+    .top-explorer-item {
+      display: flex; align-items: center; gap: 10px; padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+    }
+    .top-explorer-item:last-child { border-bottom: none; }
+    .te-rank { font-size: 12px; color: rgba(255,255,255,.2); width: 20px; flex-shrink: 0; }
+    .te-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: linear-gradient(135deg, rgba(161,98,7,.3), rgba(234,88,12,.2));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Serif Display', serif; font-size: 13px; color: var(--gold-300);
+    }
+    .te-name { font-size: 13px; color: rgba(255,255,255,.65); flex: 1; }
+    .te-stamps { font-size: 12px; color: rgba(255,255,255,.25); }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+      background: #1C1917; border: 1px solid rgba(161,98,7,.4); color: white;
+      padding: 14px 24px; border-radius: 99px; font-size: 14px; z-index: 1000;
+      box-shadow: 0 8px 32px rgba(0,0,0,.4); pointer-events: none;
+      animation: toastIn .3s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes toastIn {
+      from { opacity:0; transform:translateX(-50%) translateY(10px); }
+      to   { opacity:1; transform:translateX(-50%) translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .feed-layout { grid-template-columns: 1fr; }
+      .community-hero { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero-right { flex-wrap: wrap; }
+      .compose-bottom { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <circle cx="9" cy="9" r="7" stroke="#1C1917" stroke-width="1.5"/>
+            <path d="M2 9h14M9 2a12 12 0 010 14M9 2a12 12 0 000 14" stroke="#1C1917" stroke-width="1.5"/>
+          </svg>
+        </div>
+        Flavor Passport
+      </a>
+      <div class="nav-links">
+        <a href="recipes.html">Recipes</a>
+        <a href="index.html#products">Shop</a>
+        <a href="community.html" class="active">Community</a>
+        <a href="passport.html">My Passport</a>
+      </div>
+      <div id="nav-actions">
+        <a href="passport.html" class="btn btn-gold">My Passport</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <header class="community-hero">
+    <div class="hero-left">
+      <small>Explorer Community</small>
+      <h1>Flavors shared<br>by <em>curious</em> cooks.</h1>
+      <p>Real people. Real recipes. Share what you made, swap tips, and discover new ways to cook with your sauces.</p>
+    </div>
+    <div class="hero-right" aria-hidden="true">
+      <div class="hero-stat">
+        <div class="hero-stat-num" id="stat-posts">—</div>
+        <div class="hero-stat-label">Posts shared</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num" id="stat-explorers">—</div>
+        <div class="hero-stat-label">Explorers</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Auth Banner (for logged-out users) -->
+  <div id="auth-banner">
+    <div class="auth-banner-inner">
+      <p><strong>Join the community</strong> — sign in to post, like, and share your creations.</p>
+      <div class="auth-banner-actions">
+        <a href="passport.html" class="btn btn-gold" style="font-size:13px;padding:9px 18px;">Sign In</a>
+        <a href="signup.html" style="font-size:13px;padding:9px 18px;color:rgba(255,255,255,.5);">Create account →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Compose (for logged-in users) -->
+  <section id="compose-section" aria-label="Create a post">
+    <div class="compose-card">
+      <div class="compose-top">
+        <div class="compose-avatar" id="compose-avatar" aria-hidden="true">?</div>
+        <textarea class="compose-textarea" id="post-content"
+                  placeholder="Share a recipe, a tip, or what you made tonight…"
+                  maxlength="500"
+                  aria-label="Post content"
+                  oninput="updateCharCount()"></textarea>
+      </div>
+      <div class="compose-bottom">
+        <div class="compose-bottom-left">
+          <select class="sauce-select" id="post-sauce" aria-label="Tag a sauce">
+            <option value="">Tag a sauce (optional)</option>
+            <option value="Miso Yuzu Glaze">🇯🇵 Miso Yuzu Glaze</option>
+            <option value="Harissa Chermoula">🇲🇦 Harissa Chermoula</option>
+            <option value="Aji Amarillo Paste">🇵🇪 Aji Amarillo Paste</option>
+            <option value="Nam Prik Pao">🇹🇭 Nam Prik Pao</option>
+            <option value="Berbere Paste">🇪🇹 Berbere Paste</option>
+            <option value="Salsa Macha">🇲🇽 Salsa Macha</option>
+          </select>
+          <input type="url" class="img-url-input" id="post-image-url"
+                 placeholder="Image URL (optional)"
+                 aria-label="Post image URL" />
+          <span class="char-count" id="char-count">500</span>
+        </div>
+        <button class="post-submit" id="post-submit-btn" onclick="submitPost()">
+          Share →
+        </button>
+      </div>
+      <div class="compose-error" id="compose-error" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- Feed + Sidebar -->
+  <div class="feed-layout">
+    <main>
+      <div class="filter-bar" role="group" aria-label="Filter posts by sauce">
+        <button class="filter-btn active" onclick="setFeedFilter('all', this)" aria-pressed="true">All posts</button>
+        <button class="filter-btn" onclick="setFeedFilter('Miso Yuzu Glaze', this)">🇯🇵 Miso Yuzu</button>
+        <button class="filter-btn" onclick="setFeedFilter('Harissa Chermoula', this)">🇲🇦 Harissa</button>
+        <button class="filter-btn" onclick="setFeedFilter('Aji Amarillo Paste', this)">🇵🇪 Aji Amarillo</button>
+      </div>
+
+      <div id="feed-container" aria-live="polite" aria-label="Community posts">
+        <div class="feed-loading">Loading community posts…</div>
+      </div>
+    </main>
+
+    <aside>
+      <!-- Sauce filter sidebar -->
+      <div class="sidebar-card">
+        <div class="sidebar-title">Filter by sauce</div>
+        <div class="sauce-filter-list" id="sauce-sidebar" role="list">
+          <div class="sauce-filter-item active" onclick="setFeedFilter('all', null)" role="listitem" tabindex="0">
+            <span>All sauces</span>
+            <span class="sauce-filter-count" id="count-all">—</span>
+          </div>
+          <div class="sauce-filter-item" onclick="setFeedFilter('Miso Yuzu Glaze', null)" role="listitem" tabindex="0">
+            <span>🇯🇵 Miso Yuzu Glaze</span>
+            <span class="sauce-filter-count" id="count-miso">0</span>
+          </div>
+          <div class="sauce-filter-item" onclick="setFeedFilter('Harissa Chermoula', null)" role="listitem" tabindex="0">
+            <span>🇲🇦 Harissa Chermoula</span>
+            <span class="sauce-filter-count" id="count-harissa">0</span>
+          </div>
+          <div class="sauce-filter-item" onclick="setFeedFilter('Aji Amarillo Paste', null)" role="listitem" tabindex="0">
+            <span>🇵🇪 Aji Amarillo Paste</span>
+            <span class="sauce-filter-count" id="count-aji">0</span>
+          </div>
+          <div class="sauce-filter-item" onclick="setFeedFilter('Nam Prik Pao', null)" role="listitem" tabindex="0">
+            <span>🇹🇭 Nam Prik Pao</span>
+            <span class="sauce-filter-count" id="count-nam">0</span>
+          </div>
+          <div class="sauce-filter-item" onclick="setFeedFilter('Berbere Paste', null)" role="listitem" tabindex="0">
+            <span>🇪🇹 Berbere Paste</span>
+            <span class="sauce-filter-count" id="count-berbere">0</span>
+          </div>
+          <div class="sauce-filter-item" onclick="setFeedFilter('Salsa Macha', null)" role="listitem" tabindex="0">
+            <span>🇲🇽 Salsa Macha</span>
+            <span class="sauce-filter-count" id="count-salsa">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top explorers -->
+      <div class="sidebar-card">
+        <div class="sidebar-title">Top Explorers</div>
+        <div id="top-explorers">
+          <!-- Filled by JS or placeholder -->
+          <div class="top-explorer-item">
+            <div class="te-rank">1</div>
+            <div class="te-avatar">S</div>
+            <div class="te-name">Sofia R.</div>
+            <div class="te-stamps">6 stamps</div>
+          </div>
+          <div class="top-explorer-item">
+            <div class="te-rank">2</div>
+            <div class="te-avatar">L</div>
+            <div class="te-name">Luca M.</div>
+            <div class="te-stamps">5 stamps</div>
+          </div>
+          <div class="top-explorer-item">
+            <div class="te-rank">3</div>
+            <div class="te-avatar">A</div>
+            <div class="te-name">Aisha K.</div>
+            <div class="te-stamps">4 stamps</div>
+          </div>
+          <div class="top-explorer-item">
+            <div class="te-rank">4</div>
+            <div class="te-avatar">J</div>
+            <div class="te-name">James T.</div>
+            <div class="te-stamps">3 stamps</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Passport CTA -->
+      <div class="sidebar-card" style="background:rgba(161,98,7,.07);border-color:rgba(161,98,7,.2)">
+        <div style="font-size:28px;margin-bottom:12px;">🌍</div>
+        <div class="sidebar-title" style="margin-bottom:8px;">Collect all 6 stamps</div>
+        <p style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px;">
+          Scan QR codes on your products, earn stamps, unlock the Special Edition Discovery Set.
+        </p>
+        <a href="passport.html" class="btn btn-gold" style="width:100%;justify-content:center;">
+          Open My Passport →
+        </a>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+  let sb = null;
+  let currentUser = null;
+  let allPosts = [];
+  let likedPostIds = new Set();
+  let activeFilter = 'all';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const poll = setInterval(() => {
+      if (window.supabase && window.SUPABASE_URL && window.SUPABASE_URL !== 'YOUR_SUPABASE_PROJECT_URL') {
+        clearInterval(poll);
+        initApp();
+      } else if (window.supabase && window.SUPABASE_URL === 'YOUR_SUPABASE_PROJECT_URL') {
+        clearInterval(poll);
+        initDemoMode();
+      }
+    }, 100);
+    setTimeout(() => { clearInterval(poll); initDemoMode(); }, 4000);
+  });
+
+  async function initApp() {
+    sb = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+    const { data: { session } } = await sb.auth.getSession();
+    if (session) {
+      currentUser = session.user;
+      showComposeBar();
+    } else {
+      document.getElementById('auth-banner').classList.add('show');
+    }
+    await loadPosts();
+    updateHeroStats();
+  }
+
+  function initDemoMode() {
+    // Show sample posts
+    allPosts = DEMO_POSTS;
+    document.getElementById('auth-banner').classList.add('show');
+    renderFeed();
+    updateHeroStats();
+    updateSauceCounts();
+  }
+
+  function showComposeBar() {
+    const meta = currentUser.user_metadata || {};
+    const initial = (meta.first_name || meta.full_name || 'E')[0].toUpperCase();
+    document.getElementById('compose-avatar').textContent = initial;
+    document.getElementById('compose-section').classList.add('show');
+  }
+
+  async function loadPosts() {
+    const { data, error } = await sb
+      .from('community_posts')
+      .select('id, user_id, username, content, sauce_tag, image_url, created_at')
+      .order('created_at', { ascending: false })
+      .limit(50);
+
+    if (error) { renderFeedError(); return; }
+
+    // Get like counts
+    const { data: likes } = await sb
+      .from('post_likes')
+      .select('post_id');
+
+    const likeMap = {};
+    (likes || []).forEach(l => {
+      likeMap[l.post_id] = (likeMap[l.post_id] || 0) + 1;
+    });
+
+    // Get user's likes
+    if (currentUser) {
+      const { data: myLikes } = await sb
+        .from('post_likes')
+        .select('post_id')
+        .eq('user_id', currentUser.id);
+      (myLikes || []).forEach(l => likedPostIds.add(l.post_id));
+    }
+
+    allPosts = (data || []).map(p => ({ ...p, like_count: likeMap[p.id] || 0 }));
+    renderFeed();
+    updateSauceCounts();
+  }
+
+  function renderFeed() {
+    const container = document.getElementById('feed-container');
+    const filtered = activeFilter === 'all'
+      ? allPosts
+      : allPosts.filter(p => p.sauce_tag === activeFilter);
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div class="feed-empty">
+          <h3>No posts yet</h3>
+          <p>${activeFilter === 'all'
+            ? 'Be the first to share something with the community.'
+            : `No posts tagged with ${activeFilter} yet.`}</p>
+        </div>`;
+      return;
+    }
+
+    container.innerHTML = '';
+    filtered.forEach(post => {
+      container.appendChild(buildPostCard(post));
+    });
+  }
+
+  function buildPostCard(post) {
+    const card = document.createElement('article');
+    card.className = 'post-card';
+    card.dataset.postId = post.id;
+
+    const initial = (post.username || 'E')[0].toUpperCase();
+    const liked = likedPostIds.has(post.id);
+    const isOwn = currentUser && post.user_id === currentUser.id;
+    const timeStr = formatTime(post.created_at);
+    const sauceLabel = post.sauce_tag
+      ? `<span class="post-sauce-tag">${post.sauce_tag}</span>` : '';
+    const imgHtml = post.image_url
+      ? `<img src="${escHtml(post.image_url)}" alt="Post image" class="post-image" loading="lazy" onerror="this.style.display='none'" />` : '';
+
+    card.innerHTML = `
+      <div class="post-header">
+        <div class="post-avatar" aria-hidden="true">${escHtml(initial)}</div>
+        <div class="post-meta">
+          <strong>${escHtml(post.username || 'Explorer')}</strong>
+          <span>${timeStr}</span>
+        </div>
+        ${sauceLabel}
+      </div>
+      ${imgHtml}
+      <p class="post-content">${escHtml(post.content)}</p>
+      <div class="post-footer">
+        <button class="like-btn${liked ? ' liked' : ''}"
+                onclick="toggleLike('${post.id}', this)"
+                aria-label="${liked ? 'Unlike' : 'Like'} this post"
+                aria-pressed="${liked}">
+          <svg viewBox="0 0 24 24" fill="${liked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+          <span class="like-count">${post.like_count || 0}</span>
+        </button>
+        <button class="post-delete-btn${isOwn ? ' show' : ''}"
+                onclick="deletePost('${post.id}', this)"
+                aria-label="Delete this post">
+          Delete
+        </button>
+      </div>
+    `;
+    return card;
+  }
+
+  async function toggleLike(postId, btn) {
+    if (!currentUser) {
+      showToast('Sign in to like posts');
+      return;
+    }
+    const liked = btn.classList.contains('liked');
+    const countEl = btn.querySelector('.like-count');
+    const current = parseInt(countEl.textContent) || 0;
+
+    // Optimistic update
+    btn.classList.toggle('liked');
+    btn.setAttribute('aria-pressed', String(!liked));
+    countEl.textContent = liked ? current - 1 : current + 1;
+    btn.querySelector('svg').setAttribute('fill', liked ? 'none' : 'currentColor');
+
+    if (!sb) return;
+
+    if (liked) {
+      await sb.from('post_likes').delete()
+        .eq('user_id', currentUser.id).eq('post_id', postId);
+      likedPostIds.delete(postId);
+    } else {
+      await sb.from('post_likes').insert({ user_id: currentUser.id, post_id: postId });
+      likedPostIds.add(postId);
+    }
+  }
+
+  async function deletePost(postId, btn) {
+    if (!confirm('Delete this post?')) return;
+    if (!sb) return;
+    const card = btn.closest('.post-card');
+    card.style.opacity = '.4';
+    const { error } = await sb.from('community_posts').delete()
+      .eq('id', postId).eq('user_id', currentUser.id);
+    if (error) { card.style.opacity = '1'; showToast('Could not delete post'); return; }
+    card.remove();
+    allPosts = allPosts.filter(p => p.id !== postId);
+    updateSauceCounts();
+    updateHeroStats();
+  }
+
+  async function submitPost() {
+    const content = document.getElementById('post-content').value.trim();
+    const sauce = document.getElementById('post-sauce').value;
+    const imageUrl = document.getElementById('post-image-url').value.trim();
+    const errEl = document.getElementById('compose-error');
+    errEl.textContent = '';
+
+    if (!content) { errEl.textContent = 'Write something before posting.'; return; }
+    if (content.length > 500) { errEl.textContent = 'Keep it under 500 characters.'; return; }
+
+    const btn = document.getElementById('post-submit-btn');
+    btn.disabled = true; btn.textContent = 'Sharing…';
+
+    const meta = currentUser?.user_metadata || {};
+    const username = meta.username || meta.full_name?.split(' ')[0] || 'Explorer';
+
+    if (!sb) {
+      // Demo
+      const demoPost = {
+        id: 'demo-' + Date.now(), user_id: 'demo', username,
+        content, sauce_tag: sauce || null, image_url: imageUrl || null,
+        created_at: new Date().toISOString(), like_count: 0,
+      };
+      allPosts.unshift(demoPost);
+      renderFeed();
+      updateSauceCounts();
+      document.getElementById('post-content').value = '';
+      document.getElementById('post-sauce').value = '';
+      document.getElementById('post-image-url').value = '';
+      updateCharCount();
+      btn.disabled = false; btn.textContent = 'Share →';
+      showToast('Post shared!');
+      return;
+    }
+
+    const { data, error } = await sb.from('community_posts').insert({
+      user_id: currentUser.id,
+      username,
+      content,
+      sauce_tag: sauce || null,
+      image_url: imageUrl || null,
+    }).select().single();
+
+    btn.disabled = false; btn.textContent = 'Share →';
+
+    if (error) { errEl.textContent = 'Something went wrong. Please try again.'; return; }
+
+    allPosts.unshift({ ...data, like_count: 0 });
+    renderFeed();
+    updateSauceCounts();
+    updateHeroStats();
+
+    document.getElementById('post-content').value = '';
+    document.getElementById('post-sauce').value = '';
+    document.getElementById('post-image-url').value = '';
+    updateCharCount();
+    showToast('Post shared!');
+  }
+
+  function setFeedFilter(filter, btn) {
+    activeFilter = filter;
+    // Update filter bar buttons
+    document.querySelectorAll('.filter-btn').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-pressed', 'false');
+    });
+    if (btn) { btn.classList.add('active'); btn.setAttribute('aria-pressed', 'true'); }
+    // Update sidebar
+    document.querySelectorAll('.sauce-filter-item').forEach(el => el.classList.remove('active'));
+    renderFeed();
+  }
+
+  function updateCharCount() {
+    const len = document.getElementById('post-content').value.length;
+    const el = document.getElementById('char-count');
+    el.textContent = 500 - len;
+    el.classList.toggle('warn', len > 450);
+  }
+
+  function updateSauceCounts() {
+    const counts = {};
+    allPosts.forEach(p => { if (p.sauce_tag) counts[p.sauce_tag] = (counts[p.sauce_tag] || 0) + 1; });
+    document.getElementById('count-all').textContent = allPosts.length;
+    document.getElementById('count-miso').textContent = counts['Miso Yuzu Glaze'] || 0;
+    document.getElementById('count-harissa').textContent = counts['Harissa Chermoula'] || 0;
+    document.getElementById('count-aji').textContent = counts['Aji Amarillo Paste'] || 0;
+    document.getElementById('count-nam').textContent = counts['Nam Prik Pao'] || 0;
+    document.getElementById('count-berbere').textContent = counts['Berbere Paste'] || 0;
+    document.getElementById('count-salsa').textContent = counts['Salsa Macha'] || 0;
+  }
+
+  function updateHeroStats() {
+    document.getElementById('stat-posts').textContent = allPosts.length;
+    document.getElementById('stat-explorers').textContent =
+      new Set(allPosts.map(p => p.user_id)).size || '—';
+  }
+
+  function renderFeedError() {
+    document.getElementById('feed-container').innerHTML =
+      `<div class="feed-empty"><h3>Couldn't load posts</h3><p>Check your connection and refresh.</p></div>`;
+  }
+
+  // ── Helpers ──
+  function escHtml(str) {
+    return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function formatTime(iso) {
+    const d = new Date(iso);
+    const now = new Date();
+    const diff = now - d;
+    if (diff < 60000) return 'just now';
+    if (diff < 3600000) return Math.floor(diff / 60000) + 'm ago';
+    if (diff < 86400000) return Math.floor(diff / 3600000) + 'h ago';
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  }
+
+  function showToast(msg) {
+    const t = document.createElement('div');
+    t.className = 'toast'; t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 3000);
+  }
+
+  // ── Demo Posts ──
+  const DEMO_POSTS = [
+    {
+      id: 'd1', user_id: 'u1', username: 'sofia_r',
+      content: 'Made the most incredible shakshuka tonight with the Harissa Chermoula. The depth of flavor is unreal — added some preserved lemon and fresh herbs. This sauce is going to be a staple.',
+      sauce_tag: 'Harissa Chermoula', image_url: null,
+      created_at: new Date(Date.now() - 2*3600000).toISOString(), like_count: 14,
+    },
+    {
+      id: 'd2', user_id: 'u2', username: 'luca_m',
+      content: 'Miso Yuzu Glaze on salmon, 20 minutes in the oven. I don\'t think I\'ll ever cook salmon any other way. The caramelization is perfect.',
+      sauce_tag: 'Miso Yuzu Glaze', image_url: null,
+      created_at: new Date(Date.now() - 5*3600000).toISOString(), like_count: 22,
+    },
+    {
+      id: 'd3', user_id: 'u3', username: 'aisha_k',
+      content: 'Just got my Peru stamp! The Aji Amarillo paste is genuinely unlike anything I\'ve tasted. Made ceviche with it last weekend and my friends couldn\'t believe it came out of a bottle.',
+      sauce_tag: 'Aji Amarillo Paste', image_url: null,
+      created_at: new Date(Date.now() - 24*3600000).toISOString(), like_count: 31,
+    },
+    {
+      id: 'd4', user_id: 'u4', username: 'james_t',
+      content: 'Quick tip: the Harissa Chermoula makes an excellent marinade for cauliflower steaks. Roast at 200°C for 25 mins, finish under the grill. Completely plant-based but so satisfying.',
+      sauce_tag: 'Harissa Chermoula', image_url: null,
+      created_at: new Date(Date.now() - 2*86400000).toISOString(), like_count: 18,
+    },
+    {
+      id: 'd5', user_id: 'u5', username: 'mei_l',
+      content: 'Three stamps in — Japan, Morocco, Peru. The variety in this collection is remarkable. Each sauce feels like it was actually made in its country of origin. Highly recommend starting with Japan if you\'re new.',
+      sauce_tag: null, image_url: null,
+      created_at: new Date(Date.now() - 3*86400000).toISOString(), like_count: 9,
+    },
+  ];
+  </script>
+</body>
+</html>

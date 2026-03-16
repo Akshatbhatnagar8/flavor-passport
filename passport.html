@@ -7,6 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="supabase-config.js" defer></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -54,7 +56,6 @@
       width: 32px; height: 32px; background: white;
       border-radius: 8px; display: flex; align-items: center; justify-content: center;
     }
-    .nav-logo-icon svg path, .nav-logo-icon svg circle { stroke: #1C1917; }
     .nav-links { display: flex; align-items: center; gap: 28px; }
     .nav-links a { font-size: 14px; font-weight: 500; color: rgba(255,255,255,.55); transition: color .15s; }
     .nav-links a:hover { color: white; }
@@ -88,10 +89,6 @@
     .bg-orb-2 {
       width: 500px; height: 500px; bottom: -150px; right: -150px;
       background: radial-gradient(circle, rgba(234,88,12,.08) 0%, transparent 65%);
-    }
-    .bg-orb-3 {
-      width: 300px; height: 300px; top: 40%; left: 50%; transform: translate(-50%,-50%);
-      background: radial-gradient(circle, rgba(161,98,7,.06) 0%, transparent 65%);
     }
 
     .login-wrapper {
@@ -132,6 +129,8 @@
     .form-group input:focus {
       border-color: rgba(161,98,7,.6); background: rgba(255,255,255,.08);
     }
+    .form-group input.error { border-color: rgba(239,68,68,.6); }
+
     .login-submit {
       width: 100%; padding: 15px; background: var(--gold);
       color: white; border: none; border-radius: 99px; cursor: pointer;
@@ -140,33 +139,21 @@
       transition: all .2s ease; margin-top: 8px;
       display: flex; align-items: center; justify-content: center; gap: 10px;
     }
-    .login-submit:hover { background: #92400E; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(161,98,7,.3); }
-    .login-submit:active { transform: translateY(0); }
+    .login-submit:hover:not(:disabled) { background: #92400E; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(161,98,7,.3); }
+    .login-submit:disabled { opacity: .6; cursor: not-allowed; }
     .login-divider { text-align: center; font-size: 13px; color: rgba(255,255,255,.25); margin: 20px 0; }
-    .login-alt-cta {
-      width: 100%; padding: 14px;
-      background: rgba(255,255,255,.04); border: 1.5px solid rgba(255,255,255,.1);
-      border-radius: 99px; cursor: pointer; font-family: 'DM Sans', sans-serif;
-      font-size: 14px; font-weight: 500; color: rgba(255,255,255,.6);
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      transition: all .15s;
-    }
-    .login-alt-cta:hover { border-color: rgba(255,255,255,.25); color: white; }
     .login-footer-text { text-align: center; margin-top: 20px; font-size: 13px; color: rgba(255,255,255,.25); }
     .login-footer-text a { color: rgba(161,98,7,.8); }
     .login-footer-text a:hover { color: var(--gold-300); }
 
-    /* Hint */
-    .demo-hint {
-      text-align: center; margin-top: 16px;
-      font-size: 12px; color: rgba(255,255,255,.2);
+    /* Alert */
+    .alert {
+      padding: 12px 16px; border-radius: 10px; font-size: 13px;
+      margin-bottom: 16px; line-height: 1.5; display: none;
     }
-    .demo-hint button {
-      background: none; border: none; color: rgba(161,98,7,.5);
-      font-size: 12px; cursor: pointer; font-family: 'DM Sans', sans-serif;
-      text-decoration: underline;
-    }
-    .demo-hint button:hover { color: var(--gold-300); }
+    .alert.show { display: block; }
+    .alert-error { background: rgba(239,68,68,.12); border: 1px solid rgba(239,68,68,.25); color: #FCA5A5; }
+    .alert-success { background: rgba(5,150,105,.12); border: 1px solid rgba(5,150,105,.25); color: #6EE7B7; }
 
     /* ── Passport Page ── */
     #passport-page {
@@ -226,7 +213,7 @@
     .progress-bar-outer { background: rgba(255,255,255,.08); border-radius: 99px; height: 6px; margin-top: 8px; }
     .progress-bar-fill {
       height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-300));
-      border-radius: 99px; width: 33%;
+      border-radius: 99px; width: 0%;
       transition: width 1.2s cubic-bezier(.4, 0, .2, 1);
     }
     .progress-reward { text-align: right; flex-shrink: 0; }
@@ -262,10 +249,10 @@
     }
     .stamp-card.earned:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(161,98,7,.2); }
     .stamp-card.next-up {
-      border-style: dashed; border-color: rgba(255,255,255,.12);
+      border-style: dashed; border-color: rgba(255,255,255,.15); cursor: pointer;
     }
+    .stamp-card.next-up:hover { border-color: rgba(161,98,7,.4); }
 
-    /* Ink stamp visual */
     .stamp-ink {
       width: 80px; height: 80px; margin: 0 auto 14px;
       position: relative;
@@ -280,20 +267,15 @@
       border-color: var(--gold);
       box-shadow: 0 0 0 1px rgba(161,98,7,.2), inset 0 0 0 1px rgba(161,98,7,.1);
     }
-    .stamp-ring::before, .stamp-ring::after {
-      content: ''; position: absolute; border-radius: 50%;
-    }
     .stamp-ring::before {
-      inset: 4px; border: 1px solid rgba(255,255,255,.05);
+      content: ''; position: absolute; inset: 4px;
+      border-radius: 50%; border: 1px solid rgba(255,255,255,.05);
     }
-    .stamp-card.earned .stamp-ring::before {
-      border-color: rgba(161,98,7,.2);
-    }
+    .stamp-card.earned .stamp-ring::before { border-color: rgba(161,98,7,.2); }
     .stamp-flag { font-size: 32px; line-height: 1; filter: grayscale(1) opacity(.25); }
     .stamp-card.earned .stamp-flag { filter: none; }
-    .stamp-card.next-up .stamp-flag { filter: grayscale(.6) opacity(.5); }
+    .stamp-card.next-up .stamp-flag { filter: grayscale(.4) opacity(.6); }
 
-    /* Stamp text arc (decorative) */
     .stamp-arc {
       position: absolute; top: 0; left: 0; width: 80px; height: 80px;
     }
@@ -322,9 +304,7 @@
       border-top: 1px solid rgba(255,255,255,.06); padding-top: 8px;
     }
     .stamp-card.earned .stamp-date { color: rgba(161,98,7,.6); border-color: rgba(161,98,7,.15); }
-    .stamp-locked {
-      font-size: 18px; filter: grayscale(1) opacity(.2); margin-bottom: 4px;
-    }
+    .stamp-locked { font-size: 18px; filter: grayscale(1) opacity(.2); margin-bottom: 4px; }
     .stamp-locked-label { font-size: 11px; color: rgba(255,255,255,.2); }
     .stamp-next-label {
       font-size: 10px; color: rgba(255,255,255,.4); font-weight: 600;
@@ -387,17 +367,67 @@
       padding: 4px 8px; border-radius: 99px; background: rgba(255,255,255,.06); color: rgba(255,255,255,.3);
     }
 
+    /* ── Special Edition Unlock Screen ── */
+    #unlock-screen {
+      display: none;
+      position: fixed; inset: 0; z-index: 600;
+      background: #0C0A09;
+      align-items: center; justify-content: center;
+      flex-direction: column; text-align: center; padding: 24px;
+    }
+    #unlock-screen.show { display: flex; }
+    .unlock-badge {
+      width: 120px; height: 120px; border-radius: 50%;
+      background: linear-gradient(135deg, rgba(161,98,7,.3), rgba(234,88,12,.2));
+      border: 2px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 52px; margin: 0 auto 32px;
+      box-shadow: 0 0 60px rgba(161,98,7,.4);
+      animation: unlockPulse 2s ease infinite;
+    }
+    @keyframes unlockPulse {
+      0%, 100% { box-shadow: 0 0 40px rgba(161,98,7,.3); }
+      50% { box-shadow: 0 0 80px rgba(161,98,7,.6); }
+    }
+    .unlock-label {
+      font-size: 11px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 16px;
+    }
+    .unlock-title {
+      font-family: 'DM Serif Display', serif; font-size: clamp(36px, 6vw, 60px);
+      color: white; line-height: 1.1; margin-bottom: 16px;
+    }
+    .unlock-title em { font-style: italic; color: var(--gold-300); }
+    .unlock-desc {
+      font-size: 17px; color: rgba(255,255,255,.5); max-width: 480px; margin: 0 auto 36px;
+      line-height: 1.7;
+    }
+    .unlock-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn-unlock-primary {
+      padding: 16px 36px; background: var(--gold); color: white; border: none;
+      border-radius: 99px; font-family: 'DM Serif Display', serif;
+      font-size: 20px; font-style: italic; cursor: pointer;
+      transition: all .2s; box-shadow: 0 8px 32px rgba(161,98,7,.4);
+    }
+    .btn-unlock-primary:hover { background: #92400E; transform: translateY(-2px); }
+    .btn-unlock-secondary {
+      padding: 16px 28px; background: transparent; color: rgba(255,255,255,.5);
+      border: 1.5px solid rgba(255,255,255,.15); border-radius: 99px;
+      font-family: 'DM Sans', sans-serif; font-size: 15px; cursor: pointer;
+      transition: all .15s;
+    }
+    .btn-unlock-secondary:hover { color: white; border-color: rgba(255,255,255,.35); }
+
     /* Confetti canvas */
     #confetti-canvas {
       position: fixed; inset: 0; pointer-events: none; z-index: 9999;
     }
 
-    /* Stamp modal */
+    /* ── Stamp Detail Modal ── */
     .stamp-modal-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,.7);
       backdrop-filter: blur(12px); z-index: 500;
-      display: none; align-items: center; justify-content: center;
-      padding: 24px;
+      display: none; align-items: center; justify-content: center; padding: 24px;
     }
     .stamp-modal-overlay.open { display: flex; }
     .stamp-modal {
@@ -414,8 +444,7 @@
       position: absolute; top: 16px; right: 16px; width: 32px; height: 32px;
       border-radius: 50%; background: rgba(255,255,255,.07); border: none;
       color: rgba(255,255,255,.5); cursor: pointer; font-size: 18px; line-height: 1;
-      display: flex; align-items: center; justify-content: center;
-      transition: background .15s;
+      display: flex; align-items: center; justify-content: center; transition: background .15s;
     }
     .modal-close:hover { background: rgba(255,255,255,.12); }
     .modal-stamp-big {
@@ -434,11 +463,54 @@
     .modal-product { font-size: 14px; color: rgba(255,255,255,.45); margin-bottom: 8px; }
     .modal-date { font-size: 12px; color: var(--gold); letter-spacing: .06em; }
     .modal-divider { border: none; border-top: 1px solid rgba(255,255,255,.07); margin: 24px 0; }
-    .modal-cta { width: 100%; padding: 14px; background: var(--gold); color: white; border: none;
+    .modal-cta {
+      width: 100%; padding: 14px; background: var(--gold); color: white; border: none;
       border-radius: 99px; font-family: 'DM Serif Display', serif; font-size: 17px; font-style: italic;
       cursor: pointer; transition: all .2s; font-weight: 400;
     }
     .modal-cta:hover { background: #92400E; }
+
+    /* ── Claim Stamp Modal ── */
+    .claim-modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.75);
+      backdrop-filter: blur(14px); z-index: 500;
+      display: none; align-items: center; justify-content: center; padding: 24px;
+    }
+    .claim-modal-overlay.open { display: flex; }
+    .claim-modal {
+      background: #1C1917; border: 1px solid rgba(255,255,255,.1);
+      border-radius: 28px; padding: 40px; max-width: 400px; width: 100%;
+      text-align: center; position: relative;
+      animation: modalIn .3s cubic-bezier(.34, 1.56, .64, 1);
+    }
+    .claim-modal h2 {
+      font-family: 'DM Serif Display', serif; font-size: 26px; color: white;
+      margin-bottom: 8px;
+    }
+    .claim-modal p { font-size: 14px; color: rgba(255,255,255,.4); margin-bottom: 28px; line-height: 1.6; }
+    .claim-input {
+      width: 100%; padding: 16px 20px; background: rgba(255,255,255,.06);
+      border: 1.5px solid rgba(255,255,255,.12); border-radius: 14px;
+      font-family: 'DM Sans', sans-serif; font-size: 18px; color: white;
+      text-align: center; letter-spacing: .1em; text-transform: uppercase;
+      outline: none; transition: border-color .15s; margin-bottom: 16px;
+    }
+    .claim-input:focus { border-color: rgba(161,98,7,.6); }
+    .claim-input::placeholder { letter-spacing: .05em; text-transform: none; color: rgba(255,255,255,.2); }
+    .claim-submit {
+      width: 100%; padding: 15px; background: var(--gold); color: white;
+      border: none; border-radius: 99px; cursor: pointer;
+      font-family: 'DM Serif Display', serif; font-size: 18px; font-style: italic;
+      transition: all .2s; margin-bottom: 12px;
+    }
+    .claim-submit:hover:not(:disabled) { background: #92400E; }
+    .claim-submit:disabled { opacity: .6; cursor: not-allowed; }
+    .claim-alert { font-size: 13px; margin-top: 4px; min-height: 20px; }
+    .claim-alert.err { color: #FCA5A5; }
+    .claim-alert.ok  { color: #6EE7B7; }
+    .claim-hint {
+      font-size: 12px; color: rgba(255,255,255,.2); margin-top: 16px; line-height: 1.6;
+    }
 
     /* Responsive */
     @media (max-width: 1100px) {
@@ -454,7 +526,7 @@
       .progress-card { flex-direction: column; align-items: flex-start; }
     }
     @media (prefers-reduced-motion: reduce) {
-      .stamp-card, .modal-stamp-big { transition: none; animation: none; }
+      .stamp-card, .modal-stamp-big, .unlock-badge { transition: none; animation: none; }
     }
   </style>
 </head>
@@ -477,7 +549,7 @@
       <div class="nav-links">
         <a href="recipes.html">Recipes</a>
         <a href="index.html#products">Shop</a>
-        <a href="index.html#origin">Our Story</a>
+        <a href="community.html">Community</a>
         <a href="passport.html" class="active">My Passport</a>
       </div>
       <div id="nav-actions">
@@ -490,7 +562,6 @@
   <div id="login-page" aria-labelledby="login-heading">
     <div class="bg-orb bg-orb-1" aria-hidden="true"></div>
     <div class="bg-orb bg-orb-2" aria-hidden="true"></div>
-    <div class="bg-orb bg-orb-3" aria-hidden="true"></div>
 
     <div class="login-wrapper">
       <div class="login-top">
@@ -500,36 +571,32 @@
       </div>
 
       <div class="login-card">
-        <form onsubmit="handleLogin(event)" aria-label="Sign in to your passport">
+        <div class="alert alert-error" id="login-error" role="alert"></div>
+        <form id="login-form" aria-label="Sign in to your passport">
           <div class="form-group">
             <label for="login-email">Email address</label>
-            <input type="email" id="login-email" placeholder="clara@example.com" required autocomplete="email" aria-required="true" />
+            <input type="email" id="login-email" placeholder="your@email.com" required autocomplete="email" aria-required="true" />
           </div>
           <div class="form-group">
             <label for="login-password">Password</label>
             <input type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password" aria-required="true" />
           </div>
           <button type="submit" class="login-submit" id="login-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
             Open My Passport
           </button>
         </form>
 
-        <div class="login-divider" aria-hidden="true">or</div>
+        <div class="login-divider" aria-hidden="true">don't have an account?</div>
 
-        <button class="login-alt-cta" onclick="handleLogin({preventDefault:()=>{}})" aria-label="Continue with QR code scan">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M18 14h.01M14 18h.01M18 18h.01M14 21h7M21 14v7"/></svg>
-          Scan passport QR code
-        </button>
+        <a href="signup.html" class="btn btn-outline-light" style="width:100%;justify-content:center;padding:14px;">
+          Create your Flavor Passport →
+        </a>
 
-        <p class="login-footer-text">
-          No passport yet? <a href="index.html#products">Start your collection →</a>
+        <p class="login-footer-text" style="margin-top:16px;">
+          Your stamps live on this page — collect all 6 to unlock a <strong style="color:rgba(161,98,7,.8)">Special Edition Discovery Set.</strong>
         </p>
       </div>
-
-      <p class="demo-hint">
-        Demo mode: <button onclick="fillDemo()">Fill demo credentials</button>
-      </p>
     </div>
   </div>
 
@@ -539,49 +606,50 @@
     <div class="passport-header">
       <div class="passport-greeting">
         <small>Your Flavor Passport</small>
-        <h1>Bon voyage,<br><em>Clara M.</em></h1>
-        <p>Explorer since January 2024 · Passport #FP-2024-EU-0847</p>
+        <h1 id="greeting-name">Loading…</h1>
+        <p id="greeting-sub">Explorer · Passport #FP-2024</p>
       </div>
       <div class="passport-header-actions">
-        <button class="btn btn-outline-light" onclick="logout()">Sign out</button>
-        <a href="index.html#products" class="btn btn-gold">Earn next stamp</a>
+        <button class="btn btn-outline-light" onclick="handleLogout()">Sign out</button>
+        <button class="btn btn-gold" onclick="openClaimModal()">+ Claim Stamp</button>
       </div>
     </div>
 
     <!-- Stats -->
     <div class="passport-stats" role="region" aria-label="Passport statistics">
       <div class="pstat-card">
-        <div class="pstat-num gold">2</div>
+        <div class="pstat-num gold" id="stat-stamps">—</div>
         <div class="pstat-label">Stamps collected</div>
       </div>
       <div class="pstat-card">
-        <div class="pstat-num">4</div>
-        <div class="pstat-label">Recipes cooked</div>
+        <div class="pstat-num" id="stat-remaining">—</div>
+        <div class="pstat-label">Stamps remaining</div>
       </div>
       <div class="pstat-card">
-        <div class="pstat-num">1</div>
-        <div class="pstat-label">Reward unlocked</div>
+        <div class="pstat-num" id="stat-next-reward">—</div>
+        <div class="pstat-label">Next reward at</div>
       </div>
       <div class="pstat-card">
-        <div class="pstat-num">€51</div>
-        <div class="pstat-label">Total explored</div>
+        <div class="pstat-num" id="stat-status">Explorer</div>
+        <div class="pstat-label">Passport status</div>
       </div>
     </div>
 
     <!-- Progress -->
-    <div class="progress-section" role="region" aria-label="Progress to next reward">
+    <div class="progress-section" role="region" aria-label="Progress to Special Edition">
       <div class="progress-card">
         <div class="progress-icon" aria-hidden="true">🎯</div>
         <div class="progress-text">
-          <strong>1 stamp away from your next reward</strong>
-          <span>Earn your Morocco stamp to unlock a free recipe zine</span>
-          <div class="progress-bar-outer" role="progressbar" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100" aria-label="33% progress">
+          <strong id="progress-label">Collecting stamps…</strong>
+          <span id="progress-sub"></span>
+          <div class="progress-bar-outer" role="progressbar" id="progress-bar-wrap"
+               aria-valuemin="0" aria-valuemax="6" aria-label="Stamp collection progress">
             <div class="progress-bar-fill" id="progress-fill"></div>
           </div>
         </div>
         <div class="progress-reward">
-          <small>Next reward at</small>
-          <strong>3 stamps</strong>
+          <small>Ultimate reward</small>
+          <strong>All 6 Stamps</strong>
         </div>
       </div>
     </div>
@@ -591,120 +659,11 @@
       <div class="stamps-header">
         <div>
           <h2 id="stamps-heading">Your Stamp Collection</h2>
-          <p>Tap any earned stamp to see its story</p>
+          <p>Tap any earned stamp to see its story · Scan product QR codes or enter codes to earn</p>
         </div>
       </div>
       <div class="stamps-grid" id="stamps-grid" role="list" aria-label="Flavor stamps">
-
-        <!-- Earned: Japan -->
-        <div class="stamp-card earned" role="listitem" tabindex="0"
-          onclick="openStamp('Japan','🇯🇵','Miso Yuzu Glaze','Jan 12, 2024')"
-          onkeydown="if(event.key==='Enter')openStamp('Japan','🇯🇵','Miso Yuzu Glaze','Jan 12, 2024')"
-          aria-label="Japan stamp earned — Miso Yuzu Glaze, 12 Jan 2024">
-          <div class="stamp-check" aria-hidden="true">
-            <svg viewBox="0 0 14 14" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 7 6 11 12 3"/></svg>
-          </div>
-          <div class="stamp-ink">
-            <div class="stamp-ring">
-              <svg class="stamp-arc" viewBox="0 0 80 80" aria-hidden="true">
-                <path id="arc1" fill="none" d="M 40,40 m -28,0 a 28,28 0 1,1 56,0"/>
-                <text><textPath href="#arc1">FLAVOR PASSPORT • JAPAN •</textPath></text>
-              </svg>
-              <span class="stamp-flag" aria-hidden="true">🇯🇵</span>
-            </div>
-          </div>
-          <div class="stamp-country">Japan</div>
-          <div class="stamp-product">Miso Yuzu Glaze</div>
-          <div class="stamp-date">Jan 12, 2024</div>
-        </div>
-
-        <!-- Earned: Morocco -->
-        <div class="stamp-card earned" role="listitem" tabindex="0"
-          onclick="openStamp('Morocco','🇲🇦','Harissa Chermoula','Feb 3, 2024')"
-          onkeydown="if(event.key==='Enter')openStamp('Morocco','🇲🇦','Harissa Chermoula','Feb 3, 2024')"
-          aria-label="Morocco stamp earned — Harissa Chermoula, 3 Feb 2024">
-          <div class="stamp-check" aria-hidden="true">
-            <svg viewBox="0 0 14 14" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 7 6 11 12 3"/></svg>
-          </div>
-          <div class="stamp-ink">
-            <div class="stamp-ring">
-              <svg class="stamp-arc" viewBox="0 0 80 80" aria-hidden="true">
-                <path id="arc2" fill="none" d="M 40,40 m -28,0 a 28,28 0 1,1 56,0"/>
-                <text><textPath href="#arc2">FLAVOR PASSPORT • MOROCCO •</textPath></text>
-              </svg>
-              <span class="stamp-flag" aria-hidden="true">🇲🇦</span>
-            </div>
-          </div>
-          <div class="stamp-country">Morocco</div>
-          <div class="stamp-product">Harissa Chermoula</div>
-          <div class="stamp-date">Feb 3, 2024</div>
-        </div>
-
-        <!-- Next up: Peru -->
-        <div class="stamp-card next-up" role="listitem" aria-label="Peru stamp — not yet earned. Next up!">
-          <div class="stamp-ink">
-            <div class="stamp-ring">
-              <svg class="stamp-arc" viewBox="0 0 80 80" aria-hidden="true">
-                <path id="arc3" fill="none" d="M 40,40 m -28,0 a 28,28 0 1,1 56,0"/>
-                <text><textPath href="#arc3">FLAVOR PASSPORT • PERU •</textPath></text>
-              </svg>
-              <span class="stamp-flag" aria-hidden="true">🇵🇪</span>
-            </div>
-          </div>
-          <div class="stamp-next-label">Next up</div>
-          <div class="stamp-country" style="color:rgba(255,255,255,.5)">Peru</div>
-          <div class="stamp-product">Aji Amarillo Paste</div>
-          <div class="stamp-date" style="color:rgba(161,98,7,.5);border-color:rgba(161,98,7,.1)">Shop to earn →</div>
-        </div>
-
-        <!-- Locked: Thailand -->
-        <div class="stamp-card" role="listitem" aria-label="Thailand stamp — locked">
-          <div class="stamp-ink">
-            <div class="stamp-ring">
-              <svg class="stamp-arc" viewBox="0 0 80 80" aria-hidden="true">
-                <path id="arc4" fill="none" d="M 40,40 m -28,0 a 28,28 0 1,1 56,0"/>
-                <text><textPath href="#arc4">FLAVOR PASSPORT • THAILAND •</textPath></text>
-              </svg>
-              <span class="stamp-flag" aria-hidden="true">🇹🇭</span>
-            </div>
-          </div>
-          <div class="stamp-locked" aria-hidden="true">🔒</div>
-          <div class="stamp-country">Thailand</div>
-          <div class="stamp-locked-label">Coming soon</div>
-        </div>
-
-        <!-- Locked: Ethiopia -->
-        <div class="stamp-card" role="listitem" aria-label="Ethiopia stamp — locked">
-          <div class="stamp-ink">
-            <div class="stamp-ring">
-              <svg class="stamp-arc" viewBox="0 0 80 80" aria-hidden="true">
-                <path id="arc5" fill="none" d="M 40,40 m -28,0 a 28,28 0 1,1 56,0"/>
-                <text><textPath href="#arc5">FLAVOR PASSPORT • ETHIOPIA •</textPath></text>
-              </svg>
-              <span class="stamp-flag" aria-hidden="true">🇪🇹</span>
-            </div>
-          </div>
-          <div class="stamp-locked" aria-hidden="true">🔒</div>
-          <div class="stamp-country">Ethiopia</div>
-          <div class="stamp-locked-label">Coming soon</div>
-        </div>
-
-        <!-- Locked: Mexico -->
-        <div class="stamp-card" role="listitem" aria-label="Mexico stamp — locked">
-          <div class="stamp-ink">
-            <div class="stamp-ring">
-              <svg class="stamp-arc" viewBox="0 0 80 80" aria-hidden="true">
-                <path id="arc6" fill="none" d="M 40,40 m -28,0 a 28,28 0 1,1 56,0"/>
-                <text><textPath href="#arc6">FLAVOR PASSPORT • MEXICO •</textPath></text>
-              </svg>
-              <span class="stamp-flag" aria-hidden="true">🇲🇽</span>
-            </div>
-          </div>
-          <div class="stamp-locked" aria-hidden="true">🔒</div>
-          <div class="stamp-country">Mexico</div>
-          <div class="stamp-locked-label">Coming soon</div>
-        </div>
-
+        <!-- Rendered by JS -->
       </div>
     </div>
 
@@ -712,191 +671,623 @@
     <div class="activity-section">
       <div class="activity-feed-card" role="region" aria-label="Recent activity">
         <h2 class="section-title">Recent Activity</h2>
-        <div role="list">
+        <div id="activity-list" role="list">
           <div class="activity-item" role="listitem">
-            <div class="activity-dot dot-gold" aria-hidden="true">📮</div>
+            <div class="activity-dot dot-blue" aria-hidden="true">👋</div>
             <div class="activity-text">
-              <strong>Morocco stamp earned!</strong>
-              <span>You purchased Harissa Chermoula and earned your 2nd stamp</span>
+              <strong>Passport activated</strong>
+              <span>Welcome to the Flavor Passport community</span>
             </div>
-            <div class="activity-time">Feb 3</div>
-          </div>
-          <div class="activity-item" role="listitem">
-            <div class="activity-dot dot-green" aria-hidden="true">🍳</div>
-            <div class="activity-text">
-              <strong>Cooked: Harissa Shakshuka</strong>
-              <span>Marked recipe as completed in the Flavor Library</span>
-            </div>
-            <div class="activity-time">Feb 5</div>
-          </div>
-          <div class="activity-item" role="listitem">
-            <div class="activity-dot dot-blue" aria-hidden="true">🎁</div>
-            <div class="activity-text">
-              <strong>Welcome reward unlocked</strong>
-              <span>10% off your next order — use code EXPLORER10</span>
-            </div>
-            <div class="activity-time">Jan 12</div>
-          </div>
-          <div class="activity-item" role="listitem">
-            <div class="activity-dot dot-gold" aria-hidden="true">📮</div>
-            <div class="activity-text">
-              <strong>Japan stamp earned!</strong>
-              <span>You purchased Miso Yuzu Glaze and started your passport journey</span>
-            </div>
-            <div class="activity-time">Jan 12</div>
+            <div class="activity-time">Today</div>
           </div>
         </div>
       </div>
 
       <div class="rewards-card" role="region" aria-label="Rewards">
         <h2 class="section-title">Rewards</h2>
-        <div class="rewards-list" role="list">
-          <div class="reward-item unlocked" role="listitem" aria-label="Welcome reward unlocked">
+        <div class="rewards-list" role="list" id="rewards-list">
+          <div class="reward-item" role="listitem">
             <div class="reward-icon" aria-hidden="true">🎉</div>
             <div class="reward-text">
               <strong>Welcome reward</strong>
-              <span>10% off next order</span>
+              <span>10% off next order · Code: EXPLORER10</span>
             </div>
             <div class="reward-status"><span class="badge-done">Earned</span></div>
           </div>
-          <div class="reward-item next" role="listitem" aria-label="3 stamps reward — almost there">
+          <div class="reward-item" role="listitem" id="reward-3">
             <div class="reward-icon" aria-hidden="true">📖</div>
             <div class="reward-text">
               <strong>Recipe Zine Vol.1</strong>
-              <span>Earn 1 more stamp</span>
+              <span id="reward-3-sub">Earn 3 stamps to unlock</span>
             </div>
-            <div class="reward-status"><span class="badge-next">Almost</span></div>
+            <div class="reward-status"><span class="badge-locked" id="reward-3-badge">Locked</span></div>
           </div>
-          <div class="reward-item" role="listitem" aria-label="6 stamps reward — locked">
-            <div class="reward-icon" aria-hidden="true">🧳</div>
+          <div class="reward-item" role="listitem" id="reward-6">
+            <div class="reward-icon" aria-hidden="true">✨</div>
             <div class="reward-text">
-              <strong>Explorer Tote Bag</strong>
-              <span>4 more stamps needed</span>
+              <strong>Special Edition Discovery Set</strong>
+              <span id="reward-6-sub">Collect all 6 stamps to unlock</span>
             </div>
-            <div class="reward-status"><span class="badge-locked">Locked</span></div>
+            <div class="reward-status"><span class="badge-locked" id="reward-6-badge">Locked</span></div>
           </div>
-          <div class="reward-item" role="listitem" aria-label="12 stamps reward — locked">
+          <div class="reward-item" role="listitem">
             <div class="reward-icon" aria-hidden="true">✈️</div>
             <div class="reward-text">
               <strong>Farm Visit Experience</strong>
-              <span>Complete the full passport</span>
+              <span>Complete the full passport set</span>
             </div>
-            <div class="reward-status"><span class="badge-locked">Locked</span></div>
+            <div class="reward-status"><span class="badge-locked">Coming soon</span></div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Stamp Modal -->
-  <div class="stamp-modal-overlay" id="stamp-modal" role="dialog" aria-modal="true" aria-labelledby="modal-country" onclick="if(event.target===this)closeStamp()">
+  <!-- ── Special Edition Unlock Screen ── -->
+  <div id="unlock-screen" role="dialog" aria-labelledby="unlock-title" aria-modal="true">
+    <div class="unlock-badge" aria-hidden="true">🌍</div>
+    <div class="unlock-label">Congratulations, Explorer</div>
+    <h1 class="unlock-title" id="unlock-title">You've collected<br>all <em>6 stamps.</em></h1>
+    <p class="unlock-desc">
+      You've explored every corner of our flavor map. Your exclusive
+      <strong style="color:white">Special Edition Discovery Set</strong> — six limited-run sauces
+      in collectable packaging — is now reserved for you.
+    </p>
+    <div class="unlock-actions">
+      <button class="btn-unlock-primary" onclick="reserveSpecialEdition()">
+        Reserve My Discovery Set →
+      </button>
+      <button class="btn-unlock-secondary" onclick="dismissUnlock()">
+        View my passport
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Stamp Detail Modal ── -->
+  <div class="stamp-modal-overlay" id="stamp-modal" role="dialog" aria-modal="true"
+       aria-labelledby="modal-country" onclick="if(event.target===this)closeStampModal()">
     <div class="stamp-modal">
-      <button class="modal-close" onclick="closeStamp()" aria-label="Close stamp detail">✕</button>
+      <button class="modal-close" onclick="closeStampModal()" aria-label="Close stamp detail">✕</button>
       <div class="modal-stamp-big" id="modal-flag" aria-hidden="true">🇯🇵</div>
       <div class="modal-country" id="modal-country">Japan</div>
       <div class="modal-product" id="modal-product">Miso Yuzu Glaze</div>
       <div class="modal-date" id="modal-date">Stamped Jan 12, 2024</div>
       <hr class="modal-divider" />
-      <button class="modal-cta" onclick="closeStamp(); window.location.href='recipes.html'">
+      <button class="modal-cta" onclick="closeStampModal(); window.location.href='recipes.html'">
         Cook a recipe with this sauce →
       </button>
     </div>
   </div>
 
+  <!-- ── Claim Stamp Modal ── -->
+  <div class="claim-modal-overlay" id="claim-modal" role="dialog" aria-modal="true"
+       aria-labelledby="claim-heading" onclick="if(event.target===this)closeClaimModal()">
+    <div class="claim-modal">
+      <button class="modal-close" onclick="closeClaimModal()" aria-label="Close claim modal">✕</button>
+      <h2 id="claim-heading">Claim Your Stamp</h2>
+      <p>Enter the unique code found on your product packaging or inside the QR code destination page.</p>
+      <input type="text" class="claim-input" id="claim-code-input"
+             placeholder="e.g. FP-JP-001"
+             maxlength="12"
+             aria-label="Stamp claim code" />
+      <button class="claim-submit" id="claim-btn" onclick="claimStamp()">
+        Claim Stamp →
+      </button>
+      <div class="claim-alert" id="claim-alert" aria-live="polite"></div>
+      <p class="claim-hint">
+        Stamp codes are printed on Flavor Passport product packaging.<br>
+        Each code can only be used once per account.
+      </p>
+    </div>
+  </div>
+
   <script>
-    // ── Login ──
-    function fillDemo() {
-      document.getElementById('login-email').value = 'clara@example.com';
-      document.getElementById('login-password').value = 'explorer123';
-    }
+  // ── Globals ──
+  let sb = null;
+  let currentUser = null;
+  let earnedStamps = []; // array of country strings the user has earned
 
-    function handleLogin(e) {
-      e.preventDefault();
-      const btn = document.getElementById('login-btn');
-      btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Opening passport…';
-      btn.style.opacity = '.8';
-
-      setTimeout(() => {
-        document.getElementById('login-page').style.display = 'none';
-        const pp = document.getElementById('passport-page');
-        pp.style.display = 'block';
-        pp.style.opacity = '0';
-        pp.style.transform = 'translateY(20px)';
-        requestAnimationFrame(() => {
-          pp.style.transition = 'opacity .5s ease, transform .5s ease';
-          pp.style.opacity = '1';
-          pp.style.transform = 'translateY(0)';
-        });
-        // Animate progress bar after reveal
-        setTimeout(() => {
-          document.getElementById('progress-fill').style.width = '33%';
-        }, 600);
-        // Launch confetti
-        setTimeout(launchConfetti, 400);
-      }, 900);
-    }
-
-    function logout() {
-      document.getElementById('passport-page').style.display = 'none';
-      document.getElementById('login-page').style.display = 'flex';
-      document.getElementById('login-btn').innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg> Open My Passport';
-      document.getElementById('login-btn').style.opacity = '1';
-    }
-
-    // ── Stamp Modal ──
-    function openStamp(country, flag, product, date) {
-      document.getElementById('modal-flag').textContent = flag;
-      document.getElementById('modal-country').textContent = country;
-      document.getElementById('modal-product').textContent = product;
-      document.getElementById('modal-date').textContent = 'Stamped ' + date;
-      document.getElementById('stamp-modal').classList.add('open');
-      document.getElementById('stamp-modal').focus();
-    }
-    function closeStamp() {
-      document.getElementById('stamp-modal').classList.remove('open');
-    }
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeStamp(); });
-
-    // ── Confetti ──
-    function launchConfetti() {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      const canvas = document.getElementById('confetti-canvas');
-      const ctx = canvas.getContext('2d');
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      const colors = ['#A16207','#FCD34D','#FEF3C7','#FFFFFF','#EA580C','#F97316'];
-      const particles = Array.from({length: 80}, () => ({
-        x: Math.random() * canvas.width,
-        y: -10 - Math.random() * 100,
-        w: 6 + Math.random() * 8,
-        h: 3 + Math.random() * 4,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        rot: Math.random() * Math.PI * 2,
-        vx: (Math.random() - .5) * 3,
-        vy: 2 + Math.random() * 4,
-        vrot: (Math.random() - .5) * .15,
-        opacity: 1,
-      }));
-      let frame = 0;
-      function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => {
-          p.x += p.vx; p.y += p.vy; p.rot += p.vrot;
-          if (frame > 60) p.opacity = Math.max(0, p.opacity - .015);
-          ctx.save();
-          ctx.globalAlpha = p.opacity;
-          ctx.translate(p.x, p.y);
-          ctx.rotate(p.rot);
-          ctx.fillStyle = p.color;
-          ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
-          ctx.restore();
-        });
-        frame++;
-        if (frame < 120) requestAnimationFrame(draw);
-        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // Wait for Supabase + config to load
+  document.addEventListener('DOMContentLoaded', () => {
+    // Poll until supabase library + config are ready
+    const poll = setInterval(() => {
+      if (window.supabase && window.SUPABASE_URL && window.SUPABASE_URL !== 'YOUR_SUPABASE_PROJECT_URL') {
+        clearInterval(poll);
+        initSupabase();
+      } else if (window.supabase && window.SUPABASE_URL === 'YOUR_SUPABASE_PROJECT_URL') {
+        clearInterval(poll);
+        // Config not filled in — show demo mode notice
+        console.warn('Supabase not configured. Running in demo mode.');
+        showDemoMode();
       }
-      draw();
+    }, 100);
+    // Timeout after 4s — show config error
+    setTimeout(() => clearInterval(poll), 4000);
+  });
+
+  function initSupabase() {
+    sb = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+    // Check for existing session
+    sb.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        currentUser = session.user;
+        showPassport();
+      } else {
+        showLoginPage();
+      }
+    });
+    // Listen for auth changes (e.g. email confirmation redirect)
+    sb.auth.onAuthStateChange((_event, session) => {
+      if (session && !currentUser) {
+        currentUser = session.user;
+        showPassport();
+      }
+    });
+  }
+
+  // Demo mode (supabase not configured)
+  function showDemoMode() {
+    // Show passport with sample data
+    earnedStamps = ['Japan', 'Morocco'];
+    currentUser = { user_metadata: { first_name: 'Explorer', username: 'explorer' }, created_at: new Date().toISOString() };
+    showPassport(true);
+  }
+
+  // ── Login ──
+  document.getElementById('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!sb) return;
+    const btn = document.getElementById('login-btn');
+    const errEl = document.getElementById('login-error');
+    errEl.classList.remove('show');
+
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value;
+
+    btn.disabled = true;
+    btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Opening passport…';
+
+    const { data, error } = await sb.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      btn.disabled = false;
+      btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg> Open My Passport';
+      errEl.textContent = error.message === 'Invalid login credentials'
+        ? 'Incorrect email or password. Please try again.'
+        : error.message;
+      errEl.classList.add('show');
+      return;
     }
+
+    currentUser = data.user;
+    showPassport();
+  });
+
+  async function handleLogout() {
+    if (sb) await sb.auth.signOut();
+    currentUser = null;
+    earnedStamps = [];
+    showLoginPage();
+  }
+
+  function showLoginPage() {
+    document.getElementById('passport-page').style.display = 'none';
+    document.getElementById('login-page').style.display = 'flex';
+    document.getElementById('login-btn').disabled = false;
+    document.getElementById('login-btn').innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg> Open My Passport';
+  }
+
+  // ── Passport Render ──
+  async function showPassport(demo = false) {
+    if (!demo && sb) {
+      // Load stamps from DB
+      const { data, error } = await sb
+        .from('user_stamps')
+        .select('country, product_name, earned_at')
+        .eq('user_id', currentUser.id)
+        .order('earned_at', { ascending: true });
+      earnedStamps = error ? [] : data;
+    } else {
+      // Demo stamps
+      earnedStamps = [
+        { country: 'Japan',   product_name: 'Miso Yuzu Glaze',    earned_at: new Date(Date.now() - 30*864e5).toISOString() },
+        { country: 'Morocco', product_name: 'Harissa Chermoula',  earned_at: new Date(Date.now() - 10*864e5).toISOString() },
+      ];
+    }
+
+    // Greeting
+    const meta = currentUser.user_metadata || {};
+    const firstName = meta.first_name || meta.full_name?.split(' ')[0] || 'Explorer';
+    const joinYear = new Date(currentUser.created_at || Date.now()).getFullYear();
+    document.getElementById('greeting-name').innerHTML =
+      `Bon voyage,<br><em>${firstName}.</em>`;
+    document.getElementById('greeting-sub').textContent =
+      `Explorer since ${joinYear} · Passport #FP-${joinYear}-EU`;
+
+    // Stats
+    const count = earnedStamps.length;
+    document.getElementById('stat-stamps').textContent = count;
+    document.getElementById('stat-remaining').textContent = 6 - count;
+    const nextRewardAt = count < 3 ? '3 stamps' : count < 6 ? '6 stamps' : 'Complete!';
+    document.getElementById('stat-next-reward').textContent = nextRewardAt;
+    document.getElementById('stat-status').textContent =
+      count === 6 ? 'Grand Explorer' : count >= 3 ? 'Seasoned' : 'Explorer';
+
+    // Progress bar
+    const pct = Math.round((count / 6) * 100);
+    document.getElementById('progress-bar-wrap').setAttribute('aria-valuenow', count);
+    const progLabel = document.getElementById('progress-label');
+    const progSub = document.getElementById('progress-sub');
+    if (count === 6) {
+      progLabel.textContent = 'You completed the passport!';
+      progSub.textContent = 'Claim your Special Edition Discovery Set';
+    } else {
+      progLabel.textContent = `${6 - count} stamp${6 - count !== 1 ? 's' : ''} away from the Special Edition`;
+      progSub.textContent = 'Complete all 6 to unlock a limited-run Discovery Set';
+    }
+    setTimeout(() => {
+      document.getElementById('progress-fill').style.width = pct + '%';
+    }, 400);
+
+    // Rewards
+    updateRewards(count);
+
+    // Render stamps
+    renderStampGrid();
+
+    // Activity feed
+    renderActivityFeed();
+
+    // Show page
+    document.getElementById('login-page').style.display = 'none';
+    const pp = document.getElementById('passport-page');
+    pp.style.display = 'block';
+    pp.style.opacity = '0';
+    pp.style.transform = 'translateY(20px)';
+    requestAnimationFrame(() => {
+      pp.style.transition = 'opacity .5s ease, transform .5s ease';
+      pp.style.opacity = '1';
+      pp.style.transform = 'translateY(0)';
+    });
+
+    // Confetti on login
+    setTimeout(launchConfetti, 500);
+
+    // If all 6 stamps, show unlock after a delay
+    if (count === 6) {
+      setTimeout(showUnlockScreen, 1800);
+    }
+  }
+
+  function updateRewards(count) {
+    const r3 = document.getElementById('reward-3');
+    const r3sub = document.getElementById('reward-3-sub');
+    const r3badge = document.getElementById('reward-3-badge');
+    const r6 = document.getElementById('reward-6');
+    const r6sub = document.getElementById('reward-6-sub');
+    const r6badge = document.getElementById('reward-6-badge');
+
+    if (count >= 3) {
+      r3.className = 'reward-item unlocked';
+      r3sub.textContent = 'Reward unlocked — check your email!';
+      r3badge.className = 'badge-done'; r3badge.textContent = 'Earned';
+    } else {
+      r3.className = 'reward-item next';
+      r3sub.textContent = `${3 - count} more stamp${3 - count !== 1 ? 's' : ''} to unlock`;
+      r3badge.className = 'badge-next'; r3badge.textContent = 'Almost';
+    }
+
+    if (count >= 6) {
+      r6.className = 'reward-item unlocked';
+      r6sub.textContent = 'Discovery Set unlocked — reserve now!';
+      r6badge.className = 'badge-done'; r6badge.textContent = 'Unlocked';
+    } else {
+      r6.className = count >= 3 ? 'reward-item next' : 'reward-item';
+      r6sub.textContent = `${6 - count} more stamp${6 - count !== 1 ? 's' : ''} to unlock`;
+      r6badge.className = count >= 3 ? 'badge-next' : 'badge-locked';
+      r6badge.textContent = count >= 3 ? 'So close' : 'Locked';
+    }
+  }
+
+  function renderStampGrid() {
+    const grid = document.getElementById('stamps-grid');
+    grid.innerHTML = '';
+    const earnedCountries = new Set(earnedStamps.map(s => s.country));
+
+    window.ALL_STAMPS.forEach((stamp, i) => {
+      const earned = earnedCountries.has(stamp.country);
+      const earnedData = earnedStamps.find(s => s.country === stamp.country);
+      const arcId = `arc-${i}`;
+
+      let dateStr = '';
+      if (earned && earnedData) {
+        const d = new Date(earnedData.earned_at);
+        dateStr = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+      }
+
+      const isAvailable = stamp.available;
+      const isNextUp = !earned && isAvailable;
+
+      const card = document.createElement('div');
+      card.className = `stamp-card${earned ? ' earned' : isNextUp ? ' next-up' : ''}`;
+      card.setAttribute('role', 'listitem');
+      card.setAttribute('aria-label',
+        earned ? `${stamp.country} stamp earned — ${stamp.product}, ${dateStr}`
+               : isNextUp ? `${stamp.country} stamp — not yet earned. Claim yours!`
+               : `${stamp.country} stamp — coming soon`);
+
+      if (earned) {
+        card.tabIndex = 0;
+        card.onclick = () => openStampModal(stamp.country, stamp.flag, stamp.product, dateStr);
+        card.onkeydown = e => { if (e.key === 'Enter') openStampModal(stamp.country, stamp.flag, stamp.product, dateStr); };
+      } else if (isNextUp) {
+        card.tabIndex = 0;
+        card.onclick = openClaimModal;
+        card.onkeydown = e => { if (e.key === 'Enter') openClaimModal(); };
+        card.title = 'Click to claim your stamp';
+      }
+
+      card.innerHTML = `
+        ${earned ? `<div class="stamp-check" aria-hidden="true">
+          <svg viewBox="0 0 14 14" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 7 6 11 12 3"/></svg>
+        </div>` : ''}
+        <div class="stamp-ink">
+          <div class="stamp-ring">
+            <svg class="stamp-arc" viewBox="0 0 80 80" aria-hidden="true">
+              <path id="${arcId}" fill="none" d="M 40,40 m -28,0 a 28,28 0 1,1 56,0"/>
+              <text><textPath href="#${arcId}">FLAVOR PASSPORT • ${stamp.country.toUpperCase()} •</textPath></text>
+            </svg>
+            <span class="stamp-flag" aria-hidden="true">${stamp.flag}</span>
+          </div>
+        </div>
+        ${!earned && isNextUp ? `<div class="stamp-next-label">Tap to claim</div>` : ''}
+        ${!earned && !isNextUp ? `<div class="stamp-locked" aria-hidden="true">🔒</div>` : ''}
+        <div class="stamp-country">${stamp.country}</div>
+        <div class="stamp-product">${stamp.product}</div>
+        ${earned
+          ? `<div class="stamp-date">${dateStr}</div>`
+          : isNextUp
+          ? `<div class="stamp-date" style="color:rgba(161,98,7,.5);border-color:rgba(161,98,7,.1)">Shop to earn →</div>`
+          : `<div class="stamp-locked-label">${isAvailable ? 'Not earned yet' : 'Coming soon'}</div>`
+        }
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function renderActivityFeed() {
+    const list = document.getElementById('activity-list');
+    list.innerHTML = '';
+
+    // Add welcome item
+    const welcomeItem = document.createElement('div');
+    welcomeItem.className = 'activity-item';
+    welcomeItem.setAttribute('role', 'listitem');
+    welcomeItem.innerHTML = `
+      <div class="activity-dot dot-blue" aria-hidden="true">👋</div>
+      <div class="activity-text">
+        <strong>Passport activated</strong>
+        <span>Welcome to the Flavor Passport community</span>
+      </div>
+      <div class="activity-time">—</div>
+    `;
+    list.appendChild(welcomeItem);
+
+    // Add stamp activities in reverse order (most recent first)
+    [...earnedStamps].reverse().forEach(stamp => {
+      const d = new Date(stamp.earned_at);
+      const timeStr = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+      const item = document.createElement('div');
+      item.className = 'activity-item';
+      item.setAttribute('role', 'listitem');
+      const countryData = window.ALL_STAMPS.find(s => s.country === stamp.country);
+      item.innerHTML = `
+        <div class="activity-dot dot-gold" aria-hidden="true">${countryData?.flag || '📮'}</div>
+        <div class="activity-text">
+          <strong>${stamp.country} stamp earned!</strong>
+          <span>You earned your stamp for ${stamp.product_name}</span>
+        </div>
+        <div class="activity-time">${timeStr}</div>
+      `;
+      list.insertBefore(item, list.firstChild);
+    });
+  }
+
+  // ── Stamp Detail Modal ──
+  function openStampModal(country, flag, product, date) {
+    document.getElementById('modal-flag').textContent = flag;
+    document.getElementById('modal-country').textContent = country;
+    document.getElementById('modal-product').textContent = product;
+    document.getElementById('modal-date').textContent = 'Stamped ' + date;
+    document.getElementById('stamp-modal').classList.add('open');
+  }
+  function closeStampModal() {
+    document.getElementById('stamp-modal').classList.remove('open');
+  }
+
+  // ── Claim Modal ──
+  function openClaimModal() {
+    document.getElementById('claim-code-input').value = '';
+    document.getElementById('claim-alert').textContent = '';
+    document.getElementById('claim-alert').className = 'claim-alert';
+    document.getElementById('claim-btn').disabled = false;
+    document.getElementById('claim-modal').classList.add('open');
+    setTimeout(() => document.getElementById('claim-code-input').focus(), 100);
+  }
+  function closeClaimModal() {
+    document.getElementById('claim-modal').classList.remove('open');
+  }
+
+  async function claimStamp() {
+    const raw = document.getElementById('claim-code-input').value.trim().toUpperCase();
+    const alertEl = document.getElementById('claim-alert');
+    const btn = document.getElementById('claim-btn');
+    alertEl.className = 'claim-alert';
+    alertEl.textContent = '';
+
+    if (!raw) {
+      alertEl.className = 'claim-alert err';
+      alertEl.textContent = 'Please enter a stamp code.';
+      return;
+    }
+
+    const stampData = window.STAMP_CODES[raw];
+    if (!stampData) {
+      alertEl.className = 'claim-alert err';
+      alertEl.textContent = 'Code not recognised. Check the code on your packaging.';
+      return;
+    }
+
+    // Already earned?
+    const alreadyEarned = earnedStamps.some(s => s.country === stampData.country);
+    if (alreadyEarned) {
+      alertEl.className = 'claim-alert err';
+      alertEl.textContent = `You already have the ${stampData.country} stamp!`;
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Claiming…';
+
+    if (!sb || !currentUser) {
+      // Demo mode — just add locally
+      earnedStamps.push({ country: stampData.country, product_name: stampData.product, earned_at: new Date().toISOString() });
+      afterClaim(stampData);
+      return;
+    }
+
+    const { error } = await sb.from('user_stamps').insert({
+      user_id: currentUser.id,
+      country: stampData.country,
+      product_name: stampData.product,
+    });
+
+    if (error) {
+      btn.disabled = false;
+      btn.textContent = 'Claim Stamp →';
+      alertEl.className = 'claim-alert err';
+      alertEl.textContent = error.code === '23505'
+        ? `You already have the ${stampData.country} stamp!`
+        : 'Something went wrong. Please try again.';
+      return;
+    }
+
+    // Reload stamps from DB
+    const { data } = await sb
+      .from('user_stamps')
+      .select('country, product_name, earned_at')
+      .eq('user_id', currentUser.id)
+      .order('earned_at', { ascending: true });
+    earnedStamps = data || earnedStamps;
+
+    afterClaim(stampData);
+  }
+
+  function afterClaim(stampData) {
+    closeClaimModal();
+
+    // Re-render everything
+    renderStampGrid();
+    renderActivityFeed();
+    const count = earnedStamps.length;
+    document.getElementById('stat-stamps').textContent = count;
+    document.getElementById('stat-remaining').textContent = 6 - count;
+    document.getElementById('stat-status').textContent =
+      count === 6 ? 'Grand Explorer' : count >= 3 ? 'Seasoned' : 'Explorer';
+    document.getElementById('stat-next-reward').textContent =
+      count < 3 ? '3 stamps' : count < 6 ? '6 stamps' : 'Complete!';
+    const pct = Math.round((count / 6) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    const progLabel = document.getElementById('progress-label');
+    if (count === 6) {
+      progLabel.textContent = 'You completed the passport!';
+    } else {
+      progLabel.textContent = `${6 - count} stamp${6 - count !== 1 ? 's' : ''} away from the Special Edition`;
+    }
+    updateRewards(count);
+
+    launchConfetti();
+
+    // Special Edition unlock!
+    if (count === 6) {
+      setTimeout(showUnlockScreen, 1200);
+    } else {
+      // Brief success toast
+      const toast = document.createElement('div');
+      toast.style.cssText = `
+        position:fixed;bottom:32px;left:50%;transform:translateX(-50%);
+        background:#1C1917;border:1px solid rgba(161,98,7,.4);color:white;
+        padding:14px 24px;border-radius:99px;font-size:14px;z-index:1000;
+        box-shadow:0 8px 32px rgba(0,0,0,.4);
+        animation:toastIn .3s cubic-bezier(.34,1.56,.64,1);
+      `;
+      toast.textContent = `${stampData.flag} ${stampData.country} stamp earned!`;
+      const style = document.createElement('style');
+      style.textContent = '@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}';
+      document.head.appendChild(style);
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3500);
+    }
+  }
+
+  // ── Special Edition Unlock ──
+  function showUnlockScreen() {
+    document.getElementById('unlock-screen').classList.add('show');
+    launchConfetti(120);
+  }
+  function dismissUnlock() {
+    document.getElementById('unlock-screen').classList.remove('show');
+  }
+  function reserveSpecialEdition() {
+    // In production: redirect to a special checkout page or email capture
+    alert('🎉 You\'re on the list! We\'ll email you when the Special Edition Discovery Set ships.');
+    dismissUnlock();
+  }
+
+  // ── Confetti ──
+  function launchConfetti(count = 80) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const colors = ['#A16207','#FCD34D','#FEF3C7','#FFFFFF','#EA580C','#F97316'];
+    const particles = Array.from({length: count}, () => ({
+      x: Math.random() * canvas.width,
+      y: -10 - Math.random() * 100,
+      w: 6 + Math.random() * 8, h: 3 + Math.random() * 4,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      rot: Math.random() * Math.PI * 2,
+      vx: (Math.random() - .5) * 3,
+      vy: 2 + Math.random() * 4,
+      vrot: (Math.random() - .5) * .15,
+      opacity: 1,
+    }));
+    let frame = 0;
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.rot += p.vrot;
+        if (frame > 60) p.opacity = Math.max(0, p.opacity - .015);
+        ctx.save(); ctx.globalAlpha = p.opacity;
+        ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+        ctx.fillStyle = p.color; ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+        ctx.restore();
+      });
+      frame++;
+      if (frame < 120) requestAnimationFrame(draw);
+      else ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    draw();
+  }
+
+  // Global keyboard shortcuts
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      closeStampModal();
+      closeClaimModal();
+    }
+  });
   </script>
 </body>
 </html>
