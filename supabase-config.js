@@ -41,8 +41,8 @@
 // create policy "Auth users like" on post_likes for insert with check (auth.uid() = user_id);
 // create policy "Users unlike" on post_likes for delete using (auth.uid() = user_id);
 
-window.SUPABASE_URL      = 'YOUR_SUPABASE_PROJECT_URL';
-window.SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+window.SUPABASE_URL      = 'https://cwtirvqljfiazwwfjqgk.supabase.co';
+window.SUPABASE_ANON_KEY = 'sb_publishable_A68qAg9QRr1eS0qQt7GhYg_jiuFGsQn';
 
 // Stamp claim codes (print these on product packaging / QR destinations)
 window.STAMP_CODES = {
