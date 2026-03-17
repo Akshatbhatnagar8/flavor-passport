@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Sheet Pan Miso Yuzu Salmon & Bok Choy — Flavor Passport</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--ink:#1a1a2e;--muted:#6b7280;--border:#e5e7eb;--cream:#faf9f6;--accent:#a16207;--gold:#d97706}
+    body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--ink)}
+    nav{background:#0f172a;padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+    .nav-logo{color:#fff;font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;text-decoration:none}
+    .nav-links{display:flex;align-items:center;gap:1.5rem}
+    .nav-links a{color:#94a3b8;font-size:.875rem;text-decoration:none;transition:color .2s}
+    .nav-links a:hover{color:#fff}
+    .nav-cart-btn{background:none;border:1px solid #334155;color:#94a3b8;padding:.4rem .85rem;border-radius:20px;font-size:.85rem;cursor:pointer;display:flex;align-items:center;gap:.4rem}
+    .cart-count{background:#c2410c;color:#fff;border-radius:50%;width:18px;height:18px;font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+    .breadcrumb{padding:1rem 2rem;font-size:.8rem;color:var(--muted);display:flex;gap:.5rem;align-items:center;max-width:900px;margin:0 auto}
+    .breadcrumb a{color:var(--muted);text-decoration:none}.breadcrumb a:hover{color:var(--ink)}.breadcrumb span{opacity:.4}
+    /* Hero */
+    .hero{background:linear-gradient(135deg,#0a1020 0%,#1a2a40 50%,#0a1020 100%);padding:3.5rem 2rem}
+    .hero-inner{max-width:900px;margin:0 auto}
+    .recipe-meta-row{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;flex-wrap:wrap}
+    .cuisine-tag{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:.3rem .85rem;font-size:.8rem;color:#cbd5e1}
+    .sauce-tag{background:rgba(161,98,7,.2);border:1px solid rgba(161,98,7,.4);color:#fcd34d;border-radius:20px;padding:.3rem .85rem;font-size:.8rem;font-weight:600}
+    .hero-emoji{font-size:4rem;margin-bottom:1rem;display:block}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-style:italic;color:#fff;line-height:1.15;margin-bottom:.75rem}
+    .hero-desc{color:#94a3b8;font-size:1rem;line-height:1.7;max-width:640px;margin-bottom:1.5rem}
+    .stats-row{display:flex;gap:1.5rem;flex-wrap:wrap}
+    .stat{display:flex;flex-direction:column;gap:.2rem}
+    .stat-label{font-size:.7rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+    .stat-val{font-size:.95rem;color:#e2e8f0;font-weight:600}
+    /* Body */
+    .recipe-body{max-width:900px;margin:0 auto;padding:2.5rem 2rem;display:grid;grid-template-columns:1fr 320px;gap:2.5rem;align-items:start}
+    /* Sauce callout */
+    .sauce-callout{background:#fff;border:2px solid #fde68a;border-radius:16px;padding:1.5rem;margin-bottom:2rem}
+    .sauce-callout h3{font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:.75rem}
+    .sauce-callout-row{display:flex;align-items:center;gap:1rem}
+    .sauce-callout-emoji{font-size:2.5rem}
+    .sauce-callout-info h4{font-size:1rem;font-weight:700;margin-bottom:.2rem}
+    .sauce-callout-info p{font-size:.85rem;color:var(--muted);line-height:1.5;margin-bottom:.75rem}
+    .btn-buy{display:inline-block;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:.55rem 1.25rem;font-size:.85rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s}
+    .btn-buy:hover{background:#92400e}
+    /* Ingredients */
+    .ingredients-card{background:#fff;border-radius:16px;padding:1.75rem;border:1px solid var(--border);position:sticky;top:80px}
+    .ingredients-card h2{font-size:1rem;font-weight:700;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
+    .ing-group-title{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:.75rem 0 .5rem}
+    .ing-list{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+    .ing-list li{font-size:.875rem;color:#374151;display:flex;gap:.6rem;line-height:1.4}
+    .ing-list li::before{content:'·';color:var(--accent);font-weight:700;flex-shrink:0}
+    .ing-highlight{background:#fef3c7;border:1px solid #fde68a;border-radius:6px;padding:.4rem .8rem;margin:.5rem 0;font-size:.85rem;font-weight:600;color:#92400e;display:flex;align-items:center;gap:.5rem}
+    /* Steps */
+    .steps-section h2{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:1.5rem}
+    .step{display:flex;gap:1.25rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+    .step:last-child{border-bottom:none;margin-bottom:0}
+    .step-num{background:#0f172a;color:#fff;border-radius:50%;width:32px;height:32px;font-size:.8rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem}
+    .step-content h3{font-size:.95rem;font-weight:700;margin-bottom:.4rem}
+    .step-content p{font-size:.9rem;color:#4b5563;line-height:1.65}
+    .step-tip{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:.6rem .9rem;margin-top:.6rem;font-size:.82rem;color:#15803d}
+    /* Sidebar */
+    .sidebar-section{display:flex;flex-direction:column;gap:1.5rem}
+    .tip-card{background:#fff;border-radius:14px;padding:1.5rem;border:1px solid var(--border)}
+    .tip-card h3{font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.75rem}
+    .tip-card p,.tip-card li{font-size:.875rem;color:#4b5563;line-height:1.6}
+    .tip-card ul{list-style:none;display:flex;flex-direction:column;gap:.5rem;padding:0}
+    .tip-card ul li::before{content:'→ ';color:var(--accent)}
+    footer{background:#0f172a;color:#475569;text-align:center;padding:2rem;font-size:.85rem}
+    @media(max-width:700px){.recipe-body{grid-template-columns:1fr}.ingredients-card{position:static}}
+  </style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html">Flavor Passport</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="recipes.html">Recipes</a>
+    <a href="index.html#products">Shop</a>
+    <button class="nav-cart-btn" onclick="FP_CART.open()">🛒 Cart <span class="cart-count" id="nav-cart-count">0</span></button>
+  </div>
+</nav>
+<div class="breadcrumb">
+  <a href="index.html">Home</a><span>/</span>
+  <a href="recipes.html">Recipes</a><span>/</span>
+  <span>Sheet Pan Miso Yuzu Salmon</span>
+</div>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="recipe-meta-row">
+      <span class="cuisine-tag">🇯🇵 Japanese</span>
+      <span class="sauce-tag">✦ Miso Yuzu Glaze</span>
+    </div>
+    <span class="hero-emoji">🍣</span>
+    <h1>Sheet Pan Miso Yuzu<br>Glazed Salmon & Bok Choy</h1>
+    <p class="hero-desc">One pan, 30 minutes, zero compromise. Wild salmon fillets brushed generously with our Miso Yuzu Glaze, roasted alongside sesame-dressed bok choy. The glaze caramelises under the broiler into a lacquered, umami-rich crust.</p>
+    <div class="stats-row">
+      <div class="stat"><span class="stat-label">Prep</span><span class="stat-val">15 min</span></div>
+      <div class="stat"><span class="stat-label">Cook</span><span class="stat-val">15 min</span></div>
+      <div class="stat"><span class="stat-label">Total</span><span class="stat-val">30 min</span></div>
+      <div class="stat"><span class="stat-label">Serves</span><span class="stat-val">4</span></div>
+      <div class="stat"><span class="stat-label">Difficulty</span><span class="stat-val">Easy</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="recipe-body">
+  <div class="main-col">
+    <div class="sauce-callout">
+      <h3>The Flavor Passport shortcut</h3>
+      <div class="sauce-callout-row">
+        <span class="sauce-callout-emoji">🍯</span>
+        <div class="sauce-callout-info">
+          <h4>Miso Yuzu Glaze</h4>
+          <p>The original recipe requires 6 separate ingredients for the glaze. Our Miso Yuzu Glaze does it all — fermented white miso, hand-pressed yuzu, honey and sesame already balanced. Just open and brush.</p>
+          <button class="btn-buy" onclick="FP_CART.add({id:'miso-yuzu-glaze',name:'Miso Yuzu Glaze',origin:'Japan',price:18,emoji:'🍯',spice:1})">Add to Cart — €18</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="steps-section">
+      <h2>How to make it</h2>
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Preheat & prep</h3>
+          <p>Preheat your oven to 200°C (400°F). Line half a sheet pan with parchment paper. Pat the salmon fillets dry with kitchen paper and season the tops with salt and cracked black pepper.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Glaze the salmon</h3>
+          <p>Brush the top and sides of each salmon fillet generously with <strong>Flavor Passport Miso Yuzu Glaze</strong>. Reserve about 1 tablespoon for a final brush at the end. Let the salmon rest for 15 minutes to absorb the glaze — this makes a real difference to the depth of flavour.</p>
+          <div class="step-tip">💡 The longer you marinate, the deeper the caramelisation. Up to 2 hours in the fridge is even better.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Dress the bok choy</h3>
+          <p>Halve the Shanghai bok choy lengthways. Whisk together the garlic, soy sauce, sesame oil, rice vinegar, and sugar. Brush this mixture over the bok choy faces, working it between the leaves. Drizzle the empty half of the sheet pan with avocado oil and lay the bok choy face-side up.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>Roast together</h3>
+          <p>Place the glazed salmon on the parchment half. Put the whole pan in the oven. After 6 minutes, flip the bok choy. Continue roasting for another 6–8 minutes until the bok choy stems are tender and the salmon reaches an internal temperature of 52°C (125°F).</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h3>Broil to finish</h3>
+          <p>Brush the reserved Miso Yuzu Glaze over the salmon. Switch the oven to grill/broil and cook for 1–2 minutes until the glaze is slightly charred and glistening. Watch closely — it goes from perfect to burnt fast.</p>
+          <div class="step-tip">💡 That char is the goal. The sugars in the glaze caramelise and create an addictive bittersweet crust.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <h3>Plate & serve</h3>
+          <p>Serve over steamed jasmine or sushi rice. Scatter toasted sesame seeds and sliced spring onions over the salmon. Add black sesame seeds over the bok choy. Eat immediately.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="ingredients-card">
+      <h2>Ingredients — serves 4</h2>
+      <div class="ing-highlight">🍯 3 tbsp Flavor Passport Miso Yuzu Glaze</div>
+      <div class="ing-group-title">Salmon</div>
+      <ul class="ing-list">
+        <li>4 salmon fillets (approx. 170g each), skin-on</li>
+        <li>Salt & cracked black pepper</li>
+        <li>Toasted sesame seeds, to garnish</li>
+        <li>2 spring onions, thinly sliced</li>
+      </ul>
+      <div class="ing-group-title">Bok Choy</div>
+      <ul class="ing-list">
+        <li>4 Shanghai bok choy, halved lengthways</li>
+        <li>1 tbsp garlic, minced</li>
+        <li>2 tbsp soy sauce</li>
+        <li>2 tbsp sesame oil</li>
+        <li>1 tbsp rice vinegar</li>
+        <li>1 tsp caster sugar</li>
+        <li>½ tbsp avocado or neutral oil</li>
+        <li>Black sesame seeds, to garnish</li>
+      </ul>
+      <div class="ing-group-title">To serve</div>
+      <ul class="ing-list">
+        <li>Steamed jasmine rice</li>
+      </ul>
+    </div>
+    <div class="tip-card">
+      <h3>Chef's tips</h3>
+      <ul>
+        <li>Use wild salmon for best flavour — farmed works but the fat content means longer cook times</li>
+        <li>If the glaze starts burning before the fish is cooked, tent loosely with foil</li>
+        <li>Leftovers flake beautifully into a rice bowl the next day</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer>© 2025 Flavor Passport · Crafted with curiosity</footer>
+<script src="cart.js"></script>
+</body>
+</html>

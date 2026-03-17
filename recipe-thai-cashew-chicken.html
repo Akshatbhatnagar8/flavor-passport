@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Thai Cashew Chicken — Flavor Passport</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--ink:#1a1a2e;--muted:#6b7280;--border:#e5e7eb;--cream:#faf9f6;--accent:#059669;--gold:#d97706}
+    body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--ink)}
+    nav{background:#0f172a;padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+    .nav-logo{color:#fff;font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;text-decoration:none}
+    .nav-links{display:flex;align-items:center;gap:1.5rem}
+    .nav-links a{color:#94a3b8;font-size:.875rem;text-decoration:none;transition:color .2s}
+    .nav-links a:hover{color:#fff}
+    .nav-cart-btn{background:none;border:1px solid #334155;color:#94a3b8;padding:.4rem .85rem;border-radius:20px;font-size:.85rem;cursor:pointer;display:flex;align-items:center;gap:.4rem}
+    .cart-count{background:#c2410c;color:#fff;border-radius:50%;width:18px;height:18px;font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+    .breadcrumb{padding:1rem 2rem;font-size:.8rem;color:var(--muted);display:flex;gap:.5rem;align-items:center;max-width:900px;margin:0 auto}
+    .breadcrumb a{color:var(--muted);text-decoration:none}.breadcrumb a:hover{color:var(--ink)}.breadcrumb span{opacity:.4}
+    .hero{background:linear-gradient(135deg,#001a0a 0%,#003020 50%,#001a0a 100%);padding:3.5rem 2rem}
+    .hero-inner{max-width:900px;margin:0 auto}
+    .recipe-meta-row{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;flex-wrap:wrap}
+    .cuisine-tag{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:.3rem .85rem;font-size:.8rem;color:#cbd5e1}
+    .sauce-tag{background:rgba(5,150,105,.2);border:1px solid rgba(5,150,105,.45);color:#6ee7b7;border-radius:20px;padding:.3rem .85rem;font-size:.8rem;font-weight:600}
+    .hero-emoji{font-size:4rem;margin-bottom:1rem;display:block}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-style:italic;color:#fff;line-height:1.15;margin-bottom:.75rem}
+    .hero-desc{color:#94a3b8;font-size:1rem;line-height:1.7;max-width:640px;margin-bottom:1.5rem}
+    .stats-row{display:flex;gap:1.5rem;flex-wrap:wrap}
+    .stat{display:flex;flex-direction:column;gap:.2rem}
+    .stat-label{font-size:.7rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+    .stat-val{font-size:.95rem;color:#e2e8f0;font-weight:600}
+    .recipe-body{max-width:900px;margin:0 auto;padding:2.5rem 2rem;display:grid;grid-template-columns:1fr 320px;gap:2.5rem;align-items:start}
+    .sauce-callout{background:#fff;border:2px solid #a7f3d0;border-radius:16px;padding:1.5rem;margin-bottom:2rem}
+    .sauce-callout h3{font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:.75rem}
+    .sauce-callout-row{display:flex;align-items:center;gap:1rem}
+    .sauce-callout-emoji{font-size:2.5rem}
+    .sauce-callout-info h4{font-size:1rem;font-weight:700;margin-bottom:.2rem}
+    .sauce-callout-info p{font-size:.85rem;color:var(--muted);line-height:1.5;margin-bottom:.75rem}
+    .btn-buy{display:inline-block;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:.55rem 1.25rem;font-size:.85rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s}
+    .btn-buy:hover{background:#047857}
+    .ingredients-card{background:#fff;border-radius:16px;padding:1.75rem;border:1px solid var(--border);position:sticky;top:80px}
+    .ingredients-card h2{font-size:1rem;font-weight:700;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
+    .ing-group-title{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:.75rem 0 .5rem}
+    .ing-list{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+    .ing-list li{font-size:.875rem;color:#374151;display:flex;gap:.6rem;line-height:1.4}
+    .ing-list li::before{content:'·';color:var(--accent);font-weight:700;flex-shrink:0}
+    .ing-highlight{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:.4rem .8rem;margin:.5rem 0;font-size:.85rem;font-weight:600;color:#065f46;display:flex;align-items:center;gap:.5rem}
+    .steps-section h2{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:1.5rem}
+    .step{display:flex;gap:1.25rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+    .step:last-child{border-bottom:none;margin-bottom:0}
+    .step-num{background:#0f172a;color:#fff;border-radius:50%;width:32px;height:32px;font-size:.8rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem}
+    .step-content h3{font-size:.95rem;font-weight:700;margin-bottom:.4rem}
+    .step-content p{font-size:.9rem;color:#4b5563;line-height:1.65}
+    .step-tip{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:.6rem .9rem;margin-top:.6rem;font-size:.82rem;color:#065f46}
+    .sidebar-section{display:flex;flex-direction:column;gap:1.5rem}
+    .tip-card{background:#fff;border-radius:14px;padding:1.5rem;border:1px solid var(--border)}
+    .tip-card h3{font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.75rem}
+    .tip-card ul{list-style:none;display:flex;flex-direction:column;gap:.5rem;padding:0}
+    .tip-card ul li{font-size:.875rem;color:#4b5563;line-height:1.6}
+    .tip-card ul li::before{content:'→ ';color:var(--accent)}
+    footer{background:#0f172a;color:#475569;text-align:center;padding:2rem;font-size:.85rem}
+    @media(max-width:700px){.recipe-body{grid-template-columns:1fr}.ingredients-card{position:static}}
+  </style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html">Flavor Passport</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="recipes.html">Recipes</a>
+    <a href="index.html#products">Shop</a>
+    <button class="nav-cart-btn" onclick="FP_CART.open()">🛒 Cart <span class="cart-count" id="nav-cart-count">0</span></button>
+  </div>
+</nav>
+<div class="breadcrumb">
+  <a href="index.html">Home</a><span>/</span>
+  <a href="recipes.html">Recipes</a><span>/</span>
+  <span>Thai Cashew Chicken</span>
+</div>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="recipe-meta-row">
+      <span class="cuisine-tag">🇹🇭 Thai</span>
+      <span class="sauce-tag">✦ Nam Prik Pao</span>
+    </div>
+    <span class="hero-emoji">🍗</span>
+    <h1>Thai Cashew Chicken<br>with Nam Prik Pao</h1>
+    <p class="hero-desc">The Thai restaurant classic you can nail at home in under 30 minutes. Juicy chicken thighs, tricolour peppers, and crunchy cashews tossed in a glossy sauce built on Nam Prik Pao — the smoky, caramelised chilli jam at the heart of Thai cooking.</p>
+    <div class="stats-row">
+      <div class="stat"><span class="stat-label">Prep</span><span class="stat-val">15 min</span></div>
+      <div class="stat"><span class="stat-label">Cook</span><span class="stat-val">15 min</span></div>
+      <div class="stat"><span class="stat-label">Total</span><span class="stat-val">30 min</span></div>
+      <div class="stat"><span class="stat-label">Serves</span><span class="stat-val">2</span></div>
+      <div class="stat"><span class="stat-label">Difficulty</span><span class="stat-val">Easy</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="recipe-body">
+  <div class="main-col">
+    <div class="sauce-callout">
+      <h3>The Flavor Passport shortcut</h3>
+      <div class="sauce-callout-row">
+        <span class="sauce-callout-emoji">🌺</span>
+        <div class="sauce-callout-info">
+          <h4>Nam Prik Pao</h4>
+          <p>The original calls for nam prik pao as the sauce backbone, plus dried chilies for extra heat. Our Nam Prik Pao is made in Nonthaburi using coconut husk charcoal-roasted chilies and stone-ground palm sugar — it carries both the heat and the smoke, so you can skip the dried chilies entirely.</p>
+          <button class="btn-buy" onclick="FP_CART.add({id:'nam-prik-pao',name:'Nam Prik Pao',origin:'Thailand',price:15,emoji:'🌺',spice:2})">Add to Cart — €15</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="steps-section">
+      <h2>How to make it</h2>
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Marinate the chicken</h3>
+          <p>Cut the chicken thighs into bite-sized pieces. Toss with 2 tsp soy sauce and set aside while you prep everything else. This quick marinade seasons the chicken all the way through.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Toast the cashews</h3>
+          <p>Spread the cashews on a baking tray and roast at 180°C (350°F) for 8–12 minutes until golden and fragrant. Watch them closely — they can go from golden to burnt in under a minute. Set aside.</p>
+          <div class="step-tip">💡 You can also toast them in a dry wok over medium heat for 4–5 minutes, stirring constantly.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Mix the sauce</h3>
+          <p>In a small bowl, whisk together: <strong>2 tbsp Flavor Passport Nam Prik Pao</strong>, oyster sauce, soy sauce, fish sauce, palm sugar, and sesame oil. Taste and adjust — the nam prik pao already carries the chilli heat, so no dried chilies needed.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>Sear the chicken</h3>
+          <p>Heat oil in a wok or wide frying pan over high heat until smoking. Add the chicken pieces and sear for 1–2 minutes per side until nicely browned but not cooked through. Remove from the pan and set aside. The carryover cooking will finish them later.</p>
+          <div class="step-tip">💡 High heat is essential here. If the pan isn't properly hot, the chicken will steam instead of sear.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h3>Stir-fry the vegetables</h3>
+          <p>In the same wok, stir-fry the onion for 1 minute. Add the garlic and the white parts of the spring onions and cook for 30 seconds. Add the peppers and stir-fry for 2 minutes, adding a small splash of water and covering briefly to steam until just tender.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <h3>Finish & serve</h3>
+          <p>Return the chicken to the wok. Pour over the Nam Prik Pao sauce and toss everything to coat. Add the cashews and spring onion greens. Turn off the heat immediately — the residual heat will finish the chicken perfectly. Serve over jasmine rice.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="ingredients-card">
+      <h2>Ingredients — serves 2</h2>
+      <div class="ing-highlight">🌺 2 tbsp Nam Prik Pao</div>
+      <div class="ing-group-title">Main</div>
+      <ul class="ing-list">
+        <li>300g boneless chicken thighs, cut into chunks</li>
+        <li>60g unsalted cashews</li>
+        <li>1 green, 1 red, 1 yellow bell pepper, chopped</li>
+        <li>1 onion, roughly chopped</li>
+        <li>2 garlic cloves, minced</li>
+        <li>2 spring onions, white and green separated</li>
+        <li>2 tbsp neutral cooking oil</li>
+      </ul>
+      <div class="ing-group-title">Sauce</div>
+      <ul class="ing-list">
+        <li>1 tbsp oyster sauce</li>
+        <li>1 tbsp soy sauce</li>
+        <li>1 tsp fish sauce</li>
+        <li>½ tbsp palm sugar (or brown sugar)</li>
+        <li>1 tsp toasted sesame oil</li>
+        <li>2 tsp soy sauce (for marinating)</li>
+      </ul>
+      <div class="ing-group-title">To serve</div>
+      <ul class="ing-list">
+        <li>Steamed jasmine rice</li>
+      </ul>
+    </div>
+    <div class="tip-card">
+      <h3>Tips & swaps</h3>
+      <ul>
+        <li>Swap chicken for prawns — reduce searing time to 1 min per side</li>
+        <li>Use peanuts instead of cashews for a more traditional version</li>
+        <li>Add a fried egg on top of the rice for extra richness</li>
+        <li>Vegetarian? Use firm tofu and vegetarian oyster sauce</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer>© 2025 Flavor Passport · Crafted with curiosity</footer>
+<script src="cart.js"></script>
+</body>
+</html>

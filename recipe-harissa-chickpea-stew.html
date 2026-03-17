@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Harissa Chermoula Chickpea Stew — Flavor Passport</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--ink:#1a1a2e;--muted:#6b7280;--border:#e5e7eb;--cream:#faf9f6;--accent:#c2410c;--gold:#d97706}
+    body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--ink)}
+    nav{background:#0f172a;padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+    .nav-logo{color:#fff;font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;text-decoration:none}
+    .nav-links{display:flex;align-items:center;gap:1.5rem}
+    .nav-links a{color:#94a3b8;font-size:.875rem;text-decoration:none;transition:color .2s}
+    .nav-links a:hover{color:#fff}
+    .nav-cart-btn{background:none;border:1px solid #334155;color:#94a3b8;padding:.4rem .85rem;border-radius:20px;font-size:.85rem;cursor:pointer;display:flex;align-items:center;gap:.4rem}
+    .cart-count{background:#c2410c;color:#fff;border-radius:50%;width:18px;height:18px;font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+    .breadcrumb{padding:1rem 2rem;font-size:.8rem;color:var(--muted);display:flex;gap:.5rem;align-items:center;max-width:900px;margin:0 auto}
+    .breadcrumb a{color:var(--muted);text-decoration:none}.breadcrumb a:hover{color:var(--ink)}.breadcrumb span{opacity:.4}
+    .hero{background:linear-gradient(135deg,#1a0800 0%,#3d1500 50%,#1a0800 100%);padding:3.5rem 2rem}
+    .hero-inner{max-width:900px;margin:0 auto}
+    .recipe-meta-row{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;flex-wrap:wrap}
+    .cuisine-tag{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:.3rem .85rem;font-size:.8rem;color:#cbd5e1}
+    .sauce-tag{background:rgba(194,65,12,.25);border:1px solid rgba(194,65,12,.5);color:#fca5a5;border-radius:20px;padding:.3rem .85rem;font-size:.8rem;font-weight:600}
+    .hero-emoji{font-size:4rem;margin-bottom:1rem;display:block}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-style:italic;color:#fff;line-height:1.15;margin-bottom:.75rem}
+    .hero-desc{color:#94a3b8;font-size:1rem;line-height:1.7;max-width:640px;margin-bottom:1.5rem}
+    .stats-row{display:flex;gap:1.5rem;flex-wrap:wrap}
+    .stat{display:flex;flex-direction:column;gap:.2rem}
+    .stat-label{font-size:.7rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+    .stat-val{font-size:.95rem;color:#e2e8f0;font-weight:600}
+    .recipe-body{max-width:900px;margin:0 auto;padding:2.5rem 2rem;display:grid;grid-template-columns:1fr 320px;gap:2.5rem;align-items:start}
+    .sauce-callout{background:#fff;border:2px solid #fecaca;border-radius:16px;padding:1.5rem;margin-bottom:2rem}
+    .sauce-callout h3{font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:.75rem}
+    .sauce-callout-row{display:flex;align-items:center;gap:1rem}
+    .sauce-callout-emoji{font-size:2.5rem}
+    .sauce-callout-info h4{font-size:1rem;font-weight:700;margin-bottom:.2rem}
+    .sauce-callout-info p{font-size:.85rem;color:var(--muted);line-height:1.5;margin-bottom:.75rem}
+    .btn-buy{display:inline-block;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:.55rem 1.25rem;font-size:.85rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s}
+    .btn-buy:hover{background:#9a3412}
+    .ingredients-card{background:#fff;border-radius:16px;padding:1.75rem;border:1px solid var(--border);position:sticky;top:80px}
+    .ingredients-card h2{font-size:1rem;font-weight:700;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
+    .ing-group-title{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:.75rem 0 .5rem}
+    .ing-list{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+    .ing-list li{font-size:.875rem;color:#374151;display:flex;gap:.6rem;line-height:1.4}
+    .ing-list li::before{content:'·';color:var(--accent);font-weight:700;flex-shrink:0}
+    .ing-highlight{background:#fef2f2;border:1px solid #fecaca;border-radius:6px;padding:.4rem .8rem;margin:.5rem 0;font-size:.85rem;font-weight:600;color:#9a3412;display:flex;align-items:center;gap:.5rem}
+    .steps-section h2{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:1.5rem}
+    .step{display:flex;gap:1.25rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+    .step:last-child{border-bottom:none;margin-bottom:0}
+    .step-num{background:#0f172a;color:#fff;border-radius:50%;width:32px;height:32px;font-size:.8rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem}
+    .step-content h3{font-size:.95rem;font-weight:700;margin-bottom:.4rem}
+    .step-content p{font-size:.9rem;color:#4b5563;line-height:1.65}
+    .step-tip{background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:.6rem .9rem;margin-top:.6rem;font-size:.82rem;color:#9a3412}
+    .sidebar-section{display:flex;flex-direction:column;gap:1.5rem}
+    .tip-card{background:#fff;border-radius:14px;padding:1.5rem;border:1px solid var(--border)}
+    .tip-card h3{font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.75rem}
+    .tip-card p,.tip-card li{font-size:.875rem;color:#4b5563;line-height:1.6}
+    .tip-card ul{list-style:none;display:flex;flex-direction:column;gap:.5rem;padding:0}
+    .tip-card ul li::before{content:'→ ';color:var(--accent)}
+    footer{background:#0f172a;color:#475569;text-align:center;padding:2rem;font-size:.85rem}
+    @media(max-width:700px){.recipe-body{grid-template-columns:1fr}.ingredients-card{position:static}}
+  </style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html">Flavor Passport</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="recipes.html">Recipes</a>
+    <a href="index.html#products">Shop</a>
+    <button class="nav-cart-btn" onclick="FP_CART.open()">🛒 Cart <span class="cart-count" id="nav-cart-count">0</span></button>
+  </div>
+</nav>
+<div class="breadcrumb">
+  <a href="index.html">Home</a><span>/</span>
+  <a href="recipes.html">Recipes</a><span>/</span>
+  <span>Harissa Chickpea Stew</span>
+</div>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="recipe-meta-row">
+      <span class="cuisine-tag">🇲🇦 Moroccan</span>
+      <span class="sauce-tag">✦ Harissa Chermoula</span>
+    </div>
+    <span class="hero-emoji">🥘</span>
+    <h1>Harissa Chermoula<br>Chickpea Stew with Couscous</h1>
+    <p class="hero-desc">A one-pot North African classic that's entirely plant-based and fully ready in 30 minutes. Courgette, peppers and chickpeas simmered in a smoky tomato base fired up with Harissa Chermoula, then served over herb-flecked couscous with pomegranate and dried apricot.</p>
+    <div class="stats-row">
+      <div class="stat"><span class="stat-label">Prep</span><span class="stat-val">10 min</span></div>
+      <div class="stat"><span class="stat-label">Cook</span><span class="stat-val">20 min</span></div>
+      <div class="stat"><span class="stat-label">Total</span><span class="stat-val">30 min</span></div>
+      <div class="stat"><span class="stat-label">Serves</span><span class="stat-val">2</span></div>
+      <div class="stat"><span class="stat-label">Difficulty</span><span class="stat-val">Easy</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="recipe-body">
+  <div class="main-col">
+    <div class="sauce-callout">
+      <h3>The Flavor Passport shortcut</h3>
+      <div class="sauce-callout-row">
+        <span class="sauce-callout-emoji">🌶️</span>
+        <div class="sauce-callout-info">
+          <h4>Harissa Chermoula</h4>
+          <p>The original recipe calls for both harissa paste and a separate ras-el-hanout spice sachet. Our Harissa Chermoula already combines the fire of harissa with the herb complexity of chermoula — two steps in one spoonful. No extra spice blend needed.</p>
+          <button class="btn-buy" onclick="FP_CART.add({id:'harissa-chermoula',name:'Harissa Chermoula',origin:'Morocco',price:16,emoji:'🌶️',spice:4})">Add to Cart — €16</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="steps-section">
+      <h2>How to make it</h2>
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Prep the vegetables</h3>
+          <p>Trim the courgette and cut into 2cm half-moons. Halve the peppers, remove seeds, and cut into 2cm chunks. Drain and rinse the chickpeas thoroughly.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Fry the vegetables</h3>
+          <p>Heat a generous glug of olive oil in a large saucepan over medium-high heat. Add the courgette and pepper and fry for 3–4 minutes, stirring regularly, until the edges begin to soften and colour slightly.</p>
+          <div class="step-tip">💡 Don't stir too much — you want some caramelisation on the courgette for depth of flavour.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Add the harissa & simmer</h3>
+          <p>Add the chickpeas, chopped tomatoes, <strong>2 tbsp Flavor Passport Harissa Chermoula</strong>, and a splash of water. Season with salt. Stir well. Bring to the boil, then reduce the heat and simmer for 14–16 minutes until the sauce thickens and the vegetables are fully tender. Taste and add more Harissa Chermoula if you want more heat.</p>
+          <div class="step-tip">💡 Because our paste already includes chermoula herbs, you won't need ras-el-hanout or extra spices.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>Cook the couscous</h3>
+          <p>While the stew simmers, combine the couscous and vegetable stock paste in a bowl. Pour over 160ml boiling water, stir, then cover with a plate or cling film. Leave for 8–10 minutes undisturbed, then fluff with a fork. Stir in half the chopped parsley and season.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h3>Plate & garnish</h3>
+          <p>Spoon the herbed couscous into wide bowls. Ladle the stew generously on top. Scatter the dried apricot pieces, pomegranate seeds, and remaining parsley. Serve immediately — the pomegranate juice will run into the stew as you eat.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="ingredients-card">
+      <h2>Ingredients — serves 2</h2>
+      <div class="ing-highlight">🌶️ 2 tbsp Harissa Chermoula</div>
+      <div class="ing-group-title">Stew</div>
+      <ul class="ing-list">
+        <li>1 courgette</li>
+        <li>1 red bell pepper</li>
+        <li>1 tin chickpeas (400g), drained</li>
+        <li>1 tin finely chopped tomatoes (400g)</li>
+        <li>1 tbsp water</li>
+        <li>Olive oil, salt & pepper</li>
+      </ul>
+      <div class="ing-group-title">Couscous</div>
+      <ul class="ing-list">
+        <li>160g couscous</li>
+        <li>1 tsp vegetable stock paste</li>
+        <li>160ml boiling water</li>
+        <li>Small bunch flat-leaf parsley</li>
+      </ul>
+      <div class="ing-group-title">To serve</div>
+      <ul class="ing-list">
+        <li>40g dried apricots, roughly chopped</li>
+        <li>Seeds of ½ pomegranate</li>
+      </ul>
+    </div>
+    <div class="tip-card">
+      <h3>Make it your own</h3>
+      <ul>
+        <li>Add a dollop of plain yoghurt on top to cool the heat</li>
+        <li>Swap couscous for bulgur wheat or quinoa</li>
+        <li>Stir in a handful of spinach at the end for greens</li>
+        <li>Keeps well in the fridge for 3 days — even better the next day</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer>© 2025 Flavor Passport · Crafted with curiosity</footer>
+<script src="cart.js"></script>
+</body>
+</html>
