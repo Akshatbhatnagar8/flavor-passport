@@ -34,9 +34,9 @@
       --stone-500: #78716C;
       --stone-300: #D6D3D1;
       --stone-100: #F5F5F4;
-      --gold:      #A16207;
-      --gold-300:  #FCD34D;
-      --gold-light:#FEF3C7;
+      --crimson:      #be123c;
+      --crimson-300:  #fda4af;
+      --crimson-light:#fff1f2;
       --white:     #FFFFFF;
     }
 
@@ -73,8 +73,8 @@
       border: 1.5px solid rgba(255,255,255,.18);
     }
     .btn-outline-light:hover { border-color: rgba(255,255,255,.5); color: white; }
-    .btn-gold { background: var(--gold); color: white; }
-    .btn-gold:hover { background: #92400E; transform: translateY(-1px); }
+    .btn-crimson { background: var(--crimson); color: white; }
+    .btn-crimson:hover { background: #9f1239; transform: translateY(-1px); }
 
     /* ── Login Page ── */
     #login-page {
@@ -86,7 +86,7 @@
     }
     .bg-orb-1 {
       width: 600px; height: 600px; top: -200px; left: -200px;
-      background: radial-gradient(circle, rgba(161,98,7,.15) 0%, transparent 65%);
+      background: radial-gradient(circle, rgba(190,18,60,.15) 0%, transparent 65%);
     }
     .bg-orb-2 {
       width: 500px; height: 500px; bottom: -150px; right: -150px;
@@ -98,8 +98,8 @@
     }
     .login-top { text-align: center; margin-bottom: 36px; }
     .login-passport-icon {
-      width: 72px; height: 72px; background: rgba(161,98,7,.15);
-      border: 1px solid rgba(161,98,7,.3); border-radius: 20px;
+      width: 72px; height: 72px; background: rgba(190,18,60,.15);
+      border: 1px solid rgba(190,18,60,.3); border-radius: 20px;
       display: flex; align-items: center; justify-content: center;
       margin: 0 auto 20px; font-size: 32px;
     }
@@ -107,7 +107,7 @@
       font-family: 'DM Serif Display', serif; font-size: 34px;
       color: white; line-height: 1.15; margin-bottom: 10px;
     }
-    .login-top h1 em { font-style: italic; color: var(--gold-300); }
+    .login-top h1 em { font-style: italic; color: var(--crimson-300); }
     .login-top p { font-size: 15px; color: rgba(255,255,255,.45); line-height: 1.6; }
 
     .login-card {
@@ -129,24 +129,24 @@
     }
     .form-group input::placeholder { color: rgba(255,255,255,.25); }
     .form-group input:focus {
-      border-color: rgba(161,98,7,.6); background: rgba(255,255,255,.08);
+      border-color: rgba(190,18,60,.6); background: rgba(255,255,255,.08);
     }
     .form-group input.error { border-color: rgba(239,68,68,.6); }
 
     .login-submit {
-      width: 100%; padding: 15px; background: var(--gold);
+      width: 100%; padding: 15px; background: var(--crimson);
       color: white; border: none; border-radius: 99px; cursor: pointer;
       font-family: 'DM Serif Display', serif; font-size: 18px;
       font-style: italic; font-weight: 400;
       transition: all .2s ease; margin-top: 8px;
       display: flex; align-items: center; justify-content: center; gap: 10px;
     }
-    .login-submit:hover:not(:disabled) { background: #92400E; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(161,98,7,.3); }
+    .login-submit:hover:not(:disabled) { background: #9f1239; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(190,18,60,.3); }
     .login-submit:disabled { opacity: .6; cursor: not-allowed; }
     .login-divider { text-align: center; font-size: 13px; color: rgba(255,255,255,.25); margin: 20px 0; }
     .login-footer-text { text-align: center; margin-top: 20px; font-size: 13px; color: rgba(255,255,255,.25); }
-    .login-footer-text a { color: rgba(161,98,7,.8); }
-    .login-footer-text a:hover { color: var(--gold-300); }
+    .login-footer-text a { color: rgba(190,18,60,.8); }
+    .login-footer-text a:hover { color: var(--crimson-300); }
 
     /* Alert */
     .alert {
@@ -169,13 +169,13 @@
     }
     .passport-greeting small {
       font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
-      color: var(--gold); display: block; margin-bottom: 8px;
+      color: var(--crimson); display: block; margin-bottom: 8px;
     }
     .passport-greeting h1 {
       font-family: 'DM Serif Display', serif; font-size: clamp(32px, 4vw, 52px);
       line-height: 1.1; color: white; margin-bottom: 10px;
     }
-    .passport-greeting h1 em { font-style: italic; color: var(--gold-300); }
+    .passport-greeting h1 em { font-style: italic; color: var(--crimson-300); }
     .passport-greeting p { font-size: 16px; color: rgba(255,255,255,.45); }
     .passport-header-actions { display: flex; gap: 10px; flex-shrink: 0; padding-top: 8px; }
 
@@ -192,7 +192,7 @@
       font-family: 'DM Serif Display', serif; font-size: 32px; color: white; line-height: 1;
       margin-bottom: 4px;
     }
-    .pstat-num.gold { color: var(--gold-300); }
+    .pstat-num.gold { color: var(--crimson-300); }
     .pstat-label { font-size: 13px; color: rgba(255,255,255,.4); }
 
     /* Progress bar */
@@ -200,12 +200,12 @@
       max-width: 1200px; margin: 24px auto 0; padding: 0 32px;
     }
     .progress-card {
-      background: rgba(161,98,7,.08); border: 1px solid rgba(161,98,7,.2);
+      background: rgba(190,18,60,.08); border: 1px solid rgba(190,18,60,.2);
       border-radius: 16px; padding: 20px 28px;
       display: flex; align-items: center; gap: 24px;
     }
     .progress-icon {
-      width: 44px; height: 44px; background: rgba(161,98,7,.2);
+      width: 44px; height: 44px; background: rgba(190,18,60,.2);
       border-radius: 12px; display: flex; align-items: center; justify-content: center;
       flex-shrink: 0; font-size: 20px;
     }
@@ -214,13 +214,13 @@
     .progress-text span { font-size: 13px; color: rgba(255,255,255,.45); margin-left: 8px; }
     .progress-bar-outer { background: rgba(255,255,255,.08); border-radius: 99px; height: 6px; margin-top: 8px; }
     .progress-bar-fill {
-      height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-300));
+      height: 100%; background: linear-gradient(90deg, var(--crimson), var(--crimson-300));
       border-radius: 99px; width: 0%;
       transition: width 1.2s cubic-bezier(.4, 0, .2, 1);
     }
     .progress-reward { text-align: right; flex-shrink: 0; }
     .progress-reward small { font-size: 11px; color: rgba(255,255,255,.35); text-transform: uppercase; letter-spacing: .06em; display: block; margin-bottom: 4px; }
-    .progress-reward strong { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--gold-300); }
+    .progress-reward strong { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--crimson-300); }
 
     /* Stamp collection */
     .stamps-section {
@@ -246,14 +246,14 @@
       cursor: default;
     }
     .stamp-card.earned {
-      background: rgba(161,98,7,.1); border-color: rgba(161,98,7,.35);
+      background: rgba(190,18,60,.1); border-color: rgba(190,18,60,.35);
       cursor: pointer;
     }
-    .stamp-card.earned:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(161,98,7,.2); }
+    .stamp-card.earned:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(190,18,60,.2); }
     .stamp-card.next-up {
       border-style: dashed; border-color: rgba(255,255,255,.15); cursor: pointer;
     }
-    .stamp-card.next-up:hover { border-color: rgba(161,98,7,.4); }
+    .stamp-card.next-up:hover { border-color: rgba(190,18,60,.4); }
 
     .stamp-ink {
       width: 80px; height: 80px; margin: 0 auto 14px;
@@ -266,14 +266,14 @@
       position: relative;
     }
     .stamp-card.earned .stamp-ring {
-      border-color: var(--gold);
-      box-shadow: 0 0 0 1px rgba(161,98,7,.2), inset 0 0 0 1px rgba(161,98,7,.1);
+      border-color: var(--crimson);
+      box-shadow: 0 0 0 1px rgba(190,18,60,.2), inset 0 0 0 1px rgba(190,18,60,.1);
     }
     .stamp-ring::before {
       content: ''; position: absolute; inset: 4px;
       border-radius: 50%; border: 1px solid rgba(255,255,255,.05);
     }
-    .stamp-card.earned .stamp-ring::before { border-color: rgba(161,98,7,.2); }
+    .stamp-card.earned .stamp-ring::before { border-color: rgba(190,18,60,.2); }
     .stamp-flag { font-size: 32px; line-height: 1; filter: grayscale(1) opacity(.25); }
     .stamp-card.earned .stamp-flag { filter: none; }
     .stamp-card.next-up .stamp-flag { filter: grayscale(.4) opacity(.6); }
@@ -286,12 +286,12 @@
       letter-spacing: 2.5px; text-transform: uppercase;
       fill: rgba(255,255,255,.15);
     }
-    .stamp-card.earned .stamp-arc text { fill: rgba(161,98,7,.7); }
+    .stamp-card.earned .stamp-arc text { fill: rgba(190,18,60,.7); }
 
     .stamp-check {
       position: absolute; top: 10px; right: 10px;
       width: 20px; height: 20px; border-radius: 50%;
-      background: var(--gold); display: none;
+      background: var(--crimson); display: none;
       align-items: center; justify-content: center;
     }
     .stamp-card.earned .stamp-check { display: flex; }
@@ -305,7 +305,7 @@
       margin-top: 8px; font-size: 10px; color: rgba(255,255,255,.2);
       border-top: 1px solid rgba(255,255,255,.06); padding-top: 8px;
     }
-    .stamp-card.earned .stamp-date { color: rgba(161,98,7,.6); border-color: rgba(161,98,7,.15); }
+    .stamp-card.earned .stamp-date { color: rgba(190,18,60,.6); border-color: rgba(190,18,60,.15); }
     .stamp-locked { font-size: 18px; filter: grayscale(1) opacity(.2); margin-bottom: 4px; }
     .stamp-locked-label { font-size: 11px; color: rgba(255,255,255,.2); }
     .stamp-next-label {
@@ -336,7 +336,7 @@
       display: flex; align-items: center; justify-content: center; font-size: 16px;
       margin-top: 2px;
     }
-    .dot-gold { background: rgba(161,98,7,.2); }
+    .dot-gold { background: rgba(190,18,60,.2); }
     .dot-green { background: rgba(5,150,105,.15); }
     .dot-blue { background: rgba(59,130,246,.1); }
     .activity-text strong { font-size: 14px; color: white; display: block; }
@@ -351,7 +351,7 @@
       background: rgba(255,255,255,.02);
     }
     .reward-item.unlocked { border-color: rgba(5,150,105,.3); background: rgba(5,150,105,.07); }
-    .reward-item.next { border-color: rgba(161,98,7,.3); background: rgba(161,98,7,.07); }
+    .reward-item.next { border-color: rgba(190,18,60,.3); background: rgba(190,18,60,.07); }
     .reward-icon { font-size: 24px; flex-shrink: 0; }
     .reward-text strong { font-size: 14px; color: rgba(255,255,255,.8); display: block; }
     .reward-text span { font-size: 12px; color: rgba(255,255,255,.3); }
@@ -362,7 +362,7 @@
     }
     .badge-next {
       font-size: 10px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
-      padding: 4px 8px; border-radius: 99px; background: rgba(161,98,7,.25); color: var(--gold-300);
+      padding: 4px 8px; border-radius: 99px; background: rgba(190,18,60,.25); color: var(--crimson-300);
     }
     .badge-locked {
       font-size: 10px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
@@ -380,38 +380,38 @@
     #unlock-screen.show { display: flex; }
     .unlock-badge {
       width: 120px; height: 120px; border-radius: 50%;
-      background: linear-gradient(135deg, rgba(161,98,7,.3), rgba(234,88,12,.2));
-      border: 2px solid var(--gold);
+      background: linear-gradient(135deg, rgba(190,18,60,.3), rgba(234,88,12,.2));
+      border: 2px solid var(--crimson);
       display: flex; align-items: center; justify-content: center;
       font-size: 52px; margin: 0 auto 32px;
-      box-shadow: 0 0 60px rgba(161,98,7,.4);
+      box-shadow: 0 0 60px rgba(190,18,60,.4);
       animation: unlockPulse 2s ease infinite;
     }
     @keyframes unlockPulse {
-      0%, 100% { box-shadow: 0 0 40px rgba(161,98,7,.3); }
-      50% { box-shadow: 0 0 80px rgba(161,98,7,.6); }
+      0%, 100% { box-shadow: 0 0 40px rgba(190,18,60,.3); }
+      50% { box-shadow: 0 0 80px rgba(190,18,60,.6); }
     }
     .unlock-label {
       font-size: 11px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
-      color: var(--gold); margin-bottom: 16px;
+      color: var(--crimson); margin-bottom: 16px;
     }
     .unlock-title {
       font-family: 'DM Serif Display', serif; font-size: clamp(36px, 6vw, 60px);
       color: white; line-height: 1.1; margin-bottom: 16px;
     }
-    .unlock-title em { font-style: italic; color: var(--gold-300); }
+    .unlock-title em { font-style: italic; color: var(--crimson-300); }
     .unlock-desc {
       font-size: 17px; color: rgba(255,255,255,.5); max-width: 480px; margin: 0 auto 36px;
       line-height: 1.7;
     }
     .unlock-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
     .btn-unlock-primary {
-      padding: 16px 36px; background: var(--gold); color: white; border: none;
+      padding: 16px 36px; background: var(--crimson); color: white; border: none;
       border-radius: 99px; font-family: 'DM Serif Display', serif;
       font-size: 20px; font-style: italic; cursor: pointer;
-      transition: all .2s; box-shadow: 0 8px 32px rgba(161,98,7,.4);
+      transition: all .2s; box-shadow: 0 8px 32px rgba(190,18,60,.4);
     }
-    .btn-unlock-primary:hover { background: #92400E; transform: translateY(-2px); }
+    .btn-unlock-primary:hover { background: #9f1239; transform: translateY(-2px); }
     .btn-unlock-secondary {
       padding: 16px 28px; background: transparent; color: rgba(255,255,255,.5);
       border: 1.5px solid rgba(255,255,255,.15); border-radius: 99px;
@@ -433,7 +433,7 @@
     }
     .stamp-modal-overlay.open { display: flex; }
     .stamp-modal {
-      background: #1C1917; border: 1px solid rgba(161,98,7,.3);
+      background: #1C1917; border: 1px solid rgba(190,18,60,.3);
       border-radius: 28px; padding: 40px; max-width: 380px; width: 100%;
       text-align: center; position: relative;
       animation: modalIn .3s cubic-bezier(.34, 1.56, .64, 1);
@@ -451,26 +451,26 @@
     .modal-close:hover { background: rgba(255,255,255,.12); }
     .modal-stamp-big {
       width: 120px; height: 120px; margin: 0 auto 24px;
-      border-radius: 50%; border: 3px solid var(--gold);
+      border-radius: 50%; border: 3px solid var(--crimson);
       display: flex; align-items: center; justify-content: center;
-      font-size: 56px; background: rgba(161,98,7,.15);
-      box-shadow: 0 0 40px rgba(161,98,7,.3);
+      font-size: 56px; background: rgba(190,18,60,.15);
+      box-shadow: 0 0 40px rgba(190,18,60,.3);
       animation: stampPulse 2s ease infinite;
     }
     @keyframes stampPulse {
-      0%, 100% { box-shadow: 0 0 40px rgba(161,98,7,.3); }
-      50% { box-shadow: 0 0 60px rgba(161,98,7,.5); }
+      0%, 100% { box-shadow: 0 0 40px rgba(190,18,60,.3); }
+      50% { box-shadow: 0 0 60px rgba(190,18,60,.5); }
     }
     .modal-country { font-family: 'DM Serif Display', serif; font-size: 28px; color: white; margin-bottom: 6px; }
     .modal-product { font-size: 14px; color: rgba(255,255,255,.45); margin-bottom: 8px; }
-    .modal-date { font-size: 12px; color: var(--gold); letter-spacing: .06em; }
+    .modal-date { font-size: 12px; color: var(--crimson); letter-spacing: .06em; }
     .modal-divider { border: none; border-top: 1px solid rgba(255,255,255,.07); margin: 24px 0; }
     .modal-cta {
-      width: 100%; padding: 14px; background: var(--gold); color: white; border: none;
+      width: 100%; padding: 14px; background: var(--crimson); color: white; border: none;
       border-radius: 99px; font-family: 'DM Serif Display', serif; font-size: 17px; font-style: italic;
       cursor: pointer; transition: all .2s; font-weight: 400;
     }
-    .modal-cta:hover { background: #92400E; }
+    .modal-cta:hover { background: #9f1239; }
 
     /* ── Claim Stamp Modal ── */
     .claim-modal-overlay {
@@ -497,15 +497,15 @@
       text-align: center; letter-spacing: .1em; text-transform: uppercase;
       outline: none; transition: border-color .15s; margin-bottom: 16px;
     }
-    .claim-input:focus { border-color: rgba(161,98,7,.6); }
+    .claim-input:focus { border-color: rgba(190,18,60,.6); }
     .claim-input::placeholder { letter-spacing: .05em; text-transform: none; color: rgba(255,255,255,.2); }
     .claim-submit {
-      width: 100%; padding: 15px; background: var(--gold); color: white;
+      width: 100%; padding: 15px; background: var(--crimson); color: white;
       border: none; border-radius: 99px; cursor: pointer;
       font-family: 'DM Serif Display', serif; font-size: 18px; font-style: italic;
       transition: all .2s; margin-bottom: 12px;
     }
-    .claim-submit:hover:not(:disabled) { background: #92400E; }
+    .claim-submit:hover:not(:disabled) { background: #9f1239; }
     .claim-submit:disabled { opacity: .6; cursor: not-allowed; }
     .claim-alert { font-size: 13px; margin-top: 4px; min-height: 20px; }
     .claim-alert.err { color: #FCA5A5; }
@@ -568,7 +568,7 @@
     .pp-popup .leaflet-popup-tip-container { display: none !important; }
     /* Pin animations */
     @keyframes pp-pulse { 0%,100%{transform:scale(1);opacity:.6} 50%{transform:scale(1.5);opacity:0} }
-    @keyframes pp-glow  { 0%,100%{box-shadow:0 0 0 3px rgba(252,211,77,.15),0 0 16px rgba(252,211,77,.4)} 50%{box-shadow:0 0 0 6px rgba(252,211,77,.08),0 0 28px rgba(252,211,77,.65)} }
+    @keyframes pp-glow  { 0%,100%{box-shadow:0 0 0 3px rgba(253,164,175,.15),0 0 16px rgba(253,164,175,.4)} 50%{box-shadow:0 0 0 6px rgba(253,164,175,.08),0 0 28px rgba(253,164,175,.65)} }
 
     /* Passport map markers */
     .pp-pin { display:flex; flex-direction:column; align-items:center; cursor:pointer; transform:translateX(-50%); }
@@ -578,22 +578,22 @@
       letter-spacing: -.01em; backdrop-filter: blur(6px);
     }
     .pp-pin-badge.earned {
-      background: rgba(10,10,16,.95); border: 1px solid rgba(252,211,77,.4); color: #FCD34D;
-      box-shadow: 0 0 0 1px rgba(252,211,77,.08), 0 4px 16px rgba(0,0,0,.6);
+      background: rgba(10,10,16,.95); border: 1px solid rgba(253,164,175,.4); color: #fda4af;
+      box-shadow: 0 0 0 1px rgba(253,164,175,.08), 0 4px 16px rgba(0,0,0,.6);
     }
     .pp-pin-badge.locked {
       background: rgba(15,15,20,.7); border: 1px solid rgba(255,255,255,.07); color: rgba(255,255,255,.22);
     }
-    .pp-pin-stem-e { width:1.5px; height:10px; background:linear-gradient(to bottom,rgba(252,211,77,.8),rgba(252,211,77,.1)); }
+    .pp-pin-stem-e { width:1.5px; height:10px; background:linear-gradient(to bottom,rgba(253,164,175,.8),rgba(253,164,175,.1)); }
     .pp-pin-stem-l { width:1.5px; height:10px; background:linear-gradient(to bottom,rgba(255,255,255,.15),rgba(255,255,255,.02)); }
     .pp-pin-dot-e {
-      width:8px; height:8px; border-radius:50%; background:#FCD34D;
+      width:8px; height:8px; border-radius:50%; background:#fda4af;
       animation: pp-glow 2.4s ease-in-out infinite;
       position: relative;
     }
     .pp-pin-dot-e::after {
       content:''; position:absolute; inset:-4px; border-radius:50%;
-      border: 1.5px solid rgba(252,211,77,.25);
+      border: 1.5px solid rgba(253,164,175,.25);
       animation: pp-pulse 2.4s ease-out infinite;
     }
     .pp-pin-dot-l {
@@ -625,7 +625,7 @@
         <a href="passport.html" class="active">My Passport</a>
       </div>
       <div id="nav-actions">
-        <a href="index.html#products" class="btn btn-gold">Shop Now</a>
+        <a href="index.html#products" class="btn btn-crimson">Shop Now</a>
       </div>
     </div>
   </nav>
@@ -666,7 +666,7 @@
         </a>
 
         <p class="login-footer-text" style="margin-top:16px;">
-          Your stamps live on this page — collect all 7 to unlock a <strong style="color:rgba(161,98,7,.8)">Special Edition Discovery Set.</strong>
+          Your stamps live on this page — collect all 7 to unlock a <strong style="color:rgba(190,18,60,.8)">Special Edition Discovery Set.</strong>
         </p>
       </div>
     </div>
@@ -683,7 +683,7 @@
       </div>
       <div class="passport-header-actions">
         <button class="btn btn-outline-light" onclick="handleLogout()">Sign out</button>
-        <button class="btn btn-gold" onclick="openClaimModal()">+ Claim Stamp</button>
+        <button class="btn btn-crimson" onclick="openClaimModal()">+ Claim Stamp</button>
       </div>
     </div>
 
@@ -1134,7 +1134,7 @@
         ${earned
           ? `<div class="stamp-date">${dateStr}</div>`
           : isNextUp
-          ? `<div class="stamp-date" style="color:rgba(161,98,7,.5);border-color:rgba(161,98,7,.1)">Shop to earn →</div>`
+          ? `<div class="stamp-date" style="color:rgba(190,18,60,.5);border-color:rgba(190,18,60,.1)">Shop to earn →</div>`
           : `<div class="stamp-locked-label">${isAvailable ? 'Not earned yet' : 'Coming soon'}</div>`
         }
       `;
@@ -1306,7 +1306,7 @@
       const toast = document.createElement('div');
       toast.style.cssText = `
         position:fixed;bottom:32px;left:50%;transform:translateX(-50%);
-        background:#1C1917;border:1px solid rgba(161,98,7,.4);color:white;
+        background:#1C1917;border:1px solid rgba(190,18,60,.4);color:white;
         padding:14px 24px;border-radius:99px;font-size:14px;z-index:1000;
         box-shadow:0 8px 32px rgba(0,0,0,.4);
         animation:toastIn .3s cubic-bezier(.34,1.56,.64,1);
@@ -1341,7 +1341,7 @@
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    const colors = ['#A16207','#FCD34D','#FEF3C7','#FFFFFF','#EA580C','#F97316'];
+    const colors = ['#be123c','#fda4af','#fff1f2','#FFFFFF','#EA580C','#F97316'];
     const particles = Array.from({length: count}, () => ({
       x: Math.random() * canvas.width,
       y: -10 - Math.random() * 100,
@@ -1419,10 +1419,10 @@
       const date = stampData?.earned_at
         ? new Date(stampData.earned_at).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })
         : 'Recently earned';
-      return `<div style="padding:14px 18px;min-width:180px;background:#1C1917;border:1px solid rgba(252,211,77,.35);border-radius:16px;font-family:'DM Sans',sans-serif;box-shadow:0 12px 36px rgba(0,0,0,.6);">
+      return `<div style="padding:14px 18px;min-width:180px;background:#1C1917;border:1px solid rgba(253,164,175,.35);border-radius:16px;font-family:'DM Sans',sans-serif;box-shadow:0 12px 36px rgba(0,0,0,.6);">
         <div style="font-size:24px;margin-bottom:8px;">${o.flag}</div>
         <div style="font-family:'DM Serif Display',serif;font-size:17px;color:#FAFAF9;margin-bottom:3px;">${o.id}</div>
-        <div style="font-size:11px;font-weight:600;color:#FCD34D;background:rgba(161,98,7,.2);padding:3px 9px;border-radius:99px;display:inline-block;margin-bottom:8px;">${o.product}</div>
+        <div style="font-size:11px;font-weight:600;color:#fda4af;background:rgba(190,18,60,.2);padding:3px 9px;border-radius:99px;display:inline-block;margin-bottom:8px;">${o.product}</div>
         <div style="font-size:11px;color:rgba(255,255,255,.35);">✓ Stamped ${date}</div>
       </div>`;
     } else {

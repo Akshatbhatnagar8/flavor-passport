@@ -32,8 +32,8 @@
       --stone-500: #78716C;
       --stone-300: #D6D3D1;
       --stone-100: #F5F5F4;
-      --gold:      #A16207;
-      --gold-light:#FEF3C7;
+      --crimson:      #be123c;
+      --crimson-light:#fff1f2;
       --orange:    #EA580C;
       --radius:    12px;
       --radius-lg: 20px;
@@ -75,8 +75,8 @@
       padding: 14px 28px; border-radius: 99px; border: none;
       cursor: pointer; transition: all .2s ease; line-height: 1;
     }
-    .btn-gold { background: var(--gold); color: #fff; }
-    .btn-gold:hover { background: #92400E; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(161,98,7,.3); }
+    .btn-crimson { background: var(--crimson); color: #fff; }
+    .btn-crimson:hover { background: #9f1239; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(190,18,60,.3); }
     .btn-outline-light {
       background: transparent; color: rgba(255,255,255,.7);
       border: 1.5px solid rgba(255,255,255,.18); font-size: 14px;
@@ -105,7 +105,7 @@
       font-family: 'DM Sans', sans-serif;
     }
     .breadcrumb-inner a { color: rgba(255,255,255,.4); transition: color .15s; }
-    .breadcrumb-inner a:hover { color: var(--gold); }
+    .breadcrumb-inner a:hover { color: var(--crimson); }
     .breadcrumb-sep { color: rgba(255,255,255,.2); }
     .breadcrumb-current { color: rgba(255,255,255,.6); }
 
@@ -118,7 +118,7 @@
     .product-hero::before {
       content: ''; position: absolute;
       top: -100px; right: -100px; width: 500px; height: 500px;
-      background: radial-gradient(circle, rgba(161,98,7,.18) 0%, transparent 65%);
+      background: radial-gradient(circle, rgba(190,18,60,.18) 0%, transparent 65%);
       pointer-events: none; border-radius: 50%;
     }
     .product-hero::after {
@@ -137,15 +137,15 @@
     .product-emoji-circle {
       width: 180px; height: 180px; border-radius: 50%;
       background: rgba(255,255,255,.04);
-      border: 2px solid var(--gold);
-      box-shadow: 0 0 60px rgba(161,98,7,.35), 0 0 120px rgba(161,98,7,.12);
+      border: 2px solid var(--crimson);
+      box-shadow: 0 0 60px rgba(190,18,60,.35), 0 0 120px rgba(190,18,60,.12);
       display: flex; align-items: center; justify-content: center;
       font-size: 80px;
       animation: pulse-glow 3s ease-in-out infinite;
     }
     @keyframes pulse-glow {
-      0%, 100% { box-shadow: 0 0 60px rgba(161,98,7,.35), 0 0 120px rgba(161,98,7,.12); }
-      50% { box-shadow: 0 0 80px rgba(161,98,7,.5), 0 0 160px rgba(161,98,7,.2); }
+      0%, 100% { box-shadow: 0 0 60px rgba(190,18,60,.35), 0 0 120px rgba(190,18,60,.12); }
+      50% { box-shadow: 0 0 80px rgba(190,18,60,.5), 0 0 160px rgba(190,18,60,.2); }
     }
     .product-hero-content {}
     .product-hero-eyebrow {
@@ -154,8 +154,8 @@
     .product-origin-tag {
       display: inline-flex; align-items: center; gap: 6px;
       font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
-      color: var(--gold); background: rgba(161,98,7,.12);
-      border: 1px solid rgba(161,98,7,.3); padding: 5px 12px; border-radius: 99px;
+      color: var(--crimson); background: rgba(190,18,60,.12);
+      border: 1px solid rgba(190,18,60,.3); padding: 5px 12px; border-radius: 99px;
     }
     .product-price-badge {
       display: inline-flex; align-items: center;
@@ -197,19 +197,19 @@
       display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
     }
     .btn-add-to-cart {
-      background: var(--gold); color: #fff;
+      background: var(--crimson); color: #fff;
       padding: 16px 32px; border-radius: 99px; border: none;
       font-family: 'DM Serif Display', serif; font-style: italic;
       font-size: 18px; cursor: pointer; transition: all .2s ease;
       display: inline-flex; align-items: center; gap: 8px;
     }
-    .btn-add-to-cart:hover { background: #92400E; transform: translateY(-1px); box-shadow: 0 8px 28px rgba(161,98,7,.4); }
+    .btn-add-to-cart:hover { background: #9f1239; transform: translateY(-1px); box-shadow: 0 8px 28px rgba(190,18,60,.4); }
     .btn-add-to-cart.added { background: #16a34a; }
     .hero-recipes-link {
       font-size: 14px; color: rgba(255,255,255,.5);
       transition: color .15s; display: flex; align-items: center; gap: 6px;
     }
-    .hero-recipes-link:hover { color: var(--gold); }
+    .hero-recipes-link:hover { color: var(--crimson); }
 
     /* ── Details Grid ── */
     .details-section {
@@ -235,15 +235,15 @@
     }
     .ingredients-list li::before {
       content: '✓'; width: 20px; height: 20px; border-radius: 50%;
-      background: var(--gold-light); color: var(--gold);
+      background: var(--crimson-light); color: var(--crimson);
       font-size: 11px; font-weight: 700; display: flex;
       align-items: center; justify-content: center; flex-shrink: 0;
     }
     .flavor-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
     .flavor-tag {
       font-size: 12px; font-weight: 500; padding: 6px 14px; border-radius: 99px;
-      background: var(--gold-light); color: var(--gold);
-      border: 1px solid #FDE68A;
+      background: var(--crimson-light); color: var(--crimson);
+      border: 1px solid #fecdd3;
     }
     .how-to-use-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
     .how-to-use-item {
@@ -301,7 +301,7 @@
     .origin-map-card::before {
       content: ''; position: absolute; top: -60px; right: -60px;
       width: 200px; height: 200px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(161,98,7,.2) 0%, transparent 65%);
+      background: radial-gradient(circle, rgba(190,18,60,.2) 0%, transparent 65%);
       pointer-events: none;
     }
     .origin-map-flag {
@@ -356,7 +356,7 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 38px; border: 1px solid rgba(255,255,255,.7);
     }
-    .thumb-jp { background: linear-gradient(135deg, #FEF3C7, #FDE68A, #FCD34D); }
+    .thumb-jp { background: linear-gradient(135deg, #fff1f2, #fecdd3, #fda4af); }
     .recipe-time-badge {
       position: absolute; top: 10px; right: 10px;
       background: rgba(255,255,255,.88); backdrop-filter: blur(8px);
@@ -366,7 +366,7 @@
     .recipe-body { padding: 18px 20px 20px; }
     .recipe-origin-tag {
       font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
-      color: var(--gold); margin-bottom: 7px;
+      color: var(--crimson); margin-bottom: 7px;
     }
     .recipe-name {
       font-family: 'DM Serif Display', serif; font-size: 18px;
@@ -374,7 +374,7 @@
     }
     .recipe-sauce-chip {
       font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 99px;
-      background: var(--gold-light); color: var(--gold); border: 1px solid #FDE68A;
+      background: var(--crimson-light); color: var(--crimson); border: 1px solid #fecdd3;
       display: inline-block;
     }
 
@@ -392,7 +392,7 @@
     }
     .related-card:hover {
       background: rgba(255,255,255,.07);
-      border-color: rgba(161,98,7,.3);
+      border-color: rgba(190,18,60,.3);
       transform: translateY(-4px);
       box-shadow: 0 12px 40px rgba(0,0,0,.25);
     }
@@ -406,7 +406,7 @@
     .related-info { flex: 1; min-width: 0; }
     .related-origin {
       font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
-      color: var(--gold); margin-bottom: 5px;
+      color: var(--crimson); margin-bottom: 5px;
     }
     .related-name {
       font-family: 'DM Serif Display', serif; font-style: italic;
@@ -420,7 +420,7 @@
       border: 1px solid rgba(255,255,255,.12); border-radius: 99px; padding: 6px 14px;
       transition: all .15s; white-space: nowrap; flex-shrink: 0;
     }
-    .related-card:hover .related-link { color: var(--gold); border-color: rgba(161,98,7,.4); }
+    .related-card:hover .related-link { color: var(--crimson); border-color: rgba(190,18,60,.4); }
 
     /* ── Footer ── */
     footer {
