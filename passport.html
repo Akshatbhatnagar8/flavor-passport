@@ -666,7 +666,7 @@
         </a>
 
         <p class="login-footer-text" style="margin-top:16px;">
-          Your stamps live on this page — collect all 6 to unlock a <strong style="color:rgba(161,98,7,.8)">Special Edition Discovery Set.</strong>
+          Your stamps live on this page — collect all 7 to unlock a <strong style="color:rgba(161,98,7,.8)">Special Edition Discovery Set.</strong>
         </p>
       </div>
     </div>
@@ -715,13 +715,13 @@
           <strong id="progress-label">Collecting stamps…</strong>
           <span id="progress-sub"></span>
           <div class="progress-bar-outer" role="progressbar" id="progress-bar-wrap"
-               aria-valuemin="0" aria-valuemax="6" aria-label="Stamp collection progress">
+               aria-valuemin="0" aria-valuemax="7" aria-label="Stamp collection progress">
             <div class="progress-bar-fill" id="progress-fill"></div>
           </div>
         </div>
         <div class="progress-reward">
           <small>Ultimate reward</small>
-          <strong>All 6 Stamps</strong>
+          <strong>All 7 Stamps</strong>
         </div>
       </div>
     </div>
@@ -786,13 +786,13 @@
             </div>
             <div class="reward-status"><span class="badge-locked" id="reward-3-badge">Locked</span></div>
           </div>
-          <div class="reward-item" role="listitem" id="reward-6">
+          <div class="reward-item" role="listitem" id="reward-7">
             <div class="reward-icon" aria-hidden="true">✨</div>
             <div class="reward-text">
               <strong>Special Edition Discovery Set</strong>
-              <span id="reward-6-sub">Collect all 6 stamps to unlock</span>
+              <span id="reward-7-sub">Collect all 7 stamps to unlock</span>
             </div>
-            <div class="reward-status"><span class="badge-locked" id="reward-6-badge">Locked</span></div>
+            <div class="reward-status"><span class="badge-locked" id="reward-7-badge">Locked</span></div>
           </div>
           <div class="reward-item" role="listitem">
             <div class="reward-icon" aria-hidden="true">✈️</div>
@@ -811,10 +811,10 @@
   <div id="unlock-screen" role="dialog" aria-labelledby="unlock-title" aria-modal="true">
     <div class="unlock-badge" aria-hidden="true">🌍</div>
     <div class="unlock-label">Congratulations, Explorer</div>
-    <h1 class="unlock-title" id="unlock-title">You've collected<br>all <em>6 stamps.</em></h1>
+    <h1 class="unlock-title" id="unlock-title">You've collected<br>all <em>7 stamps.</em></h1>
     <p class="unlock-desc">
       You've explored every corner of our flavor map. Your exclusive
-      <strong style="color:white">Special Edition Discovery Set</strong> — six limited-run sauces
+      <strong style="color:white">Special Edition Discovery Set</strong> — all seven sauces
       in collectable packaging — is now reserved for you.
     </p>
     <div class="unlock-actions">
@@ -992,10 +992,10 @@
     const count = earnedStamps.length;
     document.getElementById('stat-stamps').textContent = count;
     document.getElementById('stat-remaining').textContent = 6 - count;
-    const nextRewardAt = count < 3 ? '3 stamps' : count < 6 ? '6 stamps' : 'Complete!';
+    const nextRewardAt = count < 3 ? '3 stamps' : count < 7 ? '7 stamps' : 'Complete!';
     document.getElementById('stat-next-reward').textContent = nextRewardAt;
     document.getElementById('stat-status').textContent =
-      count === 6 ? 'Grand Explorer' : count >= 3 ? 'Seasoned' : 'Explorer';
+      count === 7 ? 'Grand Explorer' : count >= 3 ? 'Seasoned' : 'Explorer';
 
     // Progress bar
     const pct = Math.round((count / 7) * 100);
@@ -1006,8 +1006,8 @@
       progLabel.textContent = 'You completed the passport!';
       progSub.textContent = 'Claim your Special Edition Discovery Set';
     } else {
-      progLabel.textContent = `${6 - count} stamp${6 - count !== 1 ? 's' : ''} away from the Special Edition`;
-      progSub.textContent = 'Complete all 6 to unlock a limited-run Discovery Set';
+      progLabel.textContent = `${7 - count} stamp${7 - count !== 1 ? 's' : ''} away from the Special Edition`;
+      progSub.textContent = 'Complete all 7 to unlock a limited-run Discovery Set';
     }
     setTimeout(() => {
       document.getElementById('progress-fill').style.width = pct + '%';
@@ -1040,7 +1040,7 @@
     // Confetti on login
     setTimeout(launchConfetti, 500);
 
-    // If all 6 stamps, show unlock after a delay
+    // If all 7 stamps, show unlock after a delay
     if (count === 6) {
       setTimeout(showUnlockScreen, 1800);
     }
@@ -1050,9 +1050,9 @@
     const r3 = document.getElementById('reward-3');
     const r3sub = document.getElementById('reward-3-sub');
     const r3badge = document.getElementById('reward-3-badge');
-    const r6 = document.getElementById('reward-6');
-    const r6sub = document.getElementById('reward-6-sub');
-    const r6badge = document.getElementById('reward-6-badge');
+    const r6 = document.getElementById('reward-7');
+    const r6sub = document.getElementById('reward-7-sub');
+    const r6badge = document.getElementById('reward-7-badge');
 
     if (count >= 3) {
       r3.className = 'reward-item unlocked';
@@ -1070,7 +1070,7 @@
       r6badge.className = 'badge-done'; r6badge.textContent = 'Unlocked';
     } else {
       r6.className = count >= 3 ? 'reward-item next' : 'reward-item';
-      r6sub.textContent = `${6 - count} more stamp${6 - count !== 1 ? 's' : ''} to unlock`;
+      r6sub.textContent = `${7 - count} more stamp${7 - count !== 1 ? 's' : ''} to unlock`;
       r6badge.className = count >= 3 ? 'badge-next' : 'badge-locked';
       r6badge.textContent = count >= 3 ? 'So close' : 'Locked';
     }
@@ -1280,16 +1280,16 @@
     document.getElementById('stat-stamps').textContent = count;
     document.getElementById('stat-remaining').textContent = 6 - count;
     document.getElementById('stat-status').textContent =
-      count === 6 ? 'Grand Explorer' : count >= 3 ? 'Seasoned' : 'Explorer';
+      count === 7 ? 'Grand Explorer' : count >= 3 ? 'Seasoned' : 'Explorer';
     document.getElementById('stat-next-reward').textContent =
-      count < 3 ? '3 stamps' : count < 6 ? '6 stamps' : 'Complete!';
+      count < 3 ? '3 stamps' : count < 7 ? '7 stamps' : 'Complete!';
     const pct = Math.round((count / 7) * 100);
     document.getElementById('progress-fill').style.width = pct + '%';
     const progLabel = document.getElementById('progress-label');
     if (count === 6) {
       progLabel.textContent = 'You completed the passport!';
     } else {
-      progLabel.textContent = `${6 - count} stamp${6 - count !== 1 ? 's' : ''} away from the Special Edition`;
+      progLabel.textContent = `${7 - count} stamp${7 - count !== 1 ? 's' : ''} away from the Special Edition`;
     }
     updateRewards(count);
 
