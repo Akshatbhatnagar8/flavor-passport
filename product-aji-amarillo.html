@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aji Amarillo Paste — Peru · Flavor Passport</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <script src="cart.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: #FAFAF9; color: #1C1917; font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    :root { --bg: #FAFAF9; --bg-warm: #FFF7ED; --white: #FFFFFF; --stone-950: #0C0A09; --stone-900: #1C1917; --stone-700: #44403C; --stone-500: #78716C; --stone-300: #D6D3D1; --stone-100: #F5F5F4; --gold: #A16207; --gold-light: #FEF3C7; --orange: #EA580C; --radius: 12px; --radius-lg: 20px; }
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+    nav { position: sticky; top: 0; z-index: 100; background: var(--stone-900); border-bottom: 1px solid rgba(255,255,255,.08); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; font-family: 'DM Serif Display', serif; font-size: 20px; color: #FAFAF9; }
+    .nav-logo-icon { width: 32px; height: 32px; background: rgba(255,255,255,.12); border-radius: 8px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,.15); }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: rgba(255,255,255,.55); transition: color .15s; }
+    .nav-links a:hover { color: #FAFAF9; }
+    .nav-right { display: flex; align-items: center; gap: 10px; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; padding: 14px 28px; border-radius: 99px; border: none; cursor: pointer; transition: all .2s ease; line-height: 1; }
+    .btn-outline-light { background: transparent; color: rgba(255,255,255,.7); border: 1.5px solid rgba(255,255,255,.18); font-size: 14px; padding: 10px 20px; }
+    .btn-outline-light:hover { border-color: rgba(255,255,255,.4); color: #fff; }
+    .nav-cart-btn { position: relative; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.06); border: 1.5px solid rgba(255,255,255,.15); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .15s; color: rgba(255,255,255,.7); }
+    .nav-cart-btn:hover { background: rgba(255,255,255,.1); color: #fff; }
+    .nav-cart-btn svg { width: 18px; height: 18px; }
+    .breadcrumb { background: var(--stone-900); padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.06); }
+    .breadcrumb-inner { max-width: 1140px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; gap: 8px; font-size: 12px; color: rgba(255,255,255,.35); }
+    .breadcrumb-inner a { color: rgba(255,255,255,.4); transition: color .15s; }
+    .breadcrumb-inner a:hover { color: var(--gold); }
+    .breadcrumb-sep { color: rgba(255,255,255,.2); }
+    .product-hero { background: var(--stone-900); padding: 72px 0 80px; position: relative; overflow: hidden; }
+    .product-hero::before { content: ''; position: absolute; top: -100px; right: -100px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(234,179,8,.2) 0%, transparent 65%); pointer-events: none; border-radius: 50%; }
+    .product-hero::after { content: ''; position: absolute; bottom: -60px; left: -60px; width: 360px; height: 360px; background: radial-gradient(circle, rgba(161,98,7,.08) 0%, transparent 65%); pointer-events: none; border-radius: 50%; }
+    .product-hero-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1.2fr; gap: 64px; align-items: center; }
+    .product-hero-visual { display: flex; align-items: center; justify-content: center; }
+    .product-emoji-circle { width: 180px; height: 180px; border-radius: 50%; background: rgba(255,255,255,.04); border: 2px solid #EAB308; box-shadow: 0 0 60px rgba(234,179,8,.35), 0 0 120px rgba(234,179,8,.12); display: flex; align-items: center; justify-content: center; font-size: 80px; animation: pulse-glow 3s ease-in-out infinite; }
+    @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 60px rgba(234,179,8,.35), 0 0 120px rgba(234,179,8,.12); } 50% { box-shadow: 0 0 80px rgba(234,179,8,.5), 0 0 160px rgba(234,179,8,.2); } }
+    .product-hero-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+    .product-origin-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); background: rgba(161,98,7,.12); border: 1px solid rgba(161,98,7,.3); padding: 5px 12px; border-radius: 99px; }
+    .product-price-badge { display: inline-flex; align-items: center; font-size: 20px; font-weight: 700; color: #FAFAF9; font-family: 'DM Serif Display', serif; }
+    .product-hero-name { font-family: 'DM Serif Display', serif; font-style: italic; font-size: clamp(40px, 5vw, 64px); line-height: 1.05; color: #FAFAF9; margin-bottom: 16px; }
+    .product-hero-tagline { font-size: 18px; color: rgba(255,255,255,.55); line-height: 1.6; margin-bottom: 24px; max-width: 440px; }
+    .product-hero-desc { font-size: 15px; color: rgba(255,255,255,.4); line-height: 1.8; margin-bottom: 28px; max-width: 440px; }
+    .spice-row { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+    .spice-label { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.35); }
+    .spice-icons { display: flex; gap: 3px; }
+    .spice-icon { font-size: 16px; line-height: 1; opacity: .2; filter: grayscale(1); }
+    .spice-icon.filled { opacity: 1; filter: none; }
+    .spice-level-name { font-size: 12px; font-weight: 500; color: rgba(255,255,255,.4); }
+    .product-hero-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .btn-add-to-cart { background: var(--gold); color: #fff; padding: 16px 32px; border-radius: 99px; border: none; font-family: 'DM Serif Display', serif; font-style: italic; font-size: 18px; cursor: pointer; transition: all .2s ease; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-add-to-cart:hover { background: #92400E; transform: translateY(-1px); box-shadow: 0 8px 28px rgba(161,98,7,.4); }
+    .btn-add-to-cart.added { background: #16a34a; }
+    .hero-recipes-link { font-size: 14px; color: rgba(255,255,255,.5); transition: color .15s; display: flex; align-items: center; gap: 6px; }
+    .hero-recipes-link:hover { color: var(--gold); }
+    .details-section { background: var(--bg); padding: 80px 0; }
+    .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+    .details-card { background: var(--white); border: 1px solid var(--stone-300); border-radius: var(--radius-lg); padding: 36px; }
+    .details-card-title { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 22px; color: var(--stone-900); margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--stone-300); }
+    .ingredients-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .ingredients-list li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--stone-700); }
+    .ingredients-list li::before { content: '✓'; width: 20px; height: 20px; border-radius: 50%; background: var(--gold-light); color: var(--gold); font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .flavor-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .flavor-tag { font-size: 12px; font-weight: 500; padding: 6px 14px; border-radius: 99px; background: var(--gold-light); color: var(--gold); border: 1px solid #FDE68A; }
+    .how-to-use-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+    .how-to-use-item { display: flex; align-items: flex-start; gap: 14px; }
+    .use-num { width: 30px; height: 30px; border-radius: 50%; background: var(--stone-900); color: #fff; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .use-text { font-size: 14px; color: var(--stone-700); line-height: 1.65; }
+    .use-text strong { color: var(--stone-900); font-weight: 600; }
+    .origin-story-section { background: var(--bg-warm); padding: 80px 0; }
+    .origin-story-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+    .origin-story-label { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--stone-500); margin-bottom: 12px; }
+    .origin-story-title { font-family: 'DM Serif Display', serif; font-style: italic; font-size: clamp(28px, 3vw, 40px); line-height: 1.15; color: var(--stone-900); margin-bottom: 20px; }
+    .origin-story-text { font-size: 16px; color: var(--stone-500); line-height: 1.8; margin-bottom: 28px; }
+    .origin-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .origin-meta-item { background: var(--white); border: 1px solid var(--stone-300); border-radius: var(--radius); padding: 16px 18px; }
+    .origin-meta-label { font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--stone-500); margin-bottom: 4px; }
+    .origin-meta-value { font-family: 'DM Serif Display', serif; font-size: 16px; color: var(--stone-900); }
+    .origin-map-card { background: var(--stone-900); border-radius: var(--radius-lg); padding: 36px; display: flex; flex-direction: column; gap: 20px; position: relative; overflow: hidden; }
+    .origin-map-card::before { content: ''; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(234,179,8,.2) 0%, transparent 65%); pointer-events: none; }
+    .origin-map-flag { font-size: 48px; line-height: 1; }
+    .origin-map-location { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 26px; color: #FAFAF9; line-height: 1.2; }
+    .origin-map-coords { font-size: 12px; color: rgba(255,255,255,.3); letter-spacing: .08em; }
+    .origin-map-details { display: flex; flex-direction: column; gap: 12px; border-top: 1px solid rgba(255,255,255,.08); padding-top: 20px; }
+    .origin-map-detail { display: flex; gap: 10px; align-items: flex-start; }
+    .origin-detail-icon { font-size: 16px; line-height: 1; margin-top: 2px; flex-shrink: 0; }
+    .origin-detail-text { font-size: 13px; color: rgba(255,255,255,.5); line-height: 1.5; }
+    .origin-detail-text strong { color: rgba(255,255,255,.75); font-weight: 500; }
+    .recipes-section { background: var(--bg); padding: 80px 0; }
+    .section-header { margin-bottom: 40px; }
+    .section-header-label { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--stone-500); margin-bottom: 10px; }
+    .section-header-title { font-family: 'DM Serif Display', serif; font-style: italic; font-size: clamp(26px, 3vw, 38px); color: var(--stone-900); line-height: 1.15; }
+    .recipes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .recipe-card { background: var(--white); border: 1px solid var(--stone-300); border-radius: var(--radius-lg); overflow: hidden; transition: transform .25s ease, box-shadow .25s ease; display: block; }
+    .recipe-card:hover { transform: translateY(-5px); box-shadow: 0 16px 48px rgba(28,25,23,.1); }
+    .recipe-thumb { height: 180px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .recipe-thumb-inner { width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,.5); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; font-size: 38px; border: 1px solid rgba(255,255,255,.7); }
+    .thumb-pe { background: linear-gradient(135deg, #D1FAE5, #A7F3D0, #6EE7B7); }
+    .recipe-time-badge { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,.88); backdrop-filter: blur(8px); font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 99px; color: var(--stone-900); display: flex; align-items: center; gap: 4px; }
+    .recipe-body { padding: 18px 20px 20px; }
+    .recipe-origin-tag { font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--gold); margin-bottom: 7px; }
+    .recipe-name { font-family: 'DM Serif Display', serif; font-size: 18px; line-height: 1.25; color: var(--stone-900); margin-bottom: 10px; }
+    .recipe-sauce-chip { font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 99px; background: var(--gold-light); color: var(--gold); border: 1px solid #FDE68A; display: inline-block; }
+    .related-section { background: var(--stone-900); padding: 80px 0; }
+    .related-section .section-header-title { color: #FAFAF9; }
+    .related-section .section-header-label { color: rgba(255,255,255,.35); }
+    .related-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .related-card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius-lg); overflow: hidden; transition: all .25s ease; display: block; }
+    .related-card:hover { background: rgba(255,255,255,.07); border-color: rgba(161,98,7,.3); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,.25); }
+    .related-card-inner { padding: 28px; display: flex; align-items: center; gap: 20px; }
+    .related-emoji { width: 64px; height: 64px; border-radius: 12px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; font-size: 32px; flex-shrink: 0; }
+    .related-info { flex: 1; min-width: 0; }
+    .related-origin { font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); margin-bottom: 5px; }
+    .related-name { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 18px; color: #FAFAF9; margin-bottom: 6px; line-height: 1.2; }
+    .related-price { font-size: 16px; font-weight: 600; color: rgba(255,255,255,.55); }
+    .related-link { font-size: 12px; font-weight: 500; color: rgba(255,255,255,.35); border: 1px solid rgba(255,255,255,.12); border-radius: 99px; padding: 6px 14px; transition: all .15s; white-space: nowrap; flex-shrink: 0; }
+    .related-card:hover .related-link { color: var(--gold); border-color: rgba(161,98,7,.4); }
+    footer { background: var(--stone-900); color: rgba(255,255,255,.5); border-top: 1px solid rgba(255,255,255,.08); }
+    .footer-inner { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding: 64px 0 48px; }
+    .footer-brand h3 { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 22px; color: #FAFAF9; margin-bottom: 12px; }
+    .footer-brand p { font-size: 13px; line-height: 1.75; max-width: 260px; }
+    .footer-col h4 { font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: 16px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a { font-size: 13px; color: rgba(255,255,255,.45); transition: color .15s; }
+    .footer-col ul li a:hover { color: #FAFAF9; }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; border-top: 1px solid rgba(255,255,255,.06); font-size: 12px; }
+    .footer-socials { display: flex; gap: 10px; }
+    .social-btn { width: 34px; height: 34px; border-radius: 8px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); color: rgba(255,255,255,.45); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .15s; }
+    .social-btn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .social-btn:hover { background: rgba(255,255,255,.1); color: #FAFAF9; }
+    @media (max-width: 768px) { .product-hero-inner, .origin-story-inner { grid-template-columns: 1fr; gap: 36px; } .product-hero-inner { text-align: center; } .product-hero-eyebrow, .product-hero-actions, .spice-row { justify-content: center; } .product-hero-tagline, .product-hero-desc { max-width: 100%; } .details-grid { grid-template-columns: 1fr; } .recipes-grid { grid-template-columns: 1fr 1fr; } .related-grid { grid-template-columns: 1fr; } .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; } .nav-links { display: none; } }
+    @media (max-width: 480px) { .recipes-grid { grid-template-columns: 1fr; } .footer-inner { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <nav aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><div class="nav-logo-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="white" stroke-width="1.5"/><path d="M2 9h14M9 2a12 12 0 010 14M9 2a12 12 0 000 14" stroke="white" stroke-width="1.5"/></svg></div>Flavor Passport</a>
+      <div class="nav-links"><a href="recipes.html">Recipes</a><a href="index.html#products">Shop</a><a href="community.html">Community</a><a href="passport.html">My Passport</a></div>
+      <div class="nav-right">
+        <a href="passport.html" class="btn btn-outline-light">My Passport</a>
+        <button class="nav-cart-btn cart-trigger" onclick="FP_CART.open()" aria-label="Open cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg><span class="cart-count" style="display:none;">0</span></button>
+      </div>
+    </div>
+  </nav>
+  <div class="breadcrumb"><div class="breadcrumb-inner"><a href="index.html">Home</a><span class="breadcrumb-sep">›</span><a href="index.html#products">Shop</a><span class="breadcrumb-sep">›</span><span style="color:rgba(255,255,255,.6);">Aji Amarillo Paste</span></div></div>
+  <section class="product-hero" aria-labelledby="product-name">
+    <div class="container">
+      <div class="product-hero-inner">
+        <div class="product-hero-visual"><div class="product-emoji-circle">🫙</div></div>
+        <div class="product-hero-content">
+          <div class="product-hero-eyebrow"><span class="product-origin-tag">🇵🇪 Peru · Sacred Valley, Cusco</span><span class="product-price-badge">€17</span></div>
+          <h1 id="product-name" class="product-hero-name">Aji Amarillo Paste</h1>
+          <p class="product-hero-tagline">Fruity, vibrant, and uniquely spiced</p>
+          <p class="product-hero-desc">Peru's beloved yellow pepper in its purest form. Cold-pressed within hours of harvest in Cusco — fruity heat unlike anything European chili.</p>
+          <div class="spice-row" aria-label="Spice level: Medium (3 of 5)"><span class="spice-label">Heat</span><div class="spice-icons"><span class="spice-icon filled">🌶️</span><span class="spice-icon filled">🌶️</span><span class="spice-icon filled">🌶️</span><span class="spice-icon">🌶️</span><span class="spice-icon">🌶️</span></div><span class="spice-level-name">Medium</span></div>
+          <div class="product-hero-actions">
+            <button class="btn-add-to-cart" id="add-to-cart-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>Add to Cart — €17</button>
+            <a href="recipes.html" class="hero-recipes-link">View Recipes →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="details-section" aria-label="Product details">
+    <div class="container"><div class="details-grid">
+      <div><div class="details-card"><h2 class="details-card-title">Ingredients</h2><ul class="ingredients-list"><li>Fresh aji amarillo peppers</li><li>Sunflower oil</li><li>Garlic</li><li>Sea salt</li><li>Lime juice</li></ul><div style="margin-top:28px;"><h3 style="font-family:'DM Serif Display',serif;font-size:16px;color:var(--stone-900);margin-bottom:12px;">Flavor Profile</h3><div class="flavor-tags"><span class="flavor-tag">Fruity</span><span class="flavor-tag">Bright</span><span class="flavor-tag">Medium Heat</span><span class="flavor-tag">Floral</span><span class="flavor-tag">Tropical</span></div></div></div></div>
+      <div><div class="details-card"><h2 class="details-card-title">How to Use</h2><ol class="how-to-use-list"><li class="how-to-use-item"><span class="use-num">1</span><div class="use-text">🐟 <strong>Ceviche marinade</strong> — combine 1 tbsp with lime juice, red onion, and cilantro for an authentic leche de tigre that transforms raw fish in minutes.</div></li><li class="how-to-use-item"><span class="use-num">2</span><div class="use-text">🥔 <strong>Papa a la Huancaína</strong> — blend with feta, crackers, and milk for the classic creamy yellow sauce that has defined Peruvian cuisine for centuries.</div></li><li class="how-to-use-item"><span class="use-num">3</span><div class="use-text">🍳 <strong>Egg scramble or taco topping</strong> — a spoonful in morning eggs or drizzled over tacos adds a sunny, fruity heat that wakes everything up.</div></li><li class="how-to-use-item"><span class="use-num">4</span><div class="use-text">🍗 <strong>Chicken stir-fry</strong> — sauté with onion and tomato as the base for Arroz con Pollo or any quick chicken weeknight dinner.</div></li></ol></div></div>
+    </div></div>
+  </section>
+  <section class="origin-story-section" aria-labelledby="origin-heading">
+    <div class="container"><div class="origin-story-inner">
+      <div><div class="origin-story-label">Origin Story</div><h2 id="origin-heading" class="origin-story-title">Grown at 3,400m.<br>Cusco's Sacred Valley.</h2><p class="origin-story-text">The González family has grown aji amarillo at 3,400m altitude in the Sacred Valley for five generations. The elevation gives the pepper its distinctive fruity heat — at high altitude, the pepper's skin thins, concentrating the capsaicin and allowing the tropical fruit notes to develop fully. Cold-pressed within hours of harvest to capture the volatile aromatic compounds that make this paste so unlike any other chili product.</p><div class="origin-meta-grid"><div class="origin-meta-item"><div class="origin-meta-label">Producer</div><div class="origin-meta-value">González Family</div></div><div class="origin-meta-item"><div class="origin-meta-label">Harvest</div><div class="origin-meta-value">Mar – May</div></div><div class="origin-meta-item"><div class="origin-meta-label">Altitude</div><div class="origin-meta-value">3,400m</div></div><div class="origin-meta-item"><div class="origin-meta-label">Generations</div><div class="origin-meta-value">5th</div></div></div></div>
+      <div class="origin-map-card"><div class="origin-map-flag">🇵🇪</div><div class="origin-map-location">Sacred Valley,<br>Cusco, Peru</div><div class="origin-map-coords">13.5° S · 71.9° W · Andes Mountains</div><div class="origin-map-details"><div class="origin-map-detail"><span class="origin-detail-icon">⛰️</span><div class="origin-detail-text"><strong>High altitude cultivation</strong> at 3,400m creates the unique microclimate that develops aji amarillo's signature fruity-floral heat profile.</div></div><div class="origin-map-detail"><span class="origin-detail-icon">🌞</span><div class="origin-detail-text"><strong>Equatorial light</strong> — 12 hours of direct sunlight year-round, combined with cool Andean nights, creates dramatic sugar development in the pepper walls.</div></div><div class="origin-map-detail"><span class="origin-detail-icon">⚡</span><div class="origin-detail-text"><strong>Cold-pressed within 6 hours</strong> of harvest to preserve the volatile tropical aroma compounds unique to this variety.</div></div></div></div>
+    </div></div>
+  </section>
+  <section class="recipes-section" aria-labelledby="recipes-heading">
+    <div class="container"><div class="section-header"><div class="section-header-label">From the Flavor Library</div><h2 id="recipes-heading" class="section-header-title">Recipes featuring Aji Amarillo Paste</h2></div>
+    <div class="recipes-grid" role="list">
+      <a href="recipes.html" class="recipe-card" role="listitem"><div class="recipe-thumb thumb-pe"><div class="recipe-thumb-inner">🐟</div><span class="recipe-time-badge">⏱ 10 min</span></div><div class="recipe-body"><div class="recipe-origin-tag">🇵🇪 Peru</div><div class="recipe-name">Aji Amarillo Ceviche</div><span class="recipe-sauce-chip">Aji Amarillo Paste</span></div></a>
+      <a href="recipes.html" class="recipe-card" role="listitem"><div class="recipe-thumb thumb-pe"><div class="recipe-thumb-inner">🥔</div><span class="recipe-time-badge">⏱ 20 min</span></div><div class="recipe-body"><div class="recipe-origin-tag">🇵🇪 Peru</div><div class="recipe-name">Papa a la Huancaína</div><span class="recipe-sauce-chip">Aji Amarillo Paste</span></div></a>
+      <a href="recipes.html" class="recipe-card" role="listitem"><div class="recipe-thumb thumb-pe"><div class="recipe-thumb-inner">🍗</div><span class="recipe-time-badge">⏱ 15 min</span></div><div class="recipe-body"><div class="recipe-origin-tag">🇵🇪 Peru</div><div class="recipe-name">Peruvian Chicken Stir-fry</div><span class="recipe-sauce-chip">Aji Amarillo Paste</span></div></a>
+    </div></div>
+  </section>
+  <section class="related-section" aria-labelledby="related-heading">
+    <div class="container"><div class="section-header" style="margin-bottom:32px;"><div class="section-header-label">Continue Exploring</div><h2 id="related-heading" class="section-header-title">You might also love</h2></div>
+    <div class="related-grid" role="list">
+      <a href="product-harissa.html" class="related-card" role="listitem"><div class="related-card-inner"><div class="related-emoji">🌶️</div><div class="related-info"><div class="related-origin">🇲🇦 Morocco · Marrakech</div><div class="related-name">Harissa Chermoula</div><div class="related-price">€16</div></div><span class="related-link">View Product</span></div></a>
+      <a href="product-nam-prik-pao.html" class="related-card" role="listitem"><div class="related-card-inner"><div class="related-emoji">🥫</div><div class="related-info"><div class="related-origin">🇹🇭 Thailand · Chiang Mai</div><div class="related-name">Nam Prik Pao</div><div class="related-price">€15</div></div><span class="related-link">View Product</span></div></a>
+    </div></div>
+  </section>
+  <footer role="contentinfo"><div class="container">
+    <div class="footer-inner"><div class="footer-brand"><h3>Flavor Passport</h3><p>Authentic global sauces and condiments, sourced directly from small-batch producers across 24 countries.</p></div><div class="footer-col"><h4>Shop</h4><ul><li><a href="index.html#products">All Flavors</a></li><li><a href="index.html#products">Best Sellers</a></li><li><a href="index.html#products">Gift Sets</a></li><li><a href="index.html#products">Subscriptions</a></li></ul></div><div class="footer-col"><h4>Learn</h4><ul><li><a href="recipes.html">Recipe Library</a></li><li><a href="index.html#origin">Our Farmers</a></li><li><a href="passport.html">Digital Passport</a></li><li><a href="#">Blog</a></li></ul></div><div class="footer-col"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Sustainability</a></li><li><a href="#">Press</a></li><li><a href="mailto:hello@flavorpassport.com">Contact</a></li></ul></div></div>
+    <div class="footer-bottom"><p>© 2024 Flavor Passport. Made with curiosity in Barcelona.</p><div class="footer-socials"><button class="social-btn" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"/></svg></button><button class="social-btn" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.16 8.16 0 004.78 1.52V6.76a4.85 4.85 0 01-1.02-.07z"/></svg></button><button class="social-btn" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></button></div></div>
+  </div></footer>
+  <script>
+    var productData = { id: 'aji-amarillo-paste', name: 'Aji Amarillo Paste', origin: '🇵🇪 Sacred Valley, Peru', price: 17, emoji: '🫙', spice: 3 };
+    var addBtn = document.getElementById('add-to-cart-btn');
+    if (addBtn) { addBtn.addEventListener('click', function () { FP_CART.add(productData); addBtn.textContent = '✓ Added to Cart'; addBtn.classList.add('added'); setTimeout(function () { addBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>Add to Cart — €17'; addBtn.classList.remove('added'); }, 2000); }); }
+  </script>
+</body>
+</html>

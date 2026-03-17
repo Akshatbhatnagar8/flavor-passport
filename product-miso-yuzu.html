@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Miso Yuzu Glaze — Japan · Flavor Passport</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <script src="cart.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #FAFAF9;
+      color: #1C1917;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    :root {
+      --bg:        #FAFAF9;
+      --bg-warm:   #FFF7ED;
+      --white:     #FFFFFF;
+      --stone-950: #0C0A09;
+      --stone-900: #1C1917;
+      --stone-700: #44403C;
+      --stone-500: #78716C;
+      --stone-300: #D6D3D1;
+      --stone-100: #F5F5F4;
+      --gold:      #A16207;
+      --gold-light:#FEF3C7;
+      --orange:    #EA580C;
+      --radius:    12px;
+      --radius-lg: 20px;
+    }
+
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+    .section   { padding: 96px 0; }
+    .section-sm { padding: 72px 0; }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--stone-900);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; max-width: 1140px; margin: 0 auto; padding: 0 24px;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'DM Serif Display', serif; font-size: 20px; color: #FAFAF9;
+    }
+    .nav-logo-icon {
+      width: 32px; height: 32px; background: rgba(255,255,255,.12);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(255,255,255,.15);
+    }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-links a {
+      font-size: 14px; font-weight: 500; color: rgba(255,255,255,.55);
+      transition: color .15s;
+    }
+    .nav-links a:hover { color: #FAFAF9; }
+    .nav-right { display: flex; align-items: center; gap: 10px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500;
+      padding: 14px 28px; border-radius: 99px; border: none;
+      cursor: pointer; transition: all .2s ease; line-height: 1;
+    }
+    .btn-gold { background: var(--gold); color: #fff; }
+    .btn-gold:hover { background: #92400E; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(161,98,7,.3); }
+    .btn-outline-light {
+      background: transparent; color: rgba(255,255,255,.7);
+      border: 1.5px solid rgba(255,255,255,.18); font-size: 14px;
+      padding: 10px 20px;
+    }
+    .btn-outline-light:hover { border-color: rgba(255,255,255,.4); color: #fff; }
+    .nav-cart-btn {
+      position: relative; width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(255,255,255,.06); border: 1.5px solid rgba(255,255,255,.15);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: all .15s; color: rgba(255,255,255,.7);
+    }
+    .nav-cart-btn:hover { background: rgba(255,255,255,.1); color: #fff; }
+    .nav-cart-btn svg { width: 18px; height: 18px; }
+
+    /* ── Breadcrumb ── */
+    .breadcrumb {
+      background: var(--stone-900);
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .breadcrumb-inner {
+      max-width: 1140px; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; color: rgba(255,255,255,.35);
+      font-family: 'DM Sans', sans-serif;
+    }
+    .breadcrumb-inner a { color: rgba(255,255,255,.4); transition: color .15s; }
+    .breadcrumb-inner a:hover { color: var(--gold); }
+    .breadcrumb-sep { color: rgba(255,255,255,.2); }
+    .breadcrumb-current { color: rgba(255,255,255,.6); }
+
+    /* ── Product Hero ── */
+    .product-hero {
+      background: var(--stone-900);
+      padding: 72px 0 80px;
+      position: relative; overflow: hidden;
+    }
+    .product-hero::before {
+      content: ''; position: absolute;
+      top: -100px; right: -100px; width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(161,98,7,.18) 0%, transparent 65%);
+      pointer-events: none; border-radius: 50%;
+    }
+    .product-hero::after {
+      content: ''; position: absolute;
+      bottom: -60px; left: -60px; width: 360px; height: 360px;
+      background: radial-gradient(circle, rgba(254,243,199,.06) 0%, transparent 65%);
+      pointer-events: none; border-radius: 50%;
+    }
+    .product-hero-inner {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1fr 1.2fr; gap: 64px; align-items: center;
+    }
+    .product-hero-visual {
+      display: flex; align-items: center; justify-content: center;
+    }
+    .product-emoji-circle {
+      width: 180px; height: 180px; border-radius: 50%;
+      background: rgba(255,255,255,.04);
+      border: 2px solid var(--gold);
+      box-shadow: 0 0 60px rgba(161,98,7,.35), 0 0 120px rgba(161,98,7,.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 80px;
+      animation: pulse-glow 3s ease-in-out infinite;
+    }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 60px rgba(161,98,7,.35), 0 0 120px rgba(161,98,7,.12); }
+      50% { box-shadow: 0 0 80px rgba(161,98,7,.5), 0 0 160px rgba(161,98,7,.2); }
+    }
+    .product-hero-content {}
+    .product-hero-eyebrow {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
+    }
+    .product-origin-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--gold); background: rgba(161,98,7,.12);
+      border: 1px solid rgba(161,98,7,.3); padding: 5px 12px; border-radius: 99px;
+    }
+    .product-price-badge {
+      display: inline-flex; align-items: center;
+      font-size: 20px; font-weight: 700; color: #FAFAF9;
+      font-family: 'DM Serif Display', serif;
+    }
+    .product-hero-name {
+      font-family: 'DM Serif Display', serif;
+      font-style: italic;
+      font-size: clamp(40px, 5vw, 64px);
+      line-height: 1.05; color: #FAFAF9;
+      margin-bottom: 16px;
+    }
+    .product-hero-tagline {
+      font-size: 18px; color: rgba(255,255,255,.55);
+      line-height: 1.6; margin-bottom: 24px; max-width: 440px;
+    }
+    .product-hero-desc {
+      font-size: 15px; color: rgba(255,255,255,.4);
+      line-height: 1.8; margin-bottom: 28px; max-width: 440px;
+    }
+    /* Spice level */
+    .spice-row {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 28px;
+    }
+    .spice-label {
+      font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+      color: rgba(255,255,255,.35);
+    }
+    .spice-icons { display: flex; gap: 3px; }
+    .spice-icon { font-size: 16px; line-height: 1; opacity: .2; filter: grayscale(1); }
+    .spice-icon.filled { opacity: 1; filter: none; }
+    .spice-level-name {
+      font-size: 12px; font-weight: 500; color: rgba(255,255,255,.4);
+      font-family: 'DM Sans', sans-serif;
+    }
+    /* Hero actions */
+    .product-hero-actions {
+      display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    }
+    .btn-add-to-cart {
+      background: var(--gold); color: #fff;
+      padding: 16px 32px; border-radius: 99px; border: none;
+      font-family: 'DM Serif Display', serif; font-style: italic;
+      font-size: 18px; cursor: pointer; transition: all .2s ease;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-add-to-cart:hover { background: #92400E; transform: translateY(-1px); box-shadow: 0 8px 28px rgba(161,98,7,.4); }
+    .btn-add-to-cart.added { background: #16a34a; }
+    .hero-recipes-link {
+      font-size: 14px; color: rgba(255,255,255,.5);
+      transition: color .15s; display: flex; align-items: center; gap: 6px;
+    }
+    .hero-recipes-link:hover { color: var(--gold); }
+
+    /* ── Details Grid ── */
+    .details-section {
+      background: var(--bg); padding: 80px 0;
+    }
+    .details-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 56px;
+    }
+    .details-card {
+      background: var(--white); border: 1px solid var(--stone-300);
+      border-radius: var(--radius-lg); padding: 36px;
+    }
+    .details-card-title {
+      font-family: 'DM Serif Display', serif; font-style: italic;
+      font-size: 22px; color: var(--stone-900);
+      margin-bottom: 24px; padding-bottom: 16px;
+      border-bottom: 1px solid var(--stone-300);
+    }
+    .ingredients-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .ingredients-list li {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 14px; color: var(--stone-700);
+    }
+    .ingredients-list li::before {
+      content: '✓'; width: 20px; height: 20px; border-radius: 50%;
+      background: var(--gold-light); color: var(--gold);
+      font-size: 11px; font-weight: 700; display: flex;
+      align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .flavor-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .flavor-tag {
+      font-size: 12px; font-weight: 500; padding: 6px 14px; border-radius: 99px;
+      background: var(--gold-light); color: var(--gold);
+      border: 1px solid #FDE68A;
+    }
+    .how-to-use-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+    .how-to-use-item {
+      display: flex; align-items: flex-start; gap: 14px;
+    }
+    .use-num {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: var(--stone-900); color: #fff;
+      font-size: 12px; font-weight: 600; display: flex;
+      align-items: center; justify-content: center; flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .use-text { font-size: 14px; color: var(--stone-700); line-height: 1.65; }
+    .use-text strong { color: var(--stone-900); font-weight: 600; }
+
+    /* ── Origin Story ── */
+    .origin-story-section {
+      background: var(--bg-warm); padding: 80px 0;
+    }
+    .origin-story-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;
+    }
+    .origin-story-label {
+      font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--stone-500); margin-bottom: 12px;
+    }
+    .origin-story-title {
+      font-family: 'DM Serif Display', serif; font-style: italic;
+      font-size: clamp(28px, 3vw, 40px); line-height: 1.15;
+      color: var(--stone-900); margin-bottom: 20px;
+    }
+    .origin-story-text {
+      font-size: 16px; color: var(--stone-500); line-height: 1.8;
+      margin-bottom: 28px;
+    }
+    .origin-meta-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    }
+    .origin-meta-item {
+      background: var(--white); border: 1px solid var(--stone-300);
+      border-radius: var(--radius); padding: 16px 18px;
+    }
+    .origin-meta-label {
+      font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--stone-500); margin-bottom: 4px;
+    }
+    .origin-meta-value {
+      font-family: 'DM Serif Display', serif; font-size: 16px; color: var(--stone-900);
+    }
+    .origin-map-card {
+      background: var(--stone-900); border-radius: var(--radius-lg);
+      padding: 36px; display: flex; flex-direction: column; gap: 20px;
+      position: relative; overflow: hidden;
+    }
+    .origin-map-card::before {
+      content: ''; position: absolute; top: -60px; right: -60px;
+      width: 200px; height: 200px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(161,98,7,.2) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .origin-map-flag {
+      font-size: 48px; line-height: 1;
+    }
+    .origin-map-location {
+      font-family: 'DM Serif Display', serif; font-style: italic;
+      font-size: 26px; color: #FAFAF9; line-height: 1.2;
+    }
+    .origin-map-coords {
+      font-size: 12px; color: rgba(255,255,255,.3);
+      font-family: 'DM Sans', sans-serif; letter-spacing: .08em;
+    }
+    .origin-map-details {
+      display: flex; flex-direction: column; gap: 12px;
+      border-top: 1px solid rgba(255,255,255,.08); padding-top: 20px;
+    }
+    .origin-map-detail {
+      display: flex; gap: 10px; align-items: flex-start;
+    }
+    .origin-detail-icon { font-size: 16px; line-height: 1; margin-top: 2px; flex-shrink: 0; }
+    .origin-detail-text { font-size: 13px; color: rgba(255,255,255,.5); line-height: 1.5; }
+    .origin-detail-text strong { color: rgba(255,255,255,.75); font-weight: 500; }
+
+    /* ── Recipes Section ── */
+    .recipes-section {
+      background: var(--bg); padding: 80px 0;
+    }
+    .section-header { margin-bottom: 40px; }
+    .section-header-label {
+      font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--stone-500); margin-bottom: 10px;
+    }
+    .section-header-title {
+      font-family: 'DM Serif Display', serif; font-style: italic;
+      font-size: clamp(26px, 3vw, 38px); color: var(--stone-900); line-height: 1.15;
+    }
+    .recipes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .recipe-card {
+      background: var(--white); border: 1px solid var(--stone-300);
+      border-radius: var(--radius-lg); overflow: hidden;
+      transition: transform .25s ease, box-shadow .25s ease; display: block;
+    }
+    .recipe-card:hover { transform: translateY(-5px); box-shadow: 0 16px 48px rgba(28,25,23,.1); }
+    .recipe-thumb {
+      height: 180px; display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .recipe-thumb-inner {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: rgba(255,255,255,.5); backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 38px; border: 1px solid rgba(255,255,255,.7);
+    }
+    .thumb-jp { background: linear-gradient(135deg, #FEF3C7, #FDE68A, #FCD34D); }
+    .recipe-time-badge {
+      position: absolute; top: 10px; right: 10px;
+      background: rgba(255,255,255,.88); backdrop-filter: blur(8px);
+      font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 99px;
+      color: var(--stone-900); display: flex; align-items: center; gap: 4px;
+    }
+    .recipe-body { padding: 18px 20px 20px; }
+    .recipe-origin-tag {
+      font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 7px;
+    }
+    .recipe-name {
+      font-family: 'DM Serif Display', serif; font-size: 18px;
+      line-height: 1.25; color: var(--stone-900); margin-bottom: 10px;
+    }
+    .recipe-sauce-chip {
+      font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 99px;
+      background: var(--gold-light); color: var(--gold); border: 1px solid #FDE68A;
+      display: inline-block;
+    }
+
+    /* ── Related Products ── */
+    .related-section {
+      background: var(--stone-900); padding: 80px 0;
+    }
+    .related-section .section-header-title { color: #FAFAF9; }
+    .related-section .section-header-label { color: rgba(255,255,255,.35); }
+    .related-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .related-card {
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius-lg); overflow: hidden;
+      transition: all .25s ease; display: block;
+    }
+    .related-card:hover {
+      background: rgba(255,255,255,.07);
+      border-color: rgba(161,98,7,.3);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.25);
+    }
+    .related-card-inner { padding: 28px; display: flex; align-items: center; gap: 20px; }
+    .related-emoji {
+      width: 64px; height: 64px; border-radius: 12px;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px; flex-shrink: 0;
+    }
+    .related-info { flex: 1; min-width: 0; }
+    .related-origin {
+      font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 5px;
+    }
+    .related-name {
+      font-family: 'DM Serif Display', serif; font-style: italic;
+      font-size: 18px; color: #FAFAF9; margin-bottom: 6px; line-height: 1.2;
+    }
+    .related-price {
+      font-size: 16px; font-weight: 600; color: rgba(255,255,255,.55);
+    }
+    .related-link {
+      font-size: 12px; font-weight: 500; color: rgba(255,255,255,.35);
+      border: 1px solid rgba(255,255,255,.12); border-radius: 99px; padding: 6px 14px;
+      transition: all .15s; white-space: nowrap; flex-shrink: 0;
+    }
+    .related-card:hover .related-link { color: var(--gold); border-color: rgba(161,98,7,.4); }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--stone-900); color: rgba(255,255,255,.5);
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .footer-inner {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px; padding: 64px 0 48px;
+    }
+    .footer-brand h3 {
+      font-family: 'DM Serif Display', serif; font-style: italic;
+      font-size: 22px; color: #FAFAF9; margin-bottom: 12px;
+    }
+    .footer-brand p { font-size: 13px; line-height: 1.75; max-width: 260px; }
+    .footer-col h4 {
+      font-size: 12px; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: rgba(255,255,255,.4);
+      margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a {
+      font-size: 13px; color: rgba(255,255,255,.45);
+      transition: color .15s;
+    }
+    .footer-col ul li a:hover { color: #FAFAF9; }
+    .footer-bottom {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 0; border-top: 1px solid rgba(255,255,255,.06);
+      font-size: 12px;
+    }
+    .footer-socials { display: flex; gap: 10px; }
+    .social-btn {
+      width: 34px; height: 34px; border-radius: 8px;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+      color: rgba(255,255,255,.45); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .15s;
+    }
+    .social-btn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .social-btn:hover { background: rgba(255,255,255,.1); color: #FAFAF9; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .product-hero-inner { grid-template-columns: 1fr; gap: 36px; text-align: center; }
+      .product-hero-eyebrow { justify-content: center; }
+      .product-hero-tagline, .product-hero-desc { max-width: 100%; }
+      .product-hero-actions { justify-content: center; }
+      .spice-row { justify-content: center; }
+      .details-grid { grid-template-columns: 1fr; }
+      .origin-story-inner { grid-template-columns: 1fr; }
+      .recipes-grid { grid-template-columns: 1fr 1fr; }
+      .related-grid { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 480px) {
+      .recipes-grid { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav ── -->
+  <nav aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="Flavor Passport home">
+        <div class="nav-logo-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <circle cx="9" cy="9" r="7" stroke="white" stroke-width="1.5"/>
+            <path d="M2 9h14M9 2a12 12 0 010 14M9 2a12 12 0 000 14" stroke="white" stroke-width="1.5"/>
+          </svg>
+        </div>
+        Flavor Passport
+      </a>
+      <div class="nav-links">
+        <a href="recipes.html">Recipes</a>
+        <a href="index.html#products">Shop</a>
+        <a href="community.html">Community</a>
+        <a href="passport.html">My Passport</a>
+      </div>
+      <div class="nav-right">
+        <a href="passport.html" class="btn btn-outline-light">My Passport</a>
+        <button class="nav-cart-btn cart-trigger" onclick="FP_CART.open()" aria-label="Open cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
+          </svg>
+          <span class="cart-count" style="display:none;">0</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Breadcrumb ── -->
+  <div class="breadcrumb">
+    <div class="breadcrumb-inner">
+      <a href="index.html">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="index.html#products">Shop</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">Miso Yuzu Glaze</span>
+    </div>
+  </div>
+
+  <!-- ── Product Hero ── -->
+  <section class="product-hero" aria-labelledby="product-name">
+    <div class="container">
+      <div class="product-hero-inner">
+        <div class="product-hero-visual">
+          <div class="product-emoji-circle" aria-hidden="true">🍯</div>
+        </div>
+        <div class="product-hero-content">
+          <div class="product-hero-eyebrow">
+            <span class="product-origin-tag">🇯🇵 Japan · Kyoto Prefecture</span>
+            <span class="product-price-badge">€18</span>
+          </div>
+          <h1 id="product-name" class="product-hero-name">Miso Yuzu Glaze</h1>
+          <p class="product-hero-tagline">Umami-rich, with a bright citrus finish</p>
+          <p class="product-hero-desc">Fermented white miso meets hand-pressed yuzu citrus from family orchards in Shikoku. Cold-mixed, never heated — preserving every enzyme and live culture.</p>
+          <div class="spice-row" aria-label="Spice level: Mild (1 of 5)">
+            <span class="spice-label">Heat</span>
+            <div class="spice-icons" aria-hidden="true">
+              <span class="spice-icon filled">🌶️</span>
+              <span class="spice-icon">🌶️</span>
+              <span class="spice-icon">🌶️</span>
+              <span class="spice-icon">🌶️</span>
+              <span class="spice-icon">🌶️</span>
+            </div>
+            <span class="spice-level-name">Mild</span>
+          </div>
+          <div class="product-hero-actions">
+            <button class="btn-add-to-cart" id="add-to-cart-btn" aria-label="Add Miso Yuzu Glaze to cart">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+              Add to Cart — €18
+            </button>
+            <a href="recipes.html" class="hero-recipes-link">
+              View Recipes →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Details Grid ── -->
+  <section class="details-section" aria-label="Product details">
+    <div class="container">
+      <div class="details-grid">
+        <!-- Left: Ingredients + Flavor Profile -->
+        <div>
+          <div class="details-card">
+            <h2 class="details-card-title">Ingredients</h2>
+            <ul class="ingredients-list" aria-label="Ingredients list">
+              <li>White miso paste</li>
+              <li>Hand-pressed yuzu juice</li>
+              <li>Mirin</li>
+              <li>Rice vinegar</li>
+              <li>Ginger</li>
+              <li>Sesame oil</li>
+              <li>Sea salt</li>
+            </ul>
+            <div style="margin-top: 28px;">
+              <h3 style="font-family:'DM Serif Display',serif;font-size:16px;color:var(--stone-900);margin-bottom:12px;">Flavor Profile</h3>
+              <div class="flavor-tags" aria-label="Flavor profile tags">
+                <span class="flavor-tag">Umami</span>
+                <span class="flavor-tag">Citrus</span>
+                <span class="flavor-tag">Sweet</span>
+                <span class="flavor-tag">Mellow</span>
+                <span class="flavor-tag">Savory</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Right: How to Use -->
+        <div>
+          <div class="details-card">
+            <h2 class="details-card-title">How to Use</h2>
+            <ol class="how-to-use-list" aria-label="Usage suggestions">
+              <li class="how-to-use-item">
+                <span class="use-num" aria-hidden="true">1</span>
+                <div class="use-text">🐟 <strong>Glaze for salmon or chicken</strong> — brush on during the last 3 minutes of cooking for a caramelised, glossy finish.</div>
+              </li>
+              <li class="how-to-use-item">
+                <span class="use-num" aria-hidden="true">2</span>
+                <div class="use-text">🥗 <strong>Salad dressing base</strong> — thin with rice vinegar and a splash of sesame oil for an instant Japanese-style vinaigrette.</div>
+              </li>
+              <li class="how-to-use-item">
+                <span class="use-num" aria-hidden="true">3</span>
+                <div class="use-text">🍜 <strong>Ramen topping or stir-fry finisher</strong> — a spoonful stirred in at the very end adds depth without overpowering the dish.</div>
+              </li>
+              <li class="how-to-use-item">
+                <span class="use-num" aria-hidden="true">4</span>
+                <div class="use-text">🥢 <strong>Dipping sauce</strong> — serve alongside gyoza, spring rolls, or steamed dumplings with a little chili oil on the side.</div>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Origin Story ── -->
+  <section class="origin-story-section" aria-labelledby="origin-heading">
+    <div class="container">
+      <div class="origin-story-inner">
+        <div>
+          <div class="origin-story-label">Origin Story</div>
+          <h2 id="origin-heading" class="origin-story-title">Fermented in Kyoto.<br>Picked in Shikoku.</h2>
+          <p class="origin-story-text">The Nakamura family has been fermenting miso in Kyoto since 1954. Their yuzu grove in Shikoku adds citrus notes no industrial process can replicate. Harvested October–November, the yuzu is cold-pressed within 24 hours of picking — this is why the glaze carries that unmistakable fresh citrus lift that you simply cannot get from concentrate.</p>
+          <div class="origin-meta-grid" aria-label="Origin details">
+            <div class="origin-meta-item">
+              <div class="origin-meta-label">Producer</div>
+              <div class="origin-meta-value">Nakamura Family</div>
+            </div>
+            <div class="origin-meta-item">
+              <div class="origin-meta-label">Harvest</div>
+              <div class="origin-meta-value">Oct – Nov</div>
+            </div>
+            <div class="origin-meta-item">
+              <div class="origin-meta-label">Region</div>
+              <div class="origin-meta-value">Shikoku Island</div>
+            </div>
+            <div class="origin-meta-item">
+              <div class="origin-meta-label">Since</div>
+              <div class="origin-meta-value">1954</div>
+            </div>
+          </div>
+        </div>
+        <div class="origin-map-card" aria-label="Origin location information">
+          <div class="origin-map-flag" aria-hidden="true">🇯🇵</div>
+          <div class="origin-map-location">Kyoto Prefecture,<br>Japan</div>
+          <div class="origin-map-coords">33.7° N · 133.5° E · Shikoku Region</div>
+          <div class="origin-map-details">
+            <div class="origin-map-detail">
+              <span class="origin-detail-icon">🌊</span>
+              <div class="origin-detail-text"><strong>Coastal climate</strong> of Shikoku gives yuzu its distinctive floral-citrus character, grown at sea level where ocean humidity influences the rind's essential oils.</div>
+            </div>
+            <div class="origin-map-detail">
+              <span class="origin-detail-icon">🏺</span>
+              <div class="origin-detail-text"><strong>White shiro miso</strong> fermented for 30–60 days in cedar barrels — a shorter ferment than red miso, producing the sweeter, more delicate base profile.</div>
+            </div>
+            <div class="origin-map-detail">
+              <span class="origin-detail-icon">❄️</span>
+              <div class="origin-detail-text"><strong>Cold-blended, never heated</strong> — the final mixing process uses no heat, preserving live enzymes and the volatile citrus aromatics from the fresh-pressed yuzu.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Recipes ── -->
+  <section class="recipes-section" aria-labelledby="recipes-heading">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-header-label">From the Flavor Library</div>
+        <h2 id="recipes-heading" class="section-header-title">Recipes featuring Miso Yuzu Glaze</h2>
+      </div>
+      <div class="recipes-grid" role="list">
+        <a href="recipes.html" class="recipe-card" role="listitem" aria-label="Miso Yuzu Chicken Bowl, 12 minutes">
+          <div class="recipe-thumb thumb-jp">
+            <div class="recipe-thumb-inner">🍜</div>
+            <span class="recipe-time-badge">⏱ 12 min</span>
+          </div>
+          <div class="recipe-body">
+            <div class="recipe-origin-tag">🇯🇵 Japan</div>
+            <div class="recipe-name">Miso Yuzu Chicken Bowl</div>
+            <span class="recipe-sauce-chip">Miso Yuzu Glaze</span>
+          </div>
+        </a>
+        <a href="recipes.html" class="recipe-card" role="listitem" aria-label="Yuzu Glazed Salmon, 15 minutes">
+          <div class="recipe-thumb thumb-jp">
+            <div class="recipe-thumb-inner">🐟</div>
+            <span class="recipe-time-badge">⏱ 15 min</span>
+          </div>
+          <div class="recipe-body">
+            <div class="recipe-origin-tag">🇯🇵 Japan</div>
+            <div class="recipe-name">Yuzu Glazed Salmon</div>
+            <span class="recipe-sauce-chip">Miso Yuzu Glaze</span>
+          </div>
+        </a>
+        <a href="recipes.html" class="recipe-card" role="listitem" aria-label="Cold Soba with Miso Dressing, 8 minutes">
+          <div class="recipe-thumb thumb-jp">
+            <div class="recipe-thumb-inner">🥢</div>
+            <span class="recipe-time-badge">⏱ 8 min</span>
+          </div>
+          <div class="recipe-body">
+            <div class="recipe-origin-tag">🇯🇵 Japan</div>
+            <div class="recipe-name">Cold Soba with Miso Dressing</div>
+            <span class="recipe-sauce-chip">Miso Yuzu Glaze</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Related Products ── -->
+  <section class="related-section" aria-labelledby="related-heading">
+    <div class="container">
+      <div class="section-header" style="margin-bottom:32px;">
+        <div class="section-header-label">Continue Exploring</div>
+        <h2 id="related-heading" class="section-header-title">You might also love</h2>
+      </div>
+      <div class="related-grid" role="list">
+        <a href="product-nam-prik-pao.html" class="related-card" role="listitem" aria-label="Nam Prik Pao from Thailand">
+          <div class="related-card-inner">
+            <div class="related-emoji" aria-hidden="true">🥫</div>
+            <div class="related-info">
+              <div class="related-origin">🇹🇭 Thailand · Chiang Mai</div>
+              <div class="related-name">Nam Prik Pao</div>
+              <div class="related-price">€15</div>
+            </div>
+            <span class="related-link">View Product</span>
+          </div>
+        </a>
+        <a href="product-salsa-macha.html" class="related-card" role="listitem" aria-label="Salsa Macha from Mexico">
+          <div class="related-card-inner">
+            <div class="related-emoji" aria-hidden="true">🫙</div>
+            <div class="related-info">
+              <div class="related-origin">🇲🇽 Mexico · Oaxaca</div>
+              <div class="related-name">Salsa Macha</div>
+              <div class="related-price">€17</div>
+            </div>
+            <span class="related-link">View Product</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <h3>Flavor Passport</h3>
+          <p>Authentic global sauces and condiments, sourced directly from small-batch producers across 24 countries.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="index.html#products">All Flavors</a></li>
+            <li><a href="index.html#products">Best Sellers</a></li>
+            <li><a href="index.html#products">Gift Sets</a></li>
+            <li><a href="index.html#products">Subscriptions</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Learn</h4>
+          <ul>
+            <li><a href="recipes.html">Recipe Library</a></li>
+            <li><a href="index.html#origin">Our Farmers</a></li>
+            <li><a href="passport.html">Digital Passport</a></li>
+            <li><a href="#">Blog</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Sustainability</a></li>
+            <li><a href="#">Press</a></li>
+            <li><a href="mailto:hello@flavorpassport.com">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2024 Flavor Passport. Made with curiosity in Barcelona.</p>
+        <div class="footer-socials" aria-label="Social media links">
+          <button class="social-btn" aria-label="Flavor Passport on Instagram">
+            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"/></svg>
+          </button>
+          <button class="social-btn" aria-label="Flavor Passport on TikTok">
+            <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.16 8.16 0 004.78 1.52V6.76a4.85 4.85 0 01-1.02-.07z"/></svg>
+          </button>
+          <button class="social-btn" aria-label="Contact Flavor Passport by email">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Wire Add to Cart button
+    var productData = {
+      id: 'miso-yuzu-glaze',
+      name: 'Miso Yuzu Glaze',
+      origin: '🇯🇵 Kyoto, Japan',
+      price: 18,
+      emoji: '🍯',
+      spice: 1
+    };
+
+    var addBtn = document.getElementById('add-to-cart-btn');
+    if (addBtn) {
+      addBtn.addEventListener('click', function () {
+        FP_CART.add(productData);
+        addBtn.textContent = '✓ Added to Cart';
+        addBtn.classList.add('added');
+        setTimeout(function () {
+          addBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>Add to Cart — €18';
+          addBtn.classList.remove('added');
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
