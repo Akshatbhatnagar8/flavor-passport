@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nam Prik Pao — Flavor Passport</title>
+  <title>'Nduja Sauce — Flavor Passport</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --ink: #1a1a2e; --muted: #6b7280; --border: #e5e7eb; --cream: #faf9f6; --accent: #059669; }
+    :root { --ink: #1a1a2e; --muted: #6b7280; --border: #e5e7eb; --cream: #faf9f6; --accent: #be123c; }
     body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--ink); }
     nav { background: #0f172a; padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
     .nav-logo { color: #fff; font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; text-decoration: none; }
@@ -21,24 +21,25 @@
     .breadcrumb { padding: 1rem 2rem; font-size: .8rem; color: var(--muted); display: flex; gap: .5rem; align-items: center; max-width: 1100px; margin: 0 auto; }
     .breadcrumb a { color: var(--muted); text-decoration: none; } .breadcrumb a:hover { color: var(--ink); }
     .breadcrumb span { opacity: .4; }
-    .hero { background: linear-gradient(135deg, #001a0a 0%, #003d1a 40%, #001505 100%); padding: 4rem 2rem; }
+    .hero { background: linear-gradient(135deg, #1a0008 0%, #3d0015 40%, #1a0010 100%); padding: 4rem 2rem; }
     .hero-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
     .hero-emoji-wrap { display: flex; align-items: center; justify-content: center; }
-    .hero-emoji-circle { width: 220px; height: 220px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #34d399 0%, #059669 40%, #064e3b 100%); display: flex; align-items: center; justify-content: center; font-size: 7rem; box-shadow: 0 0 60px rgba(5,150,105,.7), 0 0 120px rgba(5,150,105,.3); }
+    .hero-emoji-circle { width: 220px; height: 220px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fda4af 0%, #be123c 40%, #881337 100%); display: flex; align-items: center; justify-content: center; font-size: 7rem; box-shadow: 0 0 60px rgba(190,18,60,.7), 0 0 120px rgba(190,18,60,.3); }
     .hero-content { color: #fff; }
     .origin-tag { display: inline-flex; align-items: center; gap: .4rem; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); border-radius: 20px; padding: .3rem .85rem; font-size: .8rem; color: #cbd5e1; margin-bottom: 1rem; }
     .price-badge { display: inline-block; background: var(--accent); color: #fff; border-radius: 8px; padding: .25rem .75rem; font-size: .85rem; font-weight: 700; margin-bottom: 1rem; }
     .hero-name { font-family: 'Playfair Display', serif; font-size: 3rem; font-style: italic; line-height: 1.1; margin-bottom: .5rem; }
     .hero-tagline { color: #94a3b8; font-size: 1rem; margin-bottom: 1rem; }
     .hero-desc { color: #cbd5e1; font-size: .95rem; line-height: 1.7; margin-bottom: 1.5rem; }
+    .diet-badge { display: inline-flex; align-items: center; gap: 4px; border-radius: 99px; padding: 3px 10px; font-size: 11px; font-weight: 600; margin-bottom: 10px; background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
     .spice-row { display: flex; align-items: center; gap: .3rem; margin-bottom: 1.5rem; }
     .spice-label { color: #94a3b8; font-size: .8rem; margin-right: .4rem; }
     .spice-icon { font-size: 1.1rem; }
     .spice-icon.empty { opacity: .2; filter: grayscale(1); }
-    .spice-level-text { color: #86efac; font-size: .8rem; font-weight: 600; margin-left: .5rem; }
+    .spice-level-text { color: #fda4af; font-size: .8rem; font-weight: 600; margin-left: .5rem; }
     .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
     .btn-primary { background: var(--accent); color: #fff; border: none; border-radius: 10px; padding: .85rem 2rem; font-size: .95rem; font-weight: 600; cursor: pointer; transition: all .2s; }
-    .btn-primary:hover { background: #047857; transform: translateY(-1px); }
+    .btn-primary:hover { background: #9f1239; transform: translateY(-1px); }
     .btn-secondary { background: transparent; color: #cbd5e1; border: 1px solid rgba(255,255,255,.2); border-radius: 10px; padding: .85rem 2rem; font-size: .95rem; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; transition: all .2s; }
     .btn-secondary:hover { border-color: rgba(255,255,255,.5); color: #fff; }
     .details-section { max-width: 1100px; margin: 3rem auto; padding: 0 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
@@ -48,11 +49,11 @@
     .ingredient-list li { display: flex; align-items: center; gap: .6rem; font-size: .9rem; color: #374151; }
     .ingredient-list li::before { content: '✓'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
     .flavor-tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
-    .flavor-tag { background: #f0fdf4; color: var(--accent); border: 1px solid #bbf7d0; border-radius: 20px; padding: .25rem .75rem; font-size: .8rem; font-weight: 500; }
+    .flavor-tag { background: #fff1f2; color: var(--accent); border: 1px solid #fecdd3; border-radius: 20px; padding: .25rem .75rem; font-size: .8rem; font-weight: 500; }
     .use-list { list-style: none; display: flex; flex-direction: column; gap: .85rem; }
     .use-list li { display: flex; gap: .85rem; font-size: .9rem; color: #374151; line-height: 1.5; }
     .use-num { background: var(--accent); color: #fff; border-radius: 50%; width: 24px; height: 24px; font-size: .75rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: .1rem; }
-    .origin-section { background: #f0fdf4; border-top: 1px solid #bbf7d0; border-bottom: 1px solid #bbf7d0; padding: 3rem 2rem; margin: 2rem 0; }
+    .origin-section { background: #fff1f2; border-top: 1px solid #fecdd3; border-bottom: 1px solid #fecdd3; padding: 3rem 2rem; margin: 2rem 0; }
     .origin-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 380px; gap: 3rem; align-items: start; }
     .origin-text h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1rem; }
     .origin-text p { color: #4b5563; line-height: 1.8; margin-bottom: 1rem; font-size: .95rem; }
@@ -73,9 +74,9 @@
     .recipe-card { background: #fff; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); transition: transform .2s, box-shadow .2s; text-decoration: none; color: inherit; display: block; }
     .recipe-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.1); }
     .recipe-thumb { height: 140px; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; }
-    .rt-green { background: linear-gradient(135deg, #bbf7d0, #4ade80); }
-    .rt-teal { background: linear-gradient(135deg, #99f6e4, #2dd4bf); }
-    .rt-lime { background: linear-gradient(135deg, #d9f99d, #a3e635); }
+    .rt-rose { background: linear-gradient(135deg, #fecdd3, #fb7185); }
+    .rt-red { background: linear-gradient(135deg, #fca5a5, #f87171); }
+    .rt-pink { background: linear-gradient(135deg, #fbcfe8, #f472b6); }
     .recipe-info { padding: 1rem; }
     .recipe-time { font-size: .75rem; color: var(--muted); margin-bottom: .25rem; }
     .recipe-name { font-size: .95rem; font-weight: 600; }
@@ -105,31 +106,31 @@
 <div class="breadcrumb">
   <a href="index.html">Home</a><span>/</span>
   <a href="index.html#library">Products</a><span>/</span>
-  <span>Nam Prik Pao</span>
+  <span>'Nduja Sauce</span>
 </div>
 <section class="hero">
   <div class="hero-inner">
     <div class="hero-emoji-wrap">
-      <div class="hero-emoji-circle">🌺</div>
+      <div class="hero-emoji-circle">🍖</div>
     </div>
     <div class="hero-content">
-      <div class="origin-tag">🇹🇭 Thailand · Southeast Asia</div>
-      <div class="price-badge">€15</div>
-      <h1 class="hero-name">Nam Prik Pao</h1>
-      <p class="hero-tagline">Roasted chilli jam with shrimp paste & palm sugar</p>
-      <p class="hero-desc">Thailand's iconic roasted chilli paste — sweet, smoky and deeply savoury all at once. A staple of Thai pantries for centuries, Nam Prik Pao transforms simple dishes with layers of caramelised complexity.</p>
-      <span class="diet-badge nonveg" style="display:inline-flex;align-items:center;gap:4px;border-radius:99px;padding:3px 10px;font-size:11px;font-weight:600;background:#fff7ed;color:#c2410c;border:1px solid #fed7aa;margin-bottom:10px;">🦐 Contains Seafood</span>
-        <div class="spice-row">
+      <div class="origin-tag">🇮🇹 Italy · Calabria</div>
+      <div class="price-badge">€19</div>
+      <h1 class="hero-name">'Nduja Sauce</h1>
+      <p class="hero-tagline">Spreadable Calabrian pork with fiery peperoncino</p>
+      <p class="hero-desc">Italy's most fearless condiment — a volcanic paste of fatty pork, slow-fermented salami and an avalanche of Calabrian peperoncino chillies. Silky enough to spread, intense enough to transform any dish it touches.</p>
+      <span class="diet-badge">🥩 Contains Pork</span>
+      <div class="spice-row">
         <span class="spice-label">Spice:</span>
         <span class="spice-icon">🌶️</span>
         <span class="spice-icon">🌶️</span>
-        <span class="spice-icon empty">🌶️</span>
-        <span class="spice-icon empty">🌶️</span>
-        <span class="spice-icon empty">🌶️</span>
-        <span class="spice-level-text">Mild-Medium</span>
+        <span class="spice-icon">🌶️</span>
+        <span class="spice-icon">🌶️</span>
+        <span class="spice-icon">🌶️</span>
+        <span class="spice-level-text">Very Hot</span>
       </div>
       <div class="hero-actions">
-        <button class="btn-primary" id="add-to-cart-btn">Add to Cart — €15</button>
+        <button class="btn-primary" id="add-to-cart-btn">Add to Cart — €19</button>
         <a class="btn-secondary" href="recipes.html">View Recipes →</a>
       </div>
     </div>
@@ -139,81 +140,80 @@
   <div class="detail-card">
     <h3>Ingredients</h3>
     <ul class="ingredient-list">
-      <li>Dried roasted Thai chillies</li>
-      <li>Fermented shrimp paste (kapi)</li>
-      <li>Palm sugar</li>
-      <li>Shallots & garlic (charred)</li>
-      <li>Tamarind concentrate</li>
-      <li>Fish sauce</li>
-      <li>Dried shrimp</li>
-      <li>Coconut oil</li>
+      <li>Pork shoulder & belly (Calabrian heritage breed)</li>
+      <li>Calabrian peperoncino (50% chilli content)</li>
+      <li>Sea salt (Sicilian)</li>
+      <li>Natural pork casing</li>
+      <li>White wine</li>
+      <li>Wild fennel seeds</li>
+      <li>Black pepper (coarse ground)</li>
     </ul>
     <div class="flavor-tags">
+      <span class="flavor-tag">Fiery</span>
+      <span class="flavor-tag">Fatty</span>
+      <span class="flavor-tag">Fermented</span>
+      <span class="flavor-tag">Deeply Savoury</span>
       <span class="flavor-tag">Smoky</span>
-      <span class="flavor-tag">Sweet</span>
-      <span class="flavor-tag">Umami</span>
-      <span class="flavor-tag">Caramelised</span>
-      <span class="flavor-tag">Savoury</span>
     </div>
   </div>
   <div class="detail-card">
     <h3>How to Use</h3>
     <ul class="use-list">
-      <li><span class="use-num">1</span>Stir into Tom Yum or Tom Kha soup — just one tablespoon transforms the broth.</li>
-      <li><span class="use-num">2</span>Toss with pad see ew noodles for a smoky, caramelised base.</li>
-      <li><span class="use-num">3</span>Spread on toast with a fried egg for a quick Thai-inspired breakfast.</li>
-      <li><span class="use-num">4</span>Use as a dipping sauce for grilled prawns or crispy pork belly.</li>
+      <li><span class="use-num">1</span>Melt a spoonful into hot pasta with a splash of pasta water — instant Calabrian ragu.</li>
+      <li><span class="use-num">2</span>Dot onto pizza base before baking — it melts into fiery orange puddles of flavour.</li>
+      <li><span class="use-num">3</span>Spread onto crusty bread with burrata or buffalo mozzarella for a 2-minute antipasto.</li>
+      <li><span class="use-num">4</span>Stir into white bean or lentil stew to add smoky pork depth without added meat.</li>
     </ul>
   </div>
 </div>
 <section class="origin-section">
   <div class="origin-inner">
     <div class="origin-text">
-      <h2>From Bangkok's Street Markets</h2>
-      <p>Nam Prik Pao — literally "roasted chilli paste" — has been a cornerstone of Thai cooking since the Ayutthaya period (14th–18th century). Originally prepared by fire-roasting chillis, shallots and garlic directly on charcoal, its smoky character is inseparable from its identity.</p>
-      <p>Our version is made in a small family-run factory in Nonthaburi, using traditional clay pots and palm sugar harvested from the coconut palms of Samut Songkhram. No shortcuts, no artificial smoke — just slow, careful roasting.</p>
+      <h2>Fire from Calabria's Toe</h2>
+      <p>'Nduja (pronounced en-DOO-ya) originates from Spilinga, a small hilltop village in the Vibo Valentia province of Calabria — Italy's southernmost region, scorched by the same sun that ripens its legendary peperoncino. The name derives from the French andouille sausage, brought to the region during Napoleonic rule.</p>
+      <p>What makes Calabrian 'nduja unique is the peperoncino content — up to 50% by weight. This isn't heat for heat's sake; it's a preservation technique perfected over centuries in the sweltering south, where the chilli effectively cures the meat. Ours is aged for a minimum of 90 days in natural casings in a stone cellar in the Aspromonte foothills.</p>
       <div class="origin-meta">
-        <div class="meta-item"><label>Producer</label><span>Krua Nonthaburi, Bangkok</span></div>
-        <div class="meta-item"><label>Harvest</label><span>Year-round</span></div>
-        <div class="meta-item"><label>Region</label><span>Central Plains, Thailand</span></div>
-        <div class="meta-item"><label>Recipe Since</label><span>Est. 1923</span></div>
+        <div class="meta-item"><label>Producer</label><span>Salumificio Battaglia, Spilinga</span></div>
+        <div class="meta-item"><label>Ageing</label><span>Minimum 90 days</span></div>
+        <div class="meta-item"><label>Region</label><span>Vibo Valentia, Calabria</span></div>
+        <div class="meta-item"><label>Recipe Since</label><span>Est. 1820</span></div>
       </div>
     </div>
     <div class="origin-card">
-      <div class="origin-card-flag">🇹🇭</div>
-      <h4>Bangkok, Thailand</h4>
-      <div class="origin-card-loc">Nonthaburi · Central Plains</div>
-      <div class="origin-card-coords">13.7563° N, 100.5018° E</div>
+      <div class="origin-card-flag">🇮🇹</div>
+      <h4>Spilinga, Calabria</h4>
+      <div class="origin-card-loc">Vibo Valentia · Southern Italy</div>
+      <div class="origin-card-coords">38.6198° N, 15.9037° E</div>
       <ul class="origin-bullets">
-        <li>Chillies slow-roasted over coconut husk charcoal</li>
-        <li>Palm sugar hand-tapped from sugar palms at dawn</li>
-        <li>Traditional clay pot grinding preserves texture</li>
+        <li>50% peperoncino by weight — the highest in Italy</li>
+        <li>Pigs raised free-range on Aspromonte chestnut forests</li>
+        <li>Aged in stone cellars with natural ventilation</li>
       </ul>
     </div>
   </div>
 </section>
 <section class="recipes-section">
-  <h2>Recipes featuring Nam Prik Pao</h2>
+  <h2>Recipes featuring 'Nduja</h2>
   <div class="recipes-grid">
     <a class="recipe-card" href="recipes.html">
-      <div class="recipe-thumb rt-green">🍜</div>
-      <div class="recipe-info">
-        <div class="recipe-time">⏱ 30 min · Easy</div>
-        <div class="recipe-name">Tom Yum Goong (Prawn Soup)</div>
-      </div>
-    </a>
-    <a class="recipe-card" href="recipes.html">
-      <div class="recipe-thumb rt-teal">🍝</div>
+      <div class="recipe-thumb rt-rose">🍝</div>
       <div class="recipe-info">
         <div class="recipe-time">⏱ 20 min · Easy</div>
-        <div class="recipe-name">Smoky Pad See Ew Noodles</div>
+        <div class="recipe-name">'Nduja Pasta with Burrata</div>
       </div>
     </a>
     <a class="recipe-card" href="recipes.html">
-      <div class="recipe-thumb rt-lime">🍤</div>
+      <div class="recipe-thumb rt-red">🍕</div>
       <div class="recipe-info">
-        <div class="recipe-time">⏱ 15 min · Easy</div>
-        <div class="recipe-name">Grilled Prawns with Chilli Jam</div>
+        <div class="recipe-time">⏱ 25 min · Easy</div>
+        <div class="recipe-name">Calabrian 'Nduja & Honey Pizza</div>
+      </div>
+    </a>
+    <a class="recipe-card" href="recipes.html">
+      <div class="recipe-thumb rt-pink">🥖</div>
+      <div class="recipe-info">
+        <div class="recipe-time">⏱ 10 min · Easy</div>
+        <div class="recipe-name">'Nduja Bruschetta with Ricotta</div>
       </div>
     </a>
   </div>
@@ -221,27 +221,27 @@
 <section class="related-section">
   <h2>You might also like</h2>
   <div class="related-grid">
-    <a class="related-card" href="product-miso-yuzu.html">
-      <span class="related-emoji">🍯</span>
-      <div class="related-info"><h4>Miso Yuzu Glaze</h4><span>🇯🇵 Japan</span></div>
-      <span class="related-price">€18</span>
+    <a class="related-card" href="product-harissa.html">
+      <span class="related-emoji">🌶️</span>
+      <div class="related-info"><h4>Harissa Chermoula</h4><span>🇲🇦 Morocco</span></div>
+      <span class="related-price">€16</span>
     </a>
-    <a class="related-card" href="product-salsa-macha.html">
+    <a class="related-card" href="product-berbere.html">
       <span class="related-emoji">🫙</span>
-      <div class="related-info"><h4>Salsa Macha</h4><span>🇲🇽 Mexico</span></div>
-      <span class="related-price">€17</span>
+      <div class="related-info"><h4>Berbere Paste</h4><span>🇪🇹 Ethiopia</span></div>
+      <span class="related-price">€16</span>
     </a>
   </div>
 </section>
 <footer>© 2025 Flavor Passport · Crafted with curiosity</footer>
 <script src="cart.js"></script>
 <script>
-  var productData = { id: 'nam-prik-pao', name: 'Nam Prik Pao', origin: '🇹🇭 Bangkok, Thailand', price: 15, emoji: '🌺', spice: 2 };
+  var productData = { id: 'nduja-sauce', name: "'Nduja Sauce", origin: '🇮🇹 Spilinga, Calabria', price: 19, emoji: '🍖', spice: 5 };
   var addBtn = document.getElementById('add-to-cart-btn');
   addBtn.addEventListener('click', function() {
     FP_CART.add(productData);
     addBtn.textContent = '✓ Added to Cart';
-    setTimeout(function() { addBtn.textContent = 'Add to Cart — €15'; }, 2000);
+    setTimeout(function() { addBtn.textContent = "Add to Cart — €19"; }, 2000);
   });
 </script>
 </body>
