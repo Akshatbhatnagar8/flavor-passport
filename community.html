@@ -310,6 +310,8 @@
     /* Responsive */
     @media (max-width: 960px) {
       .feed-layout { grid-template-columns: 1fr; }
+      .vote-grid { grid-template-columns: 1fr; }
+      .vote-prize { flex-direction: column; gap: 12px; }
       .community-hero { flex-direction: column; align-items: flex-start; }
     }
     @media (max-width: 768px) {
@@ -317,6 +319,82 @@
       .hero-right { flex-wrap: wrap; }
       .compose-bottom { flex-direction: column; align-items: flex-start; }
     }
+    /* ── Vote & Win Section ──────────────────────────────────────── */
+    #vote-section {
+      background: linear-gradient(160deg, #0f0d0c 0%, #1a1510 50%, #0f0d0c 100%);
+      border-bottom: 1px solid rgba(252,211,77,.12);
+      padding: 72px 24px 56px;
+    }
+    .vote-inner { max-width: 900px; margin: 0 auto; }
+    .vote-eyebrow {
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em;
+      color: #FCD34D; margin-bottom: 14px;
+    }
+    .vote-title {
+      font-family: 'DM Serif Display', serif; font-size: clamp(28px,4vw,46px);
+      line-height: 1.12; color: #fff; margin-bottom: 14px;
+    }
+    .vote-title em { color: #FCD34D; font-style: italic; }
+    .vote-subtitle { font-size: 15px; color: rgba(255,255,255,.45); max-width: 560px; line-height: 1.7; margin-bottom: 40px; }
+    .vote-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px; margin-bottom: 32px;
+    }
+    .vote-card {
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);
+      border-radius: 14px; padding: 16px 18px; cursor: pointer;
+      transition: all .2s; position: relative; overflow: hidden;
+    }
+    .vote-card:hover { border-color: rgba(252,211,77,.3); background: rgba(252,211,77,.05); transform: translateY(-2px); }
+    .vote-card.voted-this { border-color: #FCD34D; background: rgba(252,211,77,.08); }
+    .vote-card.voted-this .vc-btn { background: #FCD34D; color: #1C1917; }
+    .vote-card-bar {
+      position: absolute; bottom: 0; left: 0; height: 3px;
+      background: linear-gradient(to right, rgba(252,211,77,.6), rgba(252,211,77,.2));
+      transition: width .6s cubic-bezier(.4,0,.2,1);
+    }
+    .vc-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .vc-emoji { font-size: 1.8rem; line-height: 1; }
+    .vc-info h3 { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 2px; }
+    .vc-info span { font-size: 11px; color: rgba(255,255,255,.35); }
+    .vc-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+    .vc-pct { font-size: 13px; font-weight: 700; color: #FCD34D; }
+    .vc-votes { font-size: 11px; color: rgba(255,255,255,.3); }
+    .vc-btn {
+      font-size: 11px; font-weight: 700; padding: 5px 14px; border-radius: 99px;
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.7); cursor: pointer; transition: all .2s; white-space: nowrap;
+    }
+    .vc-btn:hover { background: rgba(252,211,77,.15); border-color: rgba(252,211,77,.3); color: #FCD34D; }
+    /* Thankyou state */
+    .vote-thankyou {
+      background: rgba(252,211,77,.08); border: 1px solid rgba(252,211,77,.25);
+      border-radius: 14px; padding: 20px 24px; display: flex; align-items: center;
+      gap: 16px; margin-bottom: 24px; flex-wrap: wrap;
+    }
+    .vt-icon { font-size: 2rem; flex-shrink: 0; }
+    .vt-text { font-size: 14px; color: rgba(255,255,255,.75); line-height: 1.6; flex: 1; }
+    .vt-text strong { color: #FCD34D; }
+    .vt-share { display: flex; align-items: center; gap: 10px; font-size: 12px; color: rgba(255,255,255,.35); white-space: nowrap; }
+    .vt-share-btn { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); color: rgba(255,255,255,.6); border-radius: 8px; padding: 5px 12px; font-size: 12px; cursor: pointer; transition: all .2s; }
+    .vt-share-btn:hover { background: rgba(255,255,255,.12); color: #fff; }
+    /* Prize bar */
+    .vote-prize {
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(161,98,7,.1); border: 1px solid rgba(161,98,7,.25);
+      border-radius: 14px; padding: 20px 24px; margin-top: 8px;
+    }
+    .vp-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: rgba(252,211,77,.6); margin-bottom: 4px; }
+    .vp-title { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 3px; }
+    .vp-value { font-size: 12px; color: rgba(255,255,255,.4); }
+    .vp-right { font-size: 2.5rem; }
+    /* Sidebar vote results */
+    .vote-result-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .vr-flag { font-size: 14px; flex-shrink: 0; }
+    .vr-name { font-size: 12px; color: rgba(255,255,255,.6); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .vr-bar-wrap { width: 60px; height: 4px; background: rgba(255,255,255,.07); border-radius: 2px; overflow: hidden; }
+    .vr-bar { height: 100%; background: #FCD34D; border-radius: 2px; transition: width .6s ease; }
+    .vr-pct { font-size: 11px; font-weight: 700; color: #FCD34D; width: 28px; text-align: right; }
   </style>
 </head>
 <body>
@@ -410,6 +488,42 @@
     </div>
   </section>
 
+  <!-- ── Vote & Win ──────────────────────────────────────────────── -->
+  <section id="vote-section" aria-label="Vote for your favourite sauce">
+    <div class="vote-inner">
+      <div class="vote-header">
+        <div class="vote-eyebrow">🏆 Monthly Challenge</div>
+        <h2 class="vote-title">Vote for your favourite sauce.<br><em>Win the full collection.</em></h2>
+        <p class="vote-subtitle">Cast your vote once. Every month we pick a winner from everyone who voted for the winning sauce — and send them all 7 bottles, free.</p>
+      </div>
+
+      <div class="vote-grid" id="vote-grid" role="list">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div id="vote-thankyou" class="vote-thankyou" style="display:none">
+        <div class="vt-icon">🎉</div>
+        <div class="vt-text">
+          <strong>Vote cast!</strong> You voted for <span id="vt-sauce-name"></span>.
+          We'll draw a winner on the 1st of next month — good luck.
+        </div>
+        <div class="vt-share">
+          <span>Share &amp; earn extra entries:</span>
+          <button onclick="shareVote()" class="vt-share-btn">📤 Share</button>
+        </div>
+      </div>
+
+      <div class="vote-prize">
+        <div class="vp-left">
+          <div class="vp-label">This month's prize</div>
+          <div class="vp-title">The Full Collection — all 7 sauces</div>
+          <div class="vp-value">Worth €118 · Free EU delivery</div>
+        </div>
+        <div class="vp-right">🎁</div>
+      </div>
+    </div>
+  </section>
+
   <!-- Feed + Sidebar -->
   <div class="feed-layout">
     <main>
@@ -493,10 +607,19 @@
         </div>
       </div>
 
+      <!-- Live vote results -->
+      <div class="sidebar-card" id="vote-sidebar-card">
+        <div class="sidebar-title">🏆 Live Vote Results</div>
+        <div id="vote-sidebar-results" style="margin-top:12px;">
+          <!-- Filled by JS -->
+        </div>
+        <a href="#vote-section" style="display:block;margin-top:14px;font-size:12px;color:rgba(255,255,255,.35);text-align:center;">Cast your vote ↑</a>
+      </div>
+
       <!-- Passport CTA -->
       <div class="sidebar-card" style="background:rgba(161,98,7,.07);border-color:rgba(161,98,7,.2)">
         <div style="font-size:28px;margin-bottom:12px;">🌍</div>
-        <div class="sidebar-title" style="margin-bottom:8px;">Collect all 6 stamps</div>
+        <div class="sidebar-title" style="margin-bottom:8px;">Collect all 7 stamps</div>
         <p style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px;">
           Scan QR codes on your products, earn stamps, unlock the Special Edition Discovery Set.
         </p>
@@ -508,6 +631,120 @@
   </div>
 
   <script>
+  /* ── Vote & Win ──────────────────────────────────────────────────── */
+  const VOTE_SAUCES = [
+    { id:'miso-yuzu',   emoji:'🍯', flag:'🇯🇵', name:'Miso Yuzu Glaze',    origin:'Japan'    },
+    { id:'harissa',     emoji:'🌶️', flag:'🇲🇦', name:'Harissa Chermoula',  origin:'Morocco'  },
+    { id:'aji-amarillo',emoji:'🌕', flag:'🇵🇪', name:'Aji Amarillo Paste', origin:'Peru'     },
+    { id:'nam-prik-pao',emoji:'🌺', flag:'🇹🇭', name:'Nam Prik Pao',       origin:'Thailand' },
+    { id:'berbere',     emoji:'🫙', flag:'🇪🇹', name:'Berbere Paste',      origin:'Ethiopia' },
+    { id:'salsa-macha', emoji:'🫙', flag:'🇲🇽', name:'Salsa Macha',        origin:'Mexico'   },
+    { id:'nduja',       emoji:'🍖', flag:'🇮🇹', name:"'Nduja Sauce",       origin:'Italy'    },
+  ];
+
+  // Seed with some starter votes so bars look alive on first load
+  const VOTE_SEEDS = { 'miso-yuzu':142, 'harissa':118, 'aji-amarillo':97, 'nam-prik-pao':84, 'berbere':76, 'salsa-macha':63, 'nduja':89 };
+
+  function getVoteData() {
+    try {
+      const stored = JSON.parse(localStorage.getItem('fp-vote-data') || '{}');
+      const counts = {};
+      VOTE_SAUCES.forEach(s => { counts[s.id] = (stored[s.id] || 0) + VOTE_SEEDS[s.id]; });
+      return { counts, raw: stored };
+    } catch(e) { return { counts: {...VOTE_SEEDS}, raw: {} }; }
+  }
+
+  function getMyVote() {
+    return localStorage.getItem('fp-my-vote') || null;
+  }
+
+  function castVote(sauceId) {
+    if (getMyVote()) return;
+    const raw = JSON.parse(localStorage.getItem('fp-vote-data') || '{}');
+    raw[sauceId] = (raw[sauceId] || 0) + 1;
+    localStorage.setItem('fp-vote-data', JSON.stringify(raw));
+    localStorage.setItem('fp-my-vote', sauceId);
+    renderVoteGrid();
+    renderVoteSidebar();
+    // Show thankyou
+    const sauce = VOTE_SAUCES.find(s => s.id === sauceId);
+    document.getElementById('vt-sauce-name').textContent = sauce.name;
+    document.getElementById('vote-thankyou').style.display = 'flex';
+    document.getElementById('vote-grid').style.opacity = '.55';
+    document.getElementById('vote-grid').style.pointerEvents = 'none';
+  }
+
+  function renderVoteGrid() {
+    const { counts } = getVoteData();
+    const myVote = getMyVote();
+    const total = Object.values(counts).reduce((a,b) => a+b, 0);
+    const grid = document.getElementById('vote-grid');
+    if (!grid) return;
+    grid.innerHTML = VOTE_SAUCES.map(s => {
+      const pct = total ? Math.round((counts[s.id] / total) * 100) : 0;
+      const isVoted = myVote === s.id;
+      return `<div class="vote-card${isVoted ? ' voted-this' : ''}" role="listitem">
+        <div class="vote-card-bar" style="width:${pct}%"></div>
+        <div class="vc-top">
+          <div class="vc-emoji">${s.emoji}</div>
+          <div class="vc-info">
+            <h3>${s.name}</h3>
+            <span>${s.flag} ${s.origin}</span>
+          </div>
+        </div>
+        <div class="vc-footer">
+          <div>
+            <div class="vc-pct">${pct}%</div>
+            <div class="vc-votes">${counts[s.id].toLocaleString()} votes</div>
+          </div>
+          ${!myVote ? `<button class="vc-btn" onclick="castVote('${s.id}')">Vote →</button>` : isVoted ? '<span class="vc-btn" style="background:rgba(252,211,77,.15);border-color:#FCD34D;color:#FCD34D;">✓ Your vote</span>' : ''}
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function renderVoteSidebar() {
+    const { counts } = getVoteData();
+    const total = Object.values(counts).reduce((a,b) => a+b, 0);
+    const sorted = [...VOTE_SAUCES].sort((a,b) => counts[b.id] - counts[a.id]);
+    const el = document.getElementById('vote-sidebar-results');
+    if (!el) return;
+    el.innerHTML = sorted.map(s => {
+      const pct = total ? Math.round((counts[s.id] / total) * 100) : 0;
+      return `<div class="vote-result-row">
+        <span class="vr-flag">${s.flag}</span>
+        <span class="vr-name">${s.name}</span>
+        <div class="vr-bar-wrap"><div class="vr-bar" style="width:${pct}%"></div></div>
+        <span class="vr-pct">${pct}%</span>
+      </div>`;
+    }).join('');
+  }
+
+  function shareVote() {
+    const myVote = getMyVote();
+    const sauce = VOTE_SAUCES.find(s => s.id === myVote);
+    const text = `I just voted for ${sauce ? sauce.name : 'my favourite sauce'} on Flavor Passport — vote and win the full collection! 🌍`;
+    if (navigator.share) {
+      navigator.share({ title: 'Flavor Passport Vote', text, url: window.location.href });
+    } else {
+      navigator.clipboard.writeText(text + ' ' + window.location.href)
+        .then(() => alert('Link copied to clipboard!'));
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    renderVoteGrid();
+    renderVoteSidebar();
+    if (getMyVote()) {
+      const sauce = VOTE_SAUCES.find(s => s.id === getMyVote());
+      document.getElementById('vt-sauce-name').textContent = sauce?.name || '';
+      document.getElementById('vote-thankyou').style.display = 'flex';
+      document.getElementById('vote-grid').style.opacity = '.55';
+      document.getElementById('vote-grid').style.pointerEvents = 'none';
+    }
+  });
+  /* ── End Vote & Win ──────────────────────────────────────────────── */
+
   let sb = null;
   let currentUser = null;
   let allPosts = [];
