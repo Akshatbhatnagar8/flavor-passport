@@ -245,6 +245,10 @@
     .product-image-bg-1 { background: linear-gradient(135deg, #FEF3C7, #FED7AA); }
     .product-image-bg-2 { background: linear-gradient(135deg, #FEE2E2, #FECACA); }
     .product-image-bg-3 { background: linear-gradient(135deg, #D1FAE5, #A7F3D0); }
+    .product-image-bg-4 { background: linear-gradient(135deg, #FFE4E6, #FDA4AF); }
+    .product-image-bg-5 { background: linear-gradient(135deg, #E0F2FE, #BAE6FD); }
+    .product-image-bg-6 { background: linear-gradient(135deg, #FEF9C3, #FEF08A); }
+    .product-image-bg-7 { background: linear-gradient(135deg, #F3E8FF, #DDD6FE); }
     .product-image-inner {
       width: 100px; height: 100px;
       background: rgba(255,255,255,.6); border-radius: 50%;
@@ -774,8 +778,8 @@
   <section id="products" class="section" aria-labelledby="products-heading">
     <div class="container">
       <div class="products-header">
-        <div class="section-label">Featured Flavors</div>
-        <h2 id="products-heading">Start your collection.</h2>
+        <div class="section-label">The Full Collection</div>
+        <h2 id="products-heading">All 7 sauces.</h2>
         <p>Each bottle tells a story. Sourced directly from small-batch producers, certified authentic, and ready to transform your everyday cooking.</p>
       </div>
       <div class="products-grid" role="list" aria-label="Featured products">
@@ -881,6 +885,87 @@
             <div class="product-footer">
               <div class="product-price">€19<sub>Free EU shipping</sub></div>
               <button class="btn-add" onclick="FP_CART.add({id:'nduja-sauce',name:\"'Nduja Sauce\",origin:'Italy',price:19,emoji:'🍖',spice:5})" aria-label="Add 'Nduja Sauce to cart">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </article>
+        <!-- Product 5: Nam Prik Pao -->
+        <article class="product-card" role="listitem" aria-label="Nam Prik Pao from Thailand">
+          <a href="product-nam-prik-pao.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+            <div class="product-image product-image-bg-5">
+              <div class="product-image-inner">🌺</div>
+            </div>
+          </a>
+          <div class="product-body">
+            <div class="product-origin"><div class="country-dot" aria-hidden="true"></div>Thailand · Bangkok</div>
+            <a href="product-nam-prik-pao.html" style="text-decoration:none;color:inherit;"><h3 class="product-name">Nam Prik Pao</h3></a>
+            <span class="diet-badge nonveg">🦐 Contains Seafood</span>
+            <div class="spice-row" aria-label="Spice level: Mild-Medium">
+              <div class="spice-icons" aria-hidden="true">
+                <span class="spice-icon on">🌶️</span><span class="spice-icon on">🌶️</span><span class="spice-icon">🌶️</span><span class="spice-icon">🌶️</span><span class="spice-icon">🌶️</span>
+              </div>
+              <span class="spice-label">Mild-Medium</span>
+            </div>
+            <p class="product-desc">Thailand's iconic roasted chilli jam — sweet, smoky, deeply savoury. A single spoonful transforms soups, noodles and stir-fries.</p>
+            <div class="product-footer">
+              <div class="product-price">€15<sub>Free EU shipping</sub></div>
+              <button class="btn-add" onclick="FP_CART.add({id:'nam-prik-pao',name:'Nam Prik Pao',origin:'Thailand',price:15,emoji:'🌺',spice:2})" aria-label="Add Nam Prik Pao to cart">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </article>
+        <!-- Product 6: Berbere Paste -->
+        <article class="product-card" role="listitem" aria-label="Berbere Paste from Ethiopia">
+          <a href="product-berbere.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+            <div class="product-image product-image-bg-6">
+              <div class="product-image-inner">🫙</div>
+            </div>
+          </a>
+          <div class="product-body">
+            <div class="product-origin"><div class="country-dot" aria-hidden="true"></div>Ethiopia · Gondar</div>
+            <a href="product-berbere.html" style="text-decoration:none;color:inherit;"><h3 class="product-name">Berbere Paste</h3></a>
+            <span class="diet-badge veg">🌿 Vegetarian</span>
+            <div class="spice-row" aria-label="Spice level: Hot">
+              <div class="spice-icons" aria-hidden="true">
+                <span class="spice-icon on">🌶️</span><span class="spice-icon on">🌶️</span><span class="spice-icon on">🌶️</span><span class="spice-icon on">🌶️</span><span class="spice-icon">🌶️</span>
+              </div>
+              <span class="spice-label">Hot</span>
+            </div>
+            <p class="product-desc">Ancient Ethiopian spice blend — fenugreek, black cardamom, korarima and bird's eye chilli. The soul of doro wat and tibs.</p>
+            <div class="product-footer">
+              <div class="product-price">€16<sub>Free EU shipping</sub></div>
+              <button class="btn-add" onclick="FP_CART.add({id:'berbere-paste',name:'Berbere Paste',origin:'Ethiopia',price:16,emoji:'🫙',spice:4})" aria-label="Add Berbere Paste to cart">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </article>
+        <!-- Product 7: Salsa Macha -->
+        <article class="product-card" role="listitem" aria-label="Salsa Macha from Mexico">
+          <a href="product-salsa-macha.html" class="product-card-link" tabindex="-1" aria-hidden="true">
+            <div class="product-image product-image-bg-7">
+              <div class="product-image-inner">🫙</div>
+            </div>
+          </a>
+          <div class="product-body">
+            <div class="product-origin"><div class="country-dot" aria-hidden="true"></div>Mexico · Veracruz</div>
+            <a href="product-salsa-macha.html" style="text-decoration:none;color:inherit;"><h3 class="product-name">Salsa Macha</h3></a>
+            <span class="diet-badge veg">🌿 Vegetarian</span>
+            <div class="spice-row" aria-label="Spice level: Mild-Medium">
+              <div class="spice-icons" aria-hidden="true">
+                <span class="spice-icon on">🌶️</span><span class="spice-icon on">🌶️</span><span class="spice-icon">🌶️</span><span class="spice-icon">🌶️</span><span class="spice-icon">🌶️</span>
+              </div>
+              <span class="spice-label">Mild-Medium</span>
+            </div>
+            <p class="product-desc">Veracruz's addictive chilli oil — ancho, mulato & pasilla chillies slow-fried with peanuts, sesame and a whisper of dark chocolate.</p>
+            <div class="product-footer">
+              <div class="product-price">€17<sub>Free EU shipping</sub></div>
+              <button class="btn-add" onclick="FP_CART.add({id:'salsa-macha',name:'Salsa Macha',origin:'Mexico',price:17,emoji:'🫙',spice:2})" aria-label="Add Salsa Macha to cart">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
                 Add to Cart
               </button>
