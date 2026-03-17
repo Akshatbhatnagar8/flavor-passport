@@ -514,30 +514,34 @@
     .fp-dark-popup .leaflet-popup-content { margin: 0 !important; }
     .fp-dark-popup .leaflet-popup-tip-container { display: none !important; }
 
+    /* Shared pin animation */
+    @keyframes fp-pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.35);opacity:.5} }
+
     /* Light markers (hero map) */
-    .fp-pin { display:flex; flex-direction:column; align-items:center; cursor:pointer; transform:translateX(-50%); }
+    .fp-pin { display:flex; flex-direction:column; align-items:center; cursor:pointer; transform:translateX(-50%); filter:drop-shadow(0 2px 8px rgba(0,0,0,.15)); }
     .fp-pin-badge {
-      background: white; border: 1.5px solid #E7E5E4; border-radius: 99px;
-      padding: 5px 12px; font-size: 12px; font-weight: 600; white-space: nowrap;
-      box-shadow: 0 4px 14px rgba(28,25,23,.12); color: #1C1917;
-      display:flex; align-items:center; gap:6px; line-height:1;
+      background: rgba(255,255,255,.97); border: 1px solid rgba(0,0,0,.08); border-radius: 10px;
+      padding: 5px 10px; font-size: 11px; font-weight: 600; white-space: nowrap;
+      box-shadow: 0 2px 12px rgba(0,0,0,.12), 0 1px 3px rgba(0,0,0,.08);
+      color: #1C1917; display:flex; align-items:center; gap:5px; line-height:1;
+      letter-spacing: -.01em;
     }
-    .fp-pin-stem { width:2px; height:10px; background:#A16207; }
-    .fp-pin-dot { width:12px; height:12px; border-radius:50%; background:#A16207; border:2.5px solid white; box-shadow: 0 0 0 3px rgba(161,98,7,.18), 0 2px 8px rgba(161,98,7,.35); }
+    .fp-pin-stem { width:1.5px; height:8px; background:rgba(161,98,7,.6); }
+    .fp-pin-dot { width:8px; height:8px; border-radius:50%; background:#A16207; border:2px solid white; box-shadow: 0 0 0 3px rgba(161,98,7,.2); }
 
     /* Dark markers (origins section) */
     .fp-dpin { display:flex; flex-direction:column; align-items:center; cursor:pointer; transform:translateX(-50%); }
     .fp-dpin-badge {
-      background: rgba(28,25,23,.95); border: 1px solid rgba(161,98,7,.55); border-radius: 99px;
-      padding: 5px 13px; font-size: 12px; font-weight: 600; white-space: nowrap;
-      box-shadow: 0 0 18px rgba(161,98,7,.25), 0 4px 14px rgba(0,0,0,.5);
-      color: white; display:flex; align-items:center; gap:6px; line-height:1;
+      background: rgba(10,10,15,.92); border: 1px solid rgba(252,211,77,.3); border-radius: 10px;
+      padding: 5px 11px; font-size: 11px; font-weight: 600; white-space: nowrap;
+      box-shadow: 0 0 0 1px rgba(252,211,77,.08), 0 4px 20px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.05);
+      color: rgba(255,255,255,.92); display:flex; align-items:center; gap:5px; line-height:1;
+      backdrop-filter: blur(8px); letter-spacing: -.01em;
     }
-    .fp-dpin-stem { width:2px; height:12px; background:#FCD34D; }
+    .fp-dpin-stem { width:1.5px; height:10px; background:linear-gradient(to bottom, rgba(252,211,77,.7), rgba(252,211,77,.1)); }
     .fp-dpin-dot {
-      width:14px; height:14px; border-radius:50%; background:#FCD34D;
-      border:2px solid rgba(252,211,77,.25);
-      box-shadow: 0 0 0 5px rgba(252,211,77,.08), 0 0 22px rgba(252,211,77,.45);
+      width:7px; height:7px; border-radius:50%; background:#FCD34D;
+      box-shadow: 0 0 0 3px rgba(252,211,77,.12), 0 0 14px rgba(252,211,77,.5);
     }
 
     /* ── Origins Map Section ────────────────────────────────────────── */
@@ -552,20 +556,31 @@
     }
     .origins-header h2 em { font-style: italic; color: #FCD34D; }
     .origins-header p { font-size: 17px; color: rgba(255,255,255,.45); max-width: 500px; margin: 0 auto; }
-    #origins-map { width: 100%; height: 520px; }
+    #origins-map-wrap { position: relative; }
+    #origins-map { width: 100%; height: 560px; }
+    #origins-map-wrap::before,
+    #origins-map-wrap::after {
+      content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 999; pointer-events: none;
+    }
+    #origins-map-wrap::before { left: 0; background: linear-gradient(to right, #1C1917 0%, transparent 100%); }
+    #origins-map-wrap::after  { right: 0; background: linear-gradient(to left, #1C1917 0%, transparent 100%); }
+    /* Leaflet tile smoothing */
+    #origins-map .leaflet-tile { filter: brightness(.92) contrast(1.08) saturate(.85); }
+    #hero-map .leaflet-tile { filter: brightness(1.02) saturate(.9); }
     .origins-chips {
-      display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;
-      padding: 28px 24px 60px;
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 8px;
+      padding: 24px 24px 56px;
     }
     .origin-chip {
-      display: flex; align-items: center; gap: 8px;
-      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
-      border-radius: 99px; padding: 8px 18px;
-      font-size: 13px; font-weight: 500; color: rgba(255,255,255,.65);
+      display: flex; align-items: center; gap: 7px;
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+      border-radius: 8px; padding: 7px 14px;
+      font-size: 12px; font-weight: 500; color: rgba(255,255,255,.5);
       cursor: pointer; transition: all .2s ease; user-select: none;
+      letter-spacing: .01em;
     }
-    .origin-chip:hover { background: rgba(161,98,7,.2); border-color: rgba(161,98,7,.45); color: white; }
-    .origin-chip .chip-flag { font-size: 18px; line-height: 1; }
+    .origin-chip:hover { background: rgba(252,211,77,.08); border-color: rgba(252,211,77,.25); color: rgba(255,255,255,.85); }
+    .origin-chip .chip-flag { font-size: 16px; line-height: 1; }
 
     /* ── Hero map container ──────────────────────────────────────────── */
     #hero-map { width: 100%; height: 100%; min-height: 440px; }
@@ -638,7 +653,7 @@
             <p class="hero-trust-text"><strong>2,400+ Urban Explorers</strong> already on their flavor journey</p>
           </div>
         </div>
-        <div class="hero-visual" style="aspect-ratio:3/2;" aria-label="Interactive map showing our 6 sauce origin countries">
+        <div class="hero-visual" style="aspect-ratio:3/2;" aria-label="Interactive map showing our 7 sauce origin countries">
           <div id="hero-map"></div>
         </div>
       </div>
@@ -681,10 +696,12 @@
   <section id="origins-section" aria-label="Our flavor origins around the world">
     <div class="origins-header">
       <div class="section-label">Where taste begins</div>
-      <h2>Six countries.<br><em>One passport.</em></h2>
+      <h2>Seven countries.<br><em>One passport.</em></h2>
       <p>Every sauce is traced back to its source. Click any pin to discover the origin story.</p>
     </div>
-    <div id="origins-map" aria-label="World map showing our 6 sauce origin countries"></div>
+    <div id="origins-map-wrap">
+      <div id="origins-map" aria-label="World map showing our 7 sauce origin countries"></div>
+    </div>
     <div class="origins-chips" role="list" aria-label="Filter by origin country">
       <button class="origin-chip" onclick="flyToOrigin('Japan')" role="listitem" aria-label="Explore Japan - Miso Yuzu Glaze"><span class="chip-flag">🇯🇵</span> Japan · Miso Yuzu</button>
       <button class="origin-chip" onclick="flyToOrigin('Morocco')" role="listitem" aria-label="Explore Morocco - Harissa Chermoula"><span class="chip-flag">🇲🇦</span> Morocco · Harissa</button>
@@ -949,7 +966,7 @@
         </div>
 
         <!-- Passport Card Visual (static preview) -->
-        <div class="passport-card" aria-label="Digital Passport card preview showing 2 of 6 stamps collected" role="img">
+        <div class="passport-card" aria-label="Digital Passport card preview showing 2 of 7 stamps collected" role="img">
           <div class="passport-card-glow" aria-hidden="true"></div>
           <div class="passport-card-header">
             <div class="passport-card-logo">Flavor <span>Passport</span></div>
@@ -988,12 +1005,12 @@
               <span class="stamp-name">Mexico</span>
             </div>
           </div>
-          <div class="passport-progress" aria-label="Progress: 2 of 6 stamps collected">
+          <div class="passport-progress" aria-label="Progress: 2 of 7 stamps collected">
             <div class="progress-bar-wrap" role="progressbar" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100" aria-label="33% complete">
               <div class="progress-bar"></div>
             </div>
             <div class="progress-text">
-              <span>2 / 6 stamps</span>
+              <span>2 / 7 stamps</span>
               <span>Next reward at 3</span>
             </div>
           </div>
@@ -1240,22 +1257,30 @@
     }
 
     function lightPopup(o) {
-      return `<div style="padding:16px 20px;min-width:190px;font-family:'DM Sans',sans-serif;">
-        <div style="font-size:26px;margin-bottom:8px;">${o.flag}</div>
-        <div style="font-family:'DM Serif Display',serif;font-size:18px;color:#1C1917;margin-bottom:3px;">${o.id}</div>
-        <div style="font-size:12px;color:#78716C;margin-bottom:10px;">${o.detail}</div>
-        <div style="font-size:12px;font-weight:600;color:#A16207;background:#FEF3C7;padding:4px 10px;border-radius:99px;display:inline-block;margin-bottom:12px;">${o.product}</div>
-        <div><a href="#products" style="font-size:13px;font-weight:500;color:#1C1917;border-bottom:1.5px solid #E7E5E4;text-decoration:none;">Shop for ${o.price} →</a></div>
+      return `<div style="padding:16px 18px;min-width:196px;font-family:'Inter',system-ui,sans-serif;">
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:11px;">
+          <span style="font-size:22px;line-height:1;">${o.flag}</span>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:#111827;letter-spacing:-.01em;">${o.id}</div>
+            <div style="font-size:11px;color:#9CA3AF;margin-top:1px;">${o.detail}</div>
+          </div>
+        </div>
+        <div style="font-size:11px;font-weight:600;color:#92400E;background:#FEF3C7;border:1px solid #FDE68A;padding:3px 9px;border-radius:5px;display:inline-block;margin-bottom:11px;letter-spacing:.02em;text-transform:uppercase;">${o.product}</div>
+        <div><a href="#products" style="font-size:12px;font-weight:500;color:#374151;text-decoration:none;display:flex;align-items:center;gap:4px;">Shop for ${o.price} <span style="opacity:.4">→</span></a></div>
       </div>`;
     }
 
     function darkPopup(o) {
-      return `<div style="padding:16px 20px;min-width:190px;background:#1C1917;border:1px solid rgba(161,98,7,.35);border-radius:16px;font-family:'DM Sans',sans-serif;box-shadow:0 12px 40px rgba(0,0,0,.5);">
-        <div style="font-size:26px;margin-bottom:8px;">${o.flag}</div>
-        <div style="font-family:'DM Serif Display',serif;font-size:18px;color:#FAFAF9;margin-bottom:3px;">${o.id}</div>
-        <div style="font-size:12px;color:#78716C;margin-bottom:10px;">${o.detail}</div>
-        <div style="font-size:12px;font-weight:600;color:#FCD34D;background:rgba(161,98,7,.2);padding:4px 10px;border-radius:99px;display:inline-block;margin-bottom:12px;">${o.product}</div>
-        <div><a href="#products" style="font-size:13px;font-weight:500;color:rgba(255,255,255,.8);border-bottom:1.5px solid rgba(255,255,255,.15);text-decoration:none;">Shop for ${o.price} →</a></div>
+      return `<div style="padding:18px 20px;min-width:200px;background:rgba(10,10,16,.96);border:1px solid rgba(252,211,77,.18);border-radius:14px;font-family:'Inter',system-ui,sans-serif;box-shadow:0 20px 60px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.04);backdrop-filter:blur(16px);">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <span style="font-size:24px;line-height:1;">${o.flag}</span>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:#fff;letter-spacing:-.01em;">${o.id}</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.35);margin-top:1px;">${o.detail}</div>
+          </div>
+        </div>
+        <div style="font-size:11px;font-weight:600;color:#FCD34D;background:rgba(252,211,77,.08);border:1px solid rgba(252,211,77,.15);padding:4px 10px;border-radius:6px;display:inline-block;margin-bottom:12px;letter-spacing:.02em;text-transform:uppercase;">${o.product}</div>
+        <div><a href="#products" style="font-size:12px;font-weight:500;color:rgba(255,255,255,.6);text-decoration:none;display:flex;align-items:center;gap:4px;">Shop for ${o.price} <span style="opacity:.5">→</span></a></div>
       </div>`;
     }
 
@@ -1267,7 +1292,7 @@
           zoomControl: false, attributionControl: false,
           scrollWheelZoom: false, dragging: true, doubleClickZoom: false,
         });
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png', {
           subdomains: 'abcd', maxZoom: 19,
         }).addTo(heroMap);
         const heroBounds = [];
@@ -1287,7 +1312,7 @@
           zoomControl: true, attributionControl: true,
           scrollWheelZoom: false,
         });
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
           attribution: '© <a href="https://www.openstreetmap.org/copyright" style="color:#666">OpenStreetMap</a> © <a href="https://carto.com/" style="color:#666">CARTO</a>',
           subdomains: 'abcd', maxZoom: 19,
         }).addTo(originsMap);

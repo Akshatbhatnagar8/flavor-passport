@@ -548,10 +548,12 @@
       font-weight: 500; letter-spacing: .04em;
     }
     #passport-map {
-      width: 100%; height: 380px;
-      border-radius: 20px; overflow: hidden;
-      border: 1px solid rgba(255,255,255,.07);
+      width: 100%; height: 420px;
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,.06);
+      box-shadow: 0 8px 40px rgba(0,0,0,.4);
     }
+    #passport-map .leaflet-tile { filter: brightness(.85) contrast(1.1) saturate(.7); }
     /* Leaflet overrides for passport dark map */
     #passport-map .leaflet-control-zoom a {
       background: rgba(28,25,23,.9) !important;
@@ -564,29 +566,39 @@
     }
     .pp-popup .leaflet-popup-content { margin: 0 !important; }
     .pp-popup .leaflet-popup-tip-container { display: none !important; }
-    /* Earned marker */
+    /* Pin animations */
+    @keyframes pp-pulse { 0%,100%{transform:scale(1);opacity:.6} 50%{transform:scale(1.5);opacity:0} }
+    @keyframes pp-glow  { 0%,100%{box-shadow:0 0 0 3px rgba(252,211,77,.15),0 0 16px rgba(252,211,77,.4)} 50%{box-shadow:0 0 0 6px rgba(252,211,77,.08),0 0 28px rgba(252,211,77,.65)} }
+
+    /* Passport map markers */
     .pp-pin { display:flex; flex-direction:column; align-items:center; cursor:pointer; transform:translateX(-50%); }
     .pp-pin-badge {
-      border-radius: 99px; padding: 5px 13px; font-size: 12px; font-weight: 700;
-      white-space: nowrap; display:flex; align-items:center; gap:6px; line-height:1;
+      border-radius: 8px; padding: 5px 11px; font-size: 11px; font-weight: 700;
+      white-space: nowrap; display:flex; align-items:center; gap:5px; line-height:1;
+      letter-spacing: -.01em; backdrop-filter: blur(6px);
     }
     .pp-pin-badge.earned {
-      background: rgba(28,25,23,.95); border: 1.5px solid #FCD34D; color: #FCD34D;
-      box-shadow: 0 0 20px rgba(252,211,77,.3), 0 4px 16px rgba(0,0,0,.5);
+      background: rgba(10,10,16,.95); border: 1px solid rgba(252,211,77,.4); color: #FCD34D;
+      box-shadow: 0 0 0 1px rgba(252,211,77,.08), 0 4px 16px rgba(0,0,0,.6);
     }
     .pp-pin-badge.locked {
-      background: rgba(28,25,23,.7); border: 1px solid rgba(255,255,255,.12); color: rgba(255,255,255,.3);
+      background: rgba(15,15,20,.7); border: 1px solid rgba(255,255,255,.07); color: rgba(255,255,255,.22);
     }
-    .pp-pin-stem-e { width:2px; height:12px; background:#FCD34D; }
-    .pp-pin-stem-l { width:2px; height:12px; background:rgba(255,255,255,.18); }
+    .pp-pin-stem-e { width:1.5px; height:10px; background:linear-gradient(to bottom,rgba(252,211,77,.8),rgba(252,211,77,.1)); }
+    .pp-pin-stem-l { width:1.5px; height:10px; background:linear-gradient(to bottom,rgba(255,255,255,.15),rgba(255,255,255,.02)); }
     .pp-pin-dot-e {
-      width:14px; height:14px; border-radius:50%; background:#FCD34D;
-      border:2px solid rgba(252,211,77,.2);
-      box-shadow: 0 0 0 5px rgba(252,211,77,.08), 0 0 24px rgba(252,211,77,.5);
+      width:8px; height:8px; border-radius:50%; background:#FCD34D;
+      animation: pp-glow 2.4s ease-in-out infinite;
+      position: relative;
+    }
+    .pp-pin-dot-e::after {
+      content:''; position:absolute; inset:-4px; border-radius:50%;
+      border: 1.5px solid rgba(252,211,77,.25);
+      animation: pp-pulse 2.4s ease-out infinite;
     }
     .pp-pin-dot-l {
-      width:10px; height:10px; border-radius:50%;
-      background:rgba(255,255,255,.12); border:1.5px solid rgba(255,255,255,.2);
+      width:6px; height:6px; border-radius:50%;
+      background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15);
     }
   </style>
 </head>
@@ -986,7 +998,7 @@
       count === 6 ? 'Grand Explorer' : count >= 3 ? 'Seasoned' : 'Explorer';
 
     // Progress bar
-    const pct = Math.round((count / 6) * 100);
+    const pct = Math.round((count / 7) * 100);
     document.getElementById('progress-bar-wrap').setAttribute('aria-valuenow', count);
     const progLabel = document.getElementById('progress-label');
     const progSub = document.getElementById('progress-sub');
@@ -1271,7 +1283,7 @@
       count === 6 ? 'Grand Explorer' : count >= 3 ? 'Seasoned' : 'Explorer';
     document.getElementById('stat-next-reward').textContent =
       count < 3 ? '3 stamps' : count < 6 ? '6 stamps' : 'Complete!';
-    const pct = Math.round((count / 6) * 100);
+    const pct = Math.round((count / 7) * 100);
     document.getElementById('progress-fill').style.width = pct + '%';
     const progLabel = document.getElementById('progress-label');
     if (count === 6) {
@@ -1431,7 +1443,7 @@
     // Update stamp count label
     const count = earnedStamps.length;
     const countEl = document.getElementById('map-stamp-count');
-    if (countEl) countEl.textContent = `${count} / 6 countries explored`;
+    if (countEl) countEl.textContent = `${count} / 7 countries explored`;
 
     // If map already exists, just update markers
     if (passportMap) {
@@ -1446,7 +1458,7 @@
       zoomControl: true, attributionControl: false,
       scrollWheelZoom: false,
     });
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
       subdomains: 'abcd', maxZoom: 19,
     }).addTo(passportMap);
     addPPMarkers();
