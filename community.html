@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Explorer Community | Flavor Passport</title>
+  <title>Chilli Club Community | Chilli Club</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
@@ -475,7 +475,7 @@
             <path d="M2 9h14M9 2a12 12 0 010 14M9 2a12 12 0 000 14" stroke="#1C1917" stroke-width="1.5"/>
           </svg>
         </div>
-        Flavor Passport
+        Chilli Club
       </a>
       <div class="nav-links">
         <a href="recipes.html">Recipes</a>
@@ -492,7 +492,7 @@
   <!-- ── Hero ── -->
   <header class="community-hero">
     <div class="hero-left">
-      <small>Explorer Community</small>
+      <small>Chilli Club Community</small>
       <h1>Flavors shared<br>by <em>curious</em> cooks.</h1>
       <p>Real people. Real recipes. Share what you made, swap tips, and discover new ways to cook with your sauces.</p>
     </div>
@@ -783,7 +783,7 @@
 
   function getVoteData() {
     try {
-      const stored = JSON.parse(localStorage.getItem('fp-vote-data') || '{}');
+      const stored = JSON.parse(localStorage.getItem('cc-vote-data') || '{}');
       const counts = {};
       VOTE_SAUCES.forEach(s => { counts[s.id] = (stored[s.id] || 0) + VOTE_SEEDS[s.id]; });
       return { counts, raw: stored };
@@ -791,15 +791,15 @@
   }
 
   function getMyVote() {
-    return localStorage.getItem('fp-my-vote') || null;
+    return localStorage.getItem('cc-my-vote') || null;
   }
 
   function castVote(sauceId) {
     if (getMyVote()) return;
-    const raw = JSON.parse(localStorage.getItem('fp-vote-data') || '{}');
+    const raw = JSON.parse(localStorage.getItem('cc-vote-data') || '{}');
     raw[sauceId] = (raw[sauceId] || 0) + 1;
-    localStorage.setItem('fp-vote-data', JSON.stringify(raw));
-    localStorage.setItem('fp-my-vote', sauceId);
+    localStorage.setItem('cc-vote-data', JSON.stringify(raw));
+    localStorage.setItem('cc-my-vote', sauceId);
     renderVoteGrid();
     renderVoteSidebar();
     // Show thankyou
@@ -859,9 +859,9 @@
   function shareVote() {
     const myVote = getMyVote();
     const sauce = VOTE_SAUCES.find(s => s.id === myVote);
-    const text = `I just voted for ${sauce ? sauce.name : 'my favourite sauce'} on Flavor Passport — vote and win the full collection! 🌍`;
+    const text = `I just voted for ${sauce ? sauce.name : 'my favourite sauce'} on Chilli Club — vote and win the full collection! 🌍`;
     if (navigator.share) {
-      navigator.share({ title: 'Flavor Passport Vote', text, url: window.location.href });
+      navigator.share({ title: 'Chilli Club Vote', text, url: window.location.href });
     } else {
       navigator.clipboard.writeText(text + ' ' + window.location.href)
         .then(() => alert('Link copied to clipboard!'));

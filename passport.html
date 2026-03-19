@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Flavor Passport | Flavor Passport</title>
+  <title>My Chilli Passport | Chilli Club</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
@@ -616,7 +616,7 @@
             <path d="M2 9h14M9 2a12 12 0 010 14M9 2a12 12 0 000 14" stroke="#1C1917" stroke-width="1.5"/>
           </svg>
         </div>
-        Flavor Passport
+        Chilli Club
       </a>
       <div class="nav-links">
         <a href="recipes.html">Recipes</a>
@@ -639,7 +639,7 @@
       <div class="login-top">
         <div class="login-passport-icon" aria-hidden="true">🌍</div>
         <h1 id="login-heading">Welcome<br>back, <em>Explorer.</em></h1>
-        <p>Sign in to view your Flavor Passport, stamp collection, and exclusive rewards.</p>
+        <p>Sign in to view your Chilli Club, stamp collection, and exclusive rewards.</p>
       </div>
 
       <div class="login-card">
@@ -662,7 +662,7 @@
         <div class="login-divider" aria-hidden="true">don't have an account?</div>
 
         <a href="signup.html" class="btn btn-outline-light" style="width:100%;justify-content:center;padding:14px;">
-          Create your Flavor Passport →
+          Create your Chilli Club →
         </a>
 
         <p class="login-footer-text" style="margin-top:16px;">
@@ -673,11 +673,11 @@
   </div>
 
   <!-- ── Passport Page ── -->
-  <div id="passport-page" aria-label="Your Flavor Passport">
+  <div id="passport-page" aria-label="Your Chilli Passport">
 
     <div class="passport-header">
       <div class="passport-greeting">
-        <small>Your Flavor Passport</small>
+        <small>Your Chilli Passport</small>
         <h1 id="greeting-name">Loading…</h1>
         <p id="greeting-sub">Explorer · Passport #FP-2024</p>
       </div>
@@ -703,7 +703,7 @@
       </div>
       <div class="pstat-card">
         <div class="pstat-num" id="stat-status">Explorer</div>
-        <div class="pstat-label">Passport status</div>
+        <div class="pstat-label">Club status</div>
       </div>
     </div>
 
@@ -727,7 +727,7 @@
     </div>
 
     <!-- Journey Map -->
-    <div class="journey-map-section" role="region" aria-label="Your flavor journey map">
+    <div class="journey-map-section" role="region" aria-label="Your chilli journey map">
       <div class="journey-map-header">
         <div>
           <h2>Your Journey So Far</h2>
@@ -760,7 +760,7 @@
             <div class="activity-dot dot-blue" aria-hidden="true">👋</div>
             <div class="activity-text">
               <strong>Passport activated</strong>
-              <span>Welcome to the Flavor Passport community</span>
+              <span>Welcome to the Chilli Club community</span>
             </div>
             <div class="activity-time">Today</div>
           </div>
@@ -859,7 +859,7 @@
       </button>
       <div class="claim-alert" id="claim-alert" aria-live="polite"></div>
       <p class="claim-hint">
-        Stamp codes are printed on Flavor Passport product packaging.<br>
+        Stamp codes are printed on Chilli Club product packaging.<br>
         Each code can only be used once per account.
       </p>
     </div>
@@ -986,7 +986,7 @@
     document.getElementById('greeting-name').innerHTML =
       `Bon voyage,<br><em>${firstName}.</em>`;
     document.getElementById('greeting-sub').textContent =
-      `Explorer since ${joinYear} · Passport #FP-${joinYear}-EU`;
+      `Member since ${joinYear} · Passport #CC-${joinYear}-EU`;
 
     // Stats
     const count = earnedStamps.length;
@@ -995,7 +995,7 @@
     const nextRewardAt = count < 3 ? '3 stamps' : count < 7 ? '7 stamps' : 'Complete!';
     document.getElementById('stat-next-reward').textContent = nextRewardAt;
     document.getElementById('stat-status').textContent =
-      count === 7 ? 'Grand Explorer' : count >= 3 ? 'Seasoned' : 'Explorer';
+      count === 7 ? 'Grand Member' : count >= 3 ? 'Seasoned' : 'Explorer';
 
     // Progress bar
     const pct = Math.round((count / 7) * 100);
@@ -1154,7 +1154,7 @@
       <div class="activity-dot dot-blue" aria-hidden="true">👋</div>
       <div class="activity-text">
         <strong>Passport activated</strong>
-        <span>Welcome to the Flavor Passport community</span>
+        <span>Welcome to the Chilli Club community</span>
       </div>
       <div class="activity-time">—</div>
     `;
@@ -1280,7 +1280,7 @@
     document.getElementById('stat-stamps').textContent = count;
     document.getElementById('stat-remaining').textContent = 6 - count;
     document.getElementById('stat-status').textContent =
-      count === 7 ? 'Grand Explorer' : count >= 3 ? 'Seasoned' : 'Explorer';
+      count === 7 ? 'Grand Member' : count >= 3 ? 'Seasoned' : 'Explorer';
     document.getElementById('stat-next-reward').textContent =
       count < 3 ? '3 stamps' : count < 7 ? '7 stamps' : 'Complete!';
     const pct = Math.round((count / 7) * 100);
