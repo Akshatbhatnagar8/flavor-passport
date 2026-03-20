@@ -268,13 +268,6 @@
     .product-footer { display: flex; align-items: center; justify-content: space-between; }
     .product-price { font-size: 20px; font-weight: 600; color: var(--stone-900); }
     .product-price sub { font-size: 12px; font-weight: 400; color: var(--stone-500); display: block; }
-    .price-block { display: flex; flex-direction: column; gap: 2px; }
-    .price-single { font-size: 13px; color: var(--stone-500); text-decoration: line-through; font-weight: 400; }
-    .price-sub-row { display: flex; align-items: center; gap: 6px; }
-    .price-sub { font-size: 20px; font-weight: 700; color: var(--stone-900); }
-    .price-sub-label { font-size: 11px; color: var(--stone-500); }
-    .save-badge { font-size: 10px; font-weight: 700; background: var(--crimson); color: white; padding: 2px 6px; border-radius: 99px; letter-spacing: .03em; }
-    .price-one-time { font-size: 11px; color: var(--stone-400, #a8a29e); margin-top: 1px; }
     .btn-add {
       font-size: 13px; padding: 10px 18px; background: var(--stone-900);
       color: white; border-radius: 99px; border: none; cursor: pointer;
@@ -789,15 +782,6 @@
         <h2 id="products-heading">All 7 sauces.</h2>
         <p>Each bottle tells a story. Sourced directly from small-batch producers, certified authentic, and ready to transform your everyday cooking.</p>
       </div>
-
-      <!-- Subscription value bar -->
-      <div style="display:flex;align-items:center;justify-content:center;gap:10px;background:#fff1f2;border:1px solid #fecdd3;border-radius:14px;padding:14px 24px;margin-bottom:40px;flex-wrap:wrap;">
-        <span style="font-size:18px;">🌶️</span>
-        <span style="font-size:14px;font-weight:600;color:#1C1917;">Subscribe &amp; save up to 27%</span>
-        <span style="font-size:13px;color:#78716c;">— cheaper than every single bottle price. Cancel anytime.</span>
-        <a href="signup.html" style="margin-left:8px;font-size:12px;font-weight:700;background:var(--crimson);color:white;padding:6px 14px;border-radius:99px;text-decoration:none;white-space:nowrap;">Join the Club →</a>
-      </div>
-
       <div class="products-grid" role="list" aria-label="Featured products">
         <!-- Product 1 -->
         <article class="product-card" role="listitem" aria-label="Miso Yuzu Glaze from Japan">
@@ -818,14 +802,7 @@
             </div>
             <p class="product-desc">Fermented white miso meets hand-pressed yuzu citrus from family orchards in Shikoku. Umami-rich, bright citrus finish.</p>
             <div class="product-footer">
-              <div class="price-block">
-                <div class="price-single">€18 one-off</div>
-                <div class="price-sub-row">
-                  <span class="price-sub">€13<span class="price-sub-label">/mo</span></span>
-                  <span class="save-badge">SAVE 28%</span>
-                </div>
-                <div class="price-one-time">Free EU shipping · Cancel anytime</div>
-              </div>
+              <div class="product-price">€18<sub>Free EU shipping</sub></div>
               <button class="btn-add" onclick="FP_CART.add({id:'miso-yuzu-glaze',name:'Miso Yuzu Glaze',origin:'Japan',price:18,emoji:'🍯',spice:1})" aria-label="Add Miso Yuzu Glaze to cart">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
                 Add to Cart
@@ -852,14 +829,7 @@
             </div>
             <p class="product-desc">Sun-dried rose petals and smoked Beldi peppers from the High Atlas foothills. Bold heat balanced with herbs and preserved lemon.</p>
             <div class="product-footer">
-              <div class="price-block">
-                <div class="price-single">€16 one-off</div>
-                <div class="price-sub-row">
-                  <span class="price-sub">€12<span class="price-sub-label">/mo</span></span>
-                  <span class="save-badge">SAVE 25%</span>
-                </div>
-                <div class="price-one-time">Free EU shipping · Cancel anytime</div>
-              </div>
+              <div class="product-price">€16<sub>Free EU shipping</sub></div>
               <button class="btn-add" onclick="FP_CART.add({id:'harissa-chermoula',name:'Harissa Chermoula',origin:'Morocco',price:16,emoji:'🌶️',spice:4})" aria-label="Add Harissa Chermoula to cart">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
                 Add to Cart
@@ -886,14 +856,7 @@
             </div>
             <p class="product-desc">Peru's beloved yellow pepper in its purest form — fruity, vibrant, and uniquely spiced. Cold-pressed within hours of harvest in Cusco.</p>
             <div class="product-footer">
-              <div class="price-block">
-                <div class="price-single">€17 one-off</div>
-                <div class="price-sub-row">
-                  <span class="price-sub">€13<span class="price-sub-label">/mo</span></span>
-                  <span class="save-badge">SAVE 24%</span>
-                </div>
-                <div class="price-one-time">Free EU shipping · Cancel anytime</div>
-              </div>
+              <div class="product-price">€17<sub>Free EU shipping</sub></div>
               <button class="btn-add" onclick="FP_CART.add({id:'aji-amarillo-paste',name:'Aji Amarillo Paste',origin:'Peru',price:17,emoji:'🫙',spice:3})" aria-label="Add Aji Amarillo Paste to cart">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
                 Add to Cart
@@ -920,14 +883,7 @@
             </div>
             <p class="product-desc">Calabria's fiery spreadable salami — fatty pork, Calabrian chillies and slow fermentation. Melts into pasta, pizza and stews.</p>
             <div class="product-footer">
-              <div class="price-block">
-                <div class="price-single">€19 one-off</div>
-                <div class="price-sub-row">
-                  <span class="price-sub">€14<span class="price-sub-label">/mo</span></span>
-                  <span class="save-badge">SAVE 26%</span>
-                </div>
-                <div class="price-one-time">Free EU shipping · Cancel anytime</div>
-              </div>
+              <div class="product-price">€19<sub>Free EU shipping</sub></div>
               <button class="btn-add" onclick="FP_CART.add({id:'nduja-sauce',name:\"'Nduja Sauce\",origin:'Italy',price:19,emoji:'🍖',spice:5})" aria-label="Add 'Nduja Sauce to cart">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
                 Add to Cart
@@ -954,14 +910,7 @@
             </div>
             <p class="product-desc">Thailand's iconic roasted chilli jam — sweet, smoky, deeply savoury. A single spoonful transforms soups, noodles and stir-fries.</p>
             <div class="product-footer">
-              <div class="price-block">
-                <div class="price-single">€15 one-off</div>
-                <div class="price-sub-row">
-                  <span class="price-sub">€11<span class="price-sub-label">/mo</span></span>
-                  <span class="save-badge">SAVE 27%</span>
-                </div>
-                <div class="price-one-time">Free EU shipping · Cancel anytime</div>
-              </div>
+              <div class="product-price">€15<sub>Free EU shipping</sub></div>
               <button class="btn-add" onclick="FP_CART.add({id:'nam-prik-pao',name:'Nam Prik Pao',origin:'Thailand',price:15,emoji:'🌺',spice:2})" aria-label="Add Nam Prik Pao to cart">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
                 Add to Cart
@@ -988,14 +937,7 @@
             </div>
             <p class="product-desc">Ancient Ethiopian spice blend — fenugreek, black cardamom, korarima and bird's eye chilli. The soul of doro wat and tibs.</p>
             <div class="product-footer">
-              <div class="price-block">
-                <div class="price-single">€16 one-off</div>
-                <div class="price-sub-row">
-                  <span class="price-sub">€12<span class="price-sub-label">/mo</span></span>
-                  <span class="save-badge">SAVE 25%</span>
-                </div>
-                <div class="price-one-time">Free EU shipping · Cancel anytime</div>
-              </div>
+              <div class="product-price">€16<sub>Free EU shipping</sub></div>
               <button class="btn-add" onclick="FP_CART.add({id:'berbere-paste',name:'Berbere Paste',origin:'Ethiopia',price:16,emoji:'🫙',spice:4})" aria-label="Add Berbere Paste to cart">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
                 Add to Cart
@@ -1022,14 +964,7 @@
             </div>
             <p class="product-desc">Veracruz's addictive chilli oil — ancho, mulato & pasilla chillies slow-fried with peanuts, sesame and a whisper of dark chocolate.</p>
             <div class="product-footer">
-              <div class="price-block">
-                <div class="price-single">€17 one-off</div>
-                <div class="price-sub-row">
-                  <span class="price-sub">€13<span class="price-sub-label">/mo</span></span>
-                  <span class="save-badge">SAVE 24%</span>
-                </div>
-                <div class="price-one-time">Free EU shipping · Cancel anytime</div>
-              </div>
+              <div class="product-price">€17<sub>Free EU shipping</sub></div>
               <button class="btn-add" onclick="FP_CART.add({id:'salsa-macha',name:'Salsa Macha',origin:'Mexico',price:17,emoji:'🫙',spice:2})" aria-label="Add Salsa Macha to cart">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
                 Add to Cart
