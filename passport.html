@@ -873,6 +873,10 @@
 
   // Wait for Supabase + config to load
   document.addEventListener('DOMContentLoaded', () => {
+    // ?demo=true forces demo profile (Sofia, all 7 stamps)
+    if (new URLSearchParams(location.search).get('demo') === 'true') {
+      return showDemoMode();
+    }
     // Poll until supabase library + config are ready
     const poll = setInterval(() => {
       if (window.supabase && window.SUPABASE_URL && window.SUPABASE_URL !== 'YOUR_SUPABASE_PROJECT_URL') {
