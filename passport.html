@@ -911,9 +911,7 @@
 
   // Demo mode (supabase not configured)
   function showDemoMode() {
-    // Show passport with sample data
-    earnedStamps = ['Japan', 'Morocco'];
-    currentUser = { user_metadata: { first_name: 'Explorer', username: 'explorer' }, created_at: new Date().toISOString() };
+    currentUser = { user_metadata: { first_name: 'Sofia', username: 'sofia' }, created_at: new Date('2026-01-01').toISOString() };
     showPassport(true);
   }
 
@@ -972,10 +970,15 @@
         .order('earned_at', { ascending: true });
       earnedStamps = error ? [] : data;
     } else {
-      // Demo stamps
+      // Demo stamps — full collection
       earnedStamps = [
-        { country: 'Japan',   product_name: 'Miso Yuzu Glaze',    earned_at: new Date(Date.now() - 30*864e5).toISOString() },
-        { country: 'Morocco', product_name: 'Harissa Chermoula',  earned_at: new Date(Date.now() - 10*864e5).toISOString() },
+        { country: 'Japan',    product_name: 'Miso Yuzu Glaze',    earned_at: new Date('2026-01-08').toISOString() },
+        { country: 'Morocco',  product_name: 'Harissa Chermoula',  earned_at: new Date('2026-01-22').toISOString() },
+        { country: 'Peru',     product_name: 'Aji Amarillo Paste', earned_at: new Date('2026-02-05').toISOString() },
+        { country: 'Thailand', product_name: 'Nam Prik Pao',       earned_at: new Date('2026-02-19').toISOString() },
+        { country: 'Ethiopia', product_name: 'Berbere Paste',      earned_at: new Date('2026-03-04').toISOString() },
+        { country: 'Mexico',   product_name: 'Salsa Macha',        earned_at: new Date('2026-03-11').toISOString() },
+        { country: 'Italy',    product_name: "'Nduja Sauce",       earned_at: new Date('2026-03-18').toISOString() },
       ];
     }
 
@@ -991,7 +994,7 @@
     // Stats
     const count = earnedStamps.length;
     document.getElementById('stat-stamps').textContent = count;
-    document.getElementById('stat-remaining').textContent = 6 - count;
+    document.getElementById('stat-remaining').textContent = 7 - count;
     const nextRewardAt = count < 3 ? '3 stamps' : count < 7 ? '7 stamps' : 'Complete!';
     document.getElementById('stat-next-reward').textContent = nextRewardAt;
     document.getElementById('stat-status').textContent =
@@ -1278,7 +1281,7 @@
     renderActivityFeed();
     const count = earnedStamps.length;
     document.getElementById('stat-stamps').textContent = count;
-    document.getElementById('stat-remaining').textContent = 6 - count;
+    document.getElementById('stat-remaining').textContent = 7 - count;
     document.getElementById('stat-status').textContent =
       count === 7 ? 'Grand Member' : count >= 3 ? 'Seasoned' : 'Explorer';
     document.getElementById('stat-next-reward').textContent =
